@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "menu_config.hpp"
 #include "OS-ImGui/OS-ImGui.h"
+#include "Logger.h"
 
 
 static const std::vector<int>  BoneIndexRightLeg{ foot_r , shank_r , hip_r ,hip };
@@ -13,33 +14,38 @@ static const std::vector<int>  BoneIndexSpine{ hip , spine };
 static const std::vector<int>  BoneIndexRightArm{ hand_r , elbow_r, shoulder_r, spine };
 static const std::vector<int>  BoneIndexLeftArm{ hand_l , elbow_l, shoulder_l, spine };
 static const std::vector<int>  BoneIndexHead{ spine , head };
+const float boneThickness = 2.1;
+const float boxThickness= 2.1;
 
 void DrawBonePart(std::array<D3DXVECTOR2, BoneCount>& BonePos, const std::vector<int>& BonePartIndex)
 {
 	assert(BonePartIndex.size() % 2 == 0);
 	D3DXVECTOR2 prevPosint;
+	bool bInit = false;
 	for (size_t i = 0; i < BonePartIndex.size(); i++)
 	{
 		D3DXVECTOR2 pos = BonePos[BonePartIndex[i]];
-		if (i == 0)
+
+		if (pos == invalidScreenPos)
+			continue;
+
+		if (!bInit)
 		{
 			prevPosint = pos;
+			bInit = true;
 			continue;
 		}
 
 		Gui.Line(
 			ImVec2(prevPosint.x, prevPosint.y),
 			ImVec2(pos.x, pos.y),
-			ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)),
-			1.3
+			MenuConfig::BoneColor,
+			boneThickness
 		);
 
 		prevPosint = pos;
 	}
 }
-
-
-
 
 void Render::PlayerESP()
 {
@@ -83,70 +89,61 @@ void Render::PlayerESP()
 				game_.getPlayerBones(player, BonePos);
 				for (int j = 0; j < BonePos.size(); ++j)
 				{
-
 					if (!game_.WorldToScreen(BonePos[j], boneScreenPos[j]))
 					{
 						boneScreenPos[j] = invalidScreenPos;
 						canDrawBone = false;
 					}
-					else
-					{
-					}
 				}
 
+				int head_circlerad = game_.GetDistance2D(boneScreenPos[neck], boneScreenPos[head]);
 				// draw bone
 				if (canDrawBone)
 				{
+					D3DXVECTOR2& headPos = boneScreenPos[head];
+
 					DrawBonePart(boneScreenPos, BoneIndexRightLeg);
 					DrawBonePart(boneScreenPos, BoneIndexLeftLeg);
 					DrawBonePart(boneScreenPos, BoneIndexSpine);
 					DrawBonePart(boneScreenPos, BoneIndexRightArm);
 					DrawBonePart(boneScreenPos, BoneIndexLeftArm);
 					DrawBonePart(boneScreenPos, BoneIndexHead);
+					Gui.Circle({ headPos.x, headPos.y - head_circlerad }, head_circlerad, MenuConfig::BoneColor, boneThickness);
 
 					const D3DXVECTOR2& pos = boneScreenPos[foot_l];
 					Gui.Text(name.c_str(), { pos.x,pos.y }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
 				}
 
-				constexpr float Padding = 10;
-				//draw rect
-			/*	float top_x = 0;
-				float top_y = 0;
-				float bottom_x = 0;
-				float bottom_y = 0;
-				bool init = false;
-				for(int i = 0; i< BonePos.size(); ++i)
 				{
-					D3DXVECTOR3& pos = BonePos[i];
-
-					if (pos == invalidPos)
-						continue;
-					if(!init)
+					Vec2 leftTop, rightBottom, boxSize;
+					leftTop, rightBottom = Vec2{ 0, 0 };
+					bool bInit = false;
+					for (int j = 0; j < BonePos.size(); ++j)
 					{
-						top_x = bottom_x = pos.x;
-						top_y = bottom_y = pos.y;
-						init = true;
-						continue;
+						D3DXVECTOR2& pos = boneScreenPos[j];
+						if (pos == invalidScreenPos)
+							continue;
+
+						if (!bInit)
+						{
+							leftTop = rightBottom = Vec2{ pos.x, pos.y };
+							bInit = true;
+							continue;
+						}
+
+						leftTop.x = min(pos.x, leftTop.x);
+						leftTop.y = min(pos.y, leftTop.y);
+						rightBottom.x = max(pos.x, rightBottom.x);
+						rightBottom.y = max(pos.y, rightBottom.y);
 					}
-
-					if (pos.x > top_x)
-						top_x = pos.x;
-
-					if (pos.y > top_y)
-						top_y = pos.y;
-
-					if (pos.x < bottom_x)
-						bottom_x = pos.x;
-
-					if (pos.y < bottom_y)
-						bottom_y = pos.y;
+					leftTop.y -= head_circlerad *2;
+					boxSize.x = rightBottom.x - leftTop.x;
+					boxSize.y = rightBottom.y - leftTop.y;
+					Gui.Rectangle(leftTop, boxSize, MenuConfig::BoxColor, boxThickness);
 
 				}
+				
 
-				ImGui::GetOverlayDrawList()->AddRect(
-					ImVec2(top_x + Padding, top_y + Padding),
-					ImVec2(bottom_x - Padding, bottom_y - Padding),
-					ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));*/
 			}
 		}
 

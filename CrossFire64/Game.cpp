@@ -2,6 +2,7 @@
 #include "util.h"
 #include "offset.h"
 #include <assert.h>
+#include <cmath>
 
 Game::~Game()
 {
@@ -27,6 +28,16 @@ bool Game::init(std::string_view processName, std::string_view gameWindowName, s
 		return false;
 
   return true;
+}
+
+float Game::GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2)
+{
+	return sqrt(pow(pos2.x - pos1.x,2) + pow(pos2.y - pos1.y, 2) + pow(pos2.z - pos1.z, 2));
+}
+
+float Game::GetDistance2D(const D3DXVECTOR2& pos1, const D3DXVECTOR2& pos2)
+{
+	return sqrt(pow(pos2.x - pos1.x, 2) + pow(pos2.y - pos1.y, 2));
 }
 
 bool Game::WorldToScreen(const D3DXVECTOR3& worldPos, D3DXVECTOR2& screenPos)

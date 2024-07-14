@@ -11,6 +11,7 @@
 enum  BoneIndex :int
 {
 	head = 6,
+	neck = 5,
 	shoulder_r = 15,
 	shoulder_l = 8,
 
@@ -48,6 +49,8 @@ public:
   inline HWND window()const {return gameWindow_;}
   inline int pid() {return pid_;}
 
+	float GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2);
+	float GetDistance2D(const D3DXVECTOR2& pos1, const D3DXVECTOR2& pos2);
 	bool WorldToScreen(const D3DXVECTOR3& worldPos, D3DXVECTOR2& screenPos);
 
 	bool validPlayerIndex(int index);

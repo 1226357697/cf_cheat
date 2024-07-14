@@ -1,163 +1,163 @@
-¼ÓÔØ³É¹¦ ÇëÐÂ°æ´óÌü»ñÈ¡µØÖ· ·Ö±æÂÊÉèÖÃ1024ÒÔ»ñÈ¡¾ØÕóµØÖ·
-µÍµ÷Ò»¼ü»ùÖ·2024Äê7ÔÂ5ÈÕ1Ê±29·Ö56Ãë
--------------------------------·½¿ò»ùÖ·-------------------------------------
-¾ØÕó»ùÖ· = È¡Ä£¿éµØÖ·(¡°crossfire.exe£¨¡° + Ê®Áùµ½Ê®£¨¡°56E9A0¡±£©
-Íæ¼ÒÊý×é = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°300B0E8¡±£©
-ÅÐ¶ÏÄ£Ê½ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°300C650¡±£©
-FPS»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°30096¡±£©
-ÅÐ¶ÏµØÍ¼ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°32D39B0¡±£©
-FOV»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°32DD698¡±£©
-OBJECT £º290 Ê®½øÖÆ £º 656
-±¾ÈËID £º28A Ê®½øÖÆ £º 650
-±¾ÈËÆ«ÒÆ £º98 Ê®½øÖÆ £º 152
-Êý×é´óÐ¡ £º1050 Ê®½øÖÆ £º 4176
-»·¾³ÀàÐÍ £º168 Ê®½øÖÆ £º 360
-µØÍ¼Ò»¼¶ £º540 Ê®½øÖÆ £º 1344
-X×ø±ê £º19C Ê®½øÖÆ £º 412
-Y×ø±ê  £º1A0 Ê®½øÖÆ £º 416
-Z×ø±ê  £º1A4 Ê®½øÖÆ £º 420
-¹Ç÷ÀÆ«ÒÆ £º28F8 Ê®½øÖÆ £º 10488
--------------------------------cshellÄ£¿é-------------------------------------
-ÐÂ°æÎÞºó = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D34320¡±£©
-ÈËÎï»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°3277A08¡±£©
-ÌßÍÈÅÚ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°15A2364¡±£©
-ÌßÍÈÅÚ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°15A236A¡±£©
-ÌßÍÈÅÚ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°15A2370¡±£©
-ÈËÃûÍ¸ÊÓJne = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-ÈËÃûÍ¸ÊÓJmp = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-ÐÂÉ¢µ¯Ò»µã = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°169B970¡±£©
-¾ÉÉ¢µ¯Ò»µã = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°169B970¡±£©
-ÎÞÊÓÍ¶ÖÀ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°146E22E¡±£©
-ÎÞÊÓÁñµ¯ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°888D42¡±£©
-¹âÍ·»¤¶Ü = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°1A3BA28¡±£©
-ÎÞÊÓÌØÐ§ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°C1633B¡±£©
--------------------------------´úÂëÄ£¿é-------------------------------------
-´úÂë310 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°BE9F1E¡±£©
-´úÂë310 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°142236E¡±£©
-´úÂë319 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°B2E9B9¡±£©
-´úÂë319 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°B2E9D2¡±£©
-´úÂë3110 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-´úÂë3110 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°1B7C1E1¡±£©
-´úÂë1_2 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-´úÂë283 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°BED1AC¡±£©
-´úÂë140 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°CB0826¡±£©
-´úÂë140 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°16A1491¡±£©
-´úÂë143 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°BE4844¡±£©
-´úÂë143 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°BE47A2¡±£©
-´úÂë193 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°CA8915¡±£©
-´úÂë193 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°BE4029¡±£©
-´úÂë193 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°C9A59D¡±£©
-´úÂë193 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-´úÂë181 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°19C12AA¡±£©
-´úÂë181 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°4¡±£©
-´úÂë243 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°BE461F¡±£©
-´úÂë243 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°1480A14¡±£©
-´úÂë2414 = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D29643¡±£©
--------------------------------crossfirebaseÄ£¿é-------------------------------------
-×´Ì¬»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°300AB8C¡±£©
-È«ÆÁ×¼ÐÇ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°292C3E4¡±£©
-×Óµ¯¼ÓËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°C9BDF9¡±£©
-×Óµ¯¼ÓËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°168EBE8¡±£©
-È«¾Ö¸ßÌø = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°292CC9C¡±£©
-È«¾Ö¼ÓËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°1926F01¡±£©
-Á¬·¢»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°C9D092¡±£©
-Á¬·¢»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°168FB73¡±£©
-ÒÆ¶¯ÏÂ°ü = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D28BDC¡±£©
-ÏÂ°ü¿ª¹Ø = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°CB6F7D¡±£©
-ÏÂ°ü¿ª¹Ø = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°16A81DD¡±£©
-C4µØÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°2EE1900¡±£©
-¿ìËÙÇÐÇ¹ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°15A724E¡±£©
-ÎÞµÐÒþÉí = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°17FC484¡±£©
-¶¯×÷»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°24AB8A8¡±£©
-Ëø¶¨¶¯×÷ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D327B7¡±£©
-ÎäÆ÷»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°3215248¡±£©
-Áú·ï»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°32DDCF8¡±£©
-ÓÄÁéÌøÔ¾ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°1F5D74E¡±£©
-Åç»ð»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°32D39B0¡±£©
-±äÉí»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFF¡±£©
-±äÉí»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°15D166B¡±£©
-±äÉí»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-±äÉí»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°10D00B7¡±£©
-ÎÞµÐ¶Ü»ùÖ· = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D2D930¡±£©
-ÁãÃë²ð°ü = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D2794E¡±£©
-»ã±àÃë»» = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°CA5E44¡±£©
-»ã±à×ªÏò = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D30188¡±£©
-»ã±à¿¨µ¶ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°CB1A94¡±£©
-»ã±à¿¨µ¶ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°16A3E30¡±£©
--------------------------------Hook¹¦ÄÜ-------------------------------------
-HookÑÕÉ« = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°183436¡±£©
-HookÍâÈÈ = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°3A1117¡±£©
-HookÄÚÈÈ = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°3A1267¡±£©
-Hook·ÉÌì = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°243DC7¡±£©
-Hook¸ß¿Õ = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÎÞºó = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D34632¡±£©
-Hook¼ÓËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-Hook²»µô = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°1EB843B¡±£©
-Hook¸³Öµ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-Hook×Óµ¯¼ÓËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°C9C780¡±£©
-Hook×Óµ¯¼ÓËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°168F433¡±£©
-HookÌøÎè = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°D329CD¡±£©
-Hook·¶Î§ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇá¾à = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇá¾à = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇá¾à = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇá¾à = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇá·¶ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇá·¶ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇáËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÇáËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÖØ¾à = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°CACBD0¡±£©
-HookÖØ¾à = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°169D992¡±£©
-HookÖØ·¶ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÖØ·¶ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÖØËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-HookÖØËÙ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-Hookµ¶ºÛ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-Hookµ¶ºÛ = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°169D0F8¡±£©
--------------------------------crossfireÄ£¿é-------------------------------------
-ÄÚÈÈ¿ª¹Ø = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°3A1219¡±£©
-ÍâÈÈ¿ª¹Ø = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°3A10D5¡±£©
-ÄÚÈÈºñ¶È = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°497DF0¡±£©
-ÍâÈÈºñ¶È = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°497EA0¡±£©
-ÈÈÄÜÈ«Í¼ = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°32224A¡±£©
-»·¾³±äÁ¿ = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°300905F¡±£©
-»ã±à¸ß¿Õ = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°247763¡±£©
-×Óµ¯´©Ç½ = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°26BB17¡±£©
-»ã±àÃë¶Ý = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFE¡±£©
-×·×ÙÖ¸Õë = È¡Ä£¿éµØÖ·(¡°crossfire.exe¡±£© + Ê®Áùµ½Ê®£¨¡°FFFFFFFFC0000040¡±£©
--------------------------------·¢°üÄ£¿é-------------------------------------
-·¢°üÈë¿Ú = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°300A928¡±£©
-·¢°ü³ö¿Ú = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°300B0F8¡±£©
-·¢°ü±êÇ© = È¡Ä£¿éµØÖ·(¡°cshell_x64.dll¡±£© + Ê®Áùµ½Ê®£¨¡°300B0E2¡±£©
-SendÆ«ÒÆ £º448 Ê®½øÖÆ £º 1096
-¹ÖÎïÊý×é £º3EC40 Ê®½øÖÆ £º 257088
--------------------------------³£ÓÃÆ«ÒÆ-------------------------------------
-·ÉÌì¶þ¼¶  £º238 Ê®½øÖÆ £º 568
-¸¡µã×ªÏò £º8BC Ê®½øÖÆ £º 2236
-¸¡µã¶þ¼¶ £º1BC Ê®½øÖÆ £º 444
-Êó±êÆ«ÒÆ £º83C Ê®½øÖÆ £º 2108
-Êó±êÆ«ÒÆ1 £º8409E58 Ê®½øÖÆ £º 138452568
-ÈÈÄÜÆ«ÒÆ £º167D Ê®½øÖÆ £º 5757
-¼ÆÊ±ÏÂ°ü £º1378 Ê®½øÖÆ £º 4984
-µØÍ¼¶þ¼¶ £º300905A Ê®½øÖÆ £º 50368602
-¶ÝµØÆ«ÒÆ £º16FC Ê®½øÖÆ £º 5884
-´©Ç½Æ«ÒÆ £º1700 Ê®½øÖÆ £º 5888
-´©Ç½Æ«ÒÆ £º16F8 Ê®½øÖÆ £º 5880
-ÁãÃë»»µ¯ £º880 Ê®½øÖÆ £º 2176
-ÑóÑó¼ÓËÙ £º17AC Ê®½øÖÆ £º 6060
-Ë¤²»µôÑª £º1730 Ê®½øÖÆ £º 5936
-Ëø¶¨ÊÖ±Û £º17FC Ê®½øÖÆ £º 6140
-µç¾âÒ»¼¶ £º2F8 Ê®½øÖÆ £º 760
-µç¾â¶þ¼¶ £º20 Ê®½øÖÆ £º 32
-µç¾âÈý¼¶ £º288 Ê®½øÖÆ £º 648
-µç¾âËÄ¼¶ £º8 Ê®½øÖÆ £º 8
-µç¾âÎå¼¶ £º4D Ê®½øÖÆ £º 77
-»»µ¯ËÙ¶È £º58 Ê®½øÖÆ £º 88
-µÐÈËÆ«ÒÆ £º30090 Ê®½øÖÆ £º 196752
-ÕóÓªÆ«ÒÆ £º11440 Ê®½øÖÆ £º 70720
-ÊÇ·ñÉú»¯ £º3009052 Ê®½øÖÆ £º 50368594
-¾²²½¼ÓËÙ £º594 Ê®½øÖÆ £º 1428
-ÁãÃë²ð°ü £º1392 Ê®½øÖÆ £º 5010
-Ç¹¿ÚÅç»ð £º9C Ê®½øÖÆ £º 156
-¾²²½Æ«ÒÆ £º8D4 Ê®½øÖÆ £º 2260
-µÍµ÷Ò»¼ü»ùÖ·ËÑË÷Íê³É ¹²161Ìõ»ùÖ·2024Äê7ÔÂ5ÈÕ1Ê±30·Ö6Ãë
+åŠ è½½æˆåŠŸ è¯·æ–°ç‰ˆå¤§åŽ…èŽ·å–åœ°å€ åˆ†è¾¨çŽ‡è®¾ç½®1024ä»¥èŽ·å–çŸ©é˜µåœ°å€
+ä½Žè°ƒä¸€é”®åŸºå€2024å¹´7æœˆ5æ—¥1æ—¶29åˆ†56ç§’
+-------------------------------æ–¹æ¡†åŸºå€-------------------------------------
+çŸ©é˜µåŸºå€ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeï¼ˆâ€œ + åå…­åˆ°åï¼ˆâ€œ56E9A0â€ï¼‰
+çŽ©å®¶æ•°ç»„ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ300B0E8â€ï¼‰
+åˆ¤æ–­æ¨¡å¼ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ300C650â€ï¼‰
+FPSåŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ30096â€ï¼‰
+åˆ¤æ–­åœ°å›¾ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ32D39B0â€ï¼‰
+FOVåŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ32DD698â€ï¼‰
+OBJECT ï¼š290 åè¿›åˆ¶ ï¼š 656
+æœ¬äººID ï¼š28A åè¿›åˆ¶ ï¼š 650
+æœ¬äººåç§» ï¼š98 åè¿›åˆ¶ ï¼š 152
+æ•°ç»„å¤§å° ï¼š1050 åè¿›åˆ¶ ï¼š 4176
+çŽ¯å¢ƒç±»åž‹ ï¼š168 åè¿›åˆ¶ ï¼š 360
+åœ°å›¾ä¸€çº§ ï¼š540 åè¿›åˆ¶ ï¼š 1344
+Xåæ ‡ ï¼š19C åè¿›åˆ¶ ï¼š 412
+Yåæ ‡  ï¼š1A0 åè¿›åˆ¶ ï¼š 416
+Zåæ ‡  ï¼š1A4 åè¿›åˆ¶ ï¼š 420
+éª¨éª¼åç§» ï¼š28F8 åè¿›åˆ¶ ï¼š 10488
+-------------------------------cshellæ¨¡å—-------------------------------------
+æ–°ç‰ˆæ— åŽ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD34320â€ï¼‰
+äººç‰©åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ3277A08â€ï¼‰
+è¸¢è…¿ç‚® = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ15A2364â€ï¼‰
+è¸¢è…¿ç‚® = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ15A236Aâ€ï¼‰
+è¸¢è…¿ç‚® = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ15A2370â€ï¼‰
+äººåé€è§†Jne = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+äººåé€è§†Jmp = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+æ–°æ•£å¼¹ä¸€ç‚¹ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ169B970â€ï¼‰
+æ—§æ•£å¼¹ä¸€ç‚¹ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ169B970â€ï¼‰
+æ— è§†æŠ•æŽ· = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ146E22Eâ€ï¼‰
+æ— è§†æ¦´å¼¹ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ888D42â€ï¼‰
+å…‰å¤´æŠ¤ç›¾ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ1A3BA28â€ï¼‰
+æ— è§†ç‰¹æ•ˆ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œC1633Bâ€ï¼‰
+-------------------------------ä»£ç æ¨¡å—-------------------------------------
+ä»£ç 310 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œBE9F1Eâ€ï¼‰
+ä»£ç 310 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ142236Eâ€ï¼‰
+ä»£ç 319 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œB2E9B9â€ï¼‰
+ä»£ç 319 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œB2E9D2â€ï¼‰
+ä»£ç 3110 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+ä»£ç 3110 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ1B7C1E1â€ï¼‰
+ä»£ç 1_2 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+ä»£ç 283 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œBED1ACâ€ï¼‰
+ä»£ç 140 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œCB0826â€ï¼‰
+ä»£ç 140 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ16A1491â€ï¼‰
+ä»£ç 143 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œBE4844â€ï¼‰
+ä»£ç 143 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œBE47A2â€ï¼‰
+ä»£ç 193 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œCA8915â€ï¼‰
+ä»£ç 193 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œBE4029â€ï¼‰
+ä»£ç 193 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œC9A59Dâ€ï¼‰
+ä»£ç 193 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+ä»£ç 181 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ19C12AAâ€ï¼‰
+ä»£ç 181 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ4â€ï¼‰
+ä»£ç 243 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œBE461Fâ€ï¼‰
+ä»£ç 243 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ1480A14â€ï¼‰
+ä»£ç 2414 = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD29643â€ï¼‰
+-------------------------------crossfirebaseæ¨¡å—-------------------------------------
+çŠ¶æ€åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ300AB8Câ€ï¼‰
+å…¨å±å‡†æ˜Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ292C3E4â€ï¼‰
+å­å¼¹åŠ é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œC9BDF9â€ï¼‰
+å­å¼¹åŠ é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ168EBE8â€ï¼‰
+å…¨å±€é«˜è·³ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ292CC9Câ€ï¼‰
+å…¨å±€åŠ é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ1926F01â€ï¼‰
+è¿žå‘åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œC9D092â€ï¼‰
+è¿žå‘åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ168FB73â€ï¼‰
+ç§»åŠ¨ä¸‹åŒ… = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD28BDCâ€ï¼‰
+ä¸‹åŒ…å¼€å…³ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œCB6F7Dâ€ï¼‰
+ä¸‹åŒ…å¼€å…³ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ16A81DDâ€ï¼‰
+C4åœ°å€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ2EE1900â€ï¼‰
+å¿«é€Ÿåˆ‡æžª = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ15A724Eâ€ï¼‰
+æ— æ•Œéšèº« = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ17FC484â€ï¼‰
+åŠ¨ä½œåŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ24AB8A8â€ï¼‰
+é”å®šåŠ¨ä½œ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD327B7â€ï¼‰
+æ­¦å™¨åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ3215248â€ï¼‰
+é¾™å‡¤åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ32DDCF8â€ï¼‰
+å¹½çµè·³è·ƒ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ1F5D74Eâ€ï¼‰
+å–·ç«åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ32D39B0â€ï¼‰
+å˜èº«åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFFâ€ï¼‰
+å˜èº«åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ15D166Bâ€ï¼‰
+å˜èº«åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+å˜èº«åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ10D00B7â€ï¼‰
+æ— æ•Œç›¾åŸºå€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD2D930â€ï¼‰
+é›¶ç§’æ‹†åŒ… = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD2794Eâ€ï¼‰
+æ±‡ç¼–ç§’æ¢ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œCA5E44â€ï¼‰
+æ±‡ç¼–è½¬å‘ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD30188â€ï¼‰
+æ±‡ç¼–å¡åˆ€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œCB1A94â€ï¼‰
+æ±‡ç¼–å¡åˆ€ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ16A3E30â€ï¼‰
+-------------------------------HookåŠŸèƒ½-------------------------------------
+Hooké¢œè‰² = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ183436â€ï¼‰
+Hookå¤–çƒ­ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ3A1117â€ï¼‰
+Hookå†…çƒ­ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ3A1267â€ï¼‰
+Hooké£žå¤© = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ243DC7â€ï¼‰
+Hooké«˜ç©º = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookæ— åŽ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD34632â€ï¼‰
+HookåŠ é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookä¸æŽ‰ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ1EB843Bâ€ï¼‰
+Hookèµ‹å€¼ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookå­å¼¹åŠ é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œC9C780â€ï¼‰
+Hookå­å¼¹åŠ é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ168F433â€ï¼‰
+Hookè·³èˆž = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œD329CDâ€ï¼‰
+HookèŒƒå›´ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»è· = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»è· = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»è· = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»è· = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»èŒƒ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»èŒƒ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookè½»é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hooké‡è· = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œCACBD0â€ï¼‰
+Hooké‡è· = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ169D992â€ï¼‰
+Hooké‡èŒƒ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hooké‡èŒƒ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hooké‡é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hooké‡é€Ÿ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookåˆ€ç—• = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+Hookåˆ€ç—• = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ169D0F8â€ï¼‰
+-------------------------------crossfireæ¨¡å—-------------------------------------
+å†…çƒ­å¼€å…³ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ3A1219â€ï¼‰
+å¤–çƒ­å¼€å…³ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ3A10D5â€ï¼‰
+å†…çƒ­åŽšåº¦ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ497DF0â€ï¼‰
+å¤–çƒ­åŽšåº¦ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ497EA0â€ï¼‰
+çƒ­èƒ½å…¨å›¾ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ32224Aâ€ï¼‰
+çŽ¯å¢ƒå˜é‡ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ300905Fâ€ï¼‰
+æ±‡ç¼–é«˜ç©º = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ247763â€ï¼‰
+å­å¼¹ç©¿å¢™ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ26BB17â€ï¼‰
+æ±‡ç¼–ç§’é = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFEâ€ï¼‰
+è¿½è¸ªæŒ‡é’ˆ = å–æ¨¡å—åœ°å€(â€œcrossfire.exeâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œFFFFFFFFC0000040â€ï¼‰
+-------------------------------å‘åŒ…æ¨¡å—-------------------------------------
+å‘åŒ…å…¥å£ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ300A928â€ï¼‰
+å‘åŒ…å‡ºå£ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ300B0F8â€ï¼‰
+å‘åŒ…æ ‡ç­¾ = å–æ¨¡å—åœ°å€(â€œcshell_x64.dllâ€ï¼‰ + åå…­åˆ°åï¼ˆâ€œ300B0E2â€ï¼‰
+Sendåç§» ï¼š448 åè¿›åˆ¶ ï¼š 1096
+æ€ªç‰©æ•°ç»„ ï¼š3EC40 åè¿›åˆ¶ ï¼š 257088
+-------------------------------å¸¸ç”¨åç§»-------------------------------------
+é£žå¤©äºŒçº§  ï¼š238 åè¿›åˆ¶ ï¼š 568
+æµ®ç‚¹è½¬å‘ ï¼š8BC åè¿›åˆ¶ ï¼š 2236
+æµ®ç‚¹äºŒçº§ ï¼š1BC åè¿›åˆ¶ ï¼š 444
+é¼ æ ‡åç§» ï¼š83C åè¿›åˆ¶ ï¼š 2108
+é¼ æ ‡åç§»1 ï¼š8409E58 åè¿›åˆ¶ ï¼š 138452568
+çƒ­èƒ½åç§» ï¼š167D åè¿›åˆ¶ ï¼š 5757
+è®¡æ—¶ä¸‹åŒ… ï¼š1378 åè¿›åˆ¶ ï¼š 4984
+åœ°å›¾äºŒçº§ ï¼š300905A åè¿›åˆ¶ ï¼š 50368602
+éåœ°åç§» ï¼š16FC åè¿›åˆ¶ ï¼š 5884
+ç©¿å¢™åç§» ï¼š1700 åè¿›åˆ¶ ï¼š 5888
+ç©¿å¢™åç§» ï¼š16F8 åè¿›åˆ¶ ï¼š 5880
+é›¶ç§’æ¢å¼¹ ï¼š880 åè¿›åˆ¶ ï¼š 2176
+æ´‹æ´‹åŠ é€Ÿ ï¼š17AC åè¿›åˆ¶ ï¼š 6060
+æ‘”ä¸æŽ‰è¡€ ï¼š1730 åè¿›åˆ¶ ï¼š 5936
+é”å®šæ‰‹è‡‚ ï¼š17FC åè¿›åˆ¶ ï¼š 6140
+ç”µé”¯ä¸€çº§ ï¼š2F8 åè¿›åˆ¶ ï¼š 760
+ç”µé”¯äºŒçº§ ï¼š20 åè¿›åˆ¶ ï¼š 32
+ç”µé”¯ä¸‰çº§ ï¼š288 åè¿›åˆ¶ ï¼š 648
+ç”µé”¯å››çº§ ï¼š8 åè¿›åˆ¶ ï¼š 8
+ç”µé”¯äº”çº§ ï¼š4D åè¿›åˆ¶ ï¼š 77
+æ¢å¼¹é€Ÿåº¦ ï¼š58 åè¿›åˆ¶ ï¼š 88
+æ•Œäººåç§» ï¼š30090 åè¿›åˆ¶ ï¼š 196752
+é˜µè¥åç§» ï¼š11440 åè¿›åˆ¶ ï¼š 70720
+æ˜¯å¦ç”ŸåŒ– ï¼š3009052 åè¿›åˆ¶ ï¼š 50368594
+é™æ­¥åŠ é€Ÿ ï¼š594 åè¿›åˆ¶ ï¼š 1428
+é›¶ç§’æ‹†åŒ… ï¼š1392 åè¿›åˆ¶ ï¼š 5010
+æžªå£å–·ç« ï¼š9C åè¿›åˆ¶ ï¼š 156
+é™æ­¥åç§» ï¼š8D4 åè¿›åˆ¶ ï¼š 2260
+ä½Žè°ƒä¸€é”®åŸºå€æœç´¢å®Œæˆ å…±161æ¡åŸºå€2024å¹´7æœˆ5æ—¥1æ—¶30åˆ†6ç§’
