@@ -111,6 +111,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,30 +131,32 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IMGUI\imgui.cpp" />
-    <ClCompile Include="IMGUI\imgui_demo.cpp" />
-    <ClCompile Include="IMGUI\imgui_draw.cpp" />
-    <ClCompile Include="IMGUI\imgui_impl_dx9.cpp" />
-    <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
-    <ClCompile Include="IMGUI\imgui_tables.cpp" />
-    <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="menu_config.hpp" />
+    <ClCompile Include="NativeHandle.cpp" />
     <ClCompile Include="offset.h" />
+    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IMGUI\imconfig.h" />
-    <ClInclude Include="IMGUI\imgui.h" />
-    <ClInclude Include="IMGUI\imgui_impl_dx9.h" />
-    <ClInclude Include="IMGUI\imgui_impl_win32.h" />
-    <ClInclude Include="IMGUI\imgui_internal.h" />
-    <ClInclude Include="IMGUI\imstb_rectpack.h" />
-    <ClInclude Include="IMGUI\imstb_textedit.h" />
-    <ClInclude Include="IMGUI\imstb_truetype.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Memory.hpp" />
+    <ClInclude Include="NativeHandle.h" />
+    <ClInclude Include="Render.h" />
+    <ClInclude Include="util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="OS-ImGui\OS-ImGui.vcxproj">
+      <Project>{3c2f320f-5f46-45a1-bdd0-ba7439b1d9d0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

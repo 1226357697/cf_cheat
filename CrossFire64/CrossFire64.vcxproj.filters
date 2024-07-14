@@ -13,8 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="IMGUI">
-      <UniqueIdentifier>{0310a602-769a-410a-b787-9e6c2caac32b}</UniqueIdentifier>
+    <Filter Include="Core">
+      <UniqueIdentifier>{f8e0857b-ba3e-4b08-894c-80e1a03cb68f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{6ea715a6-2f0c-49d8-a1d8-a481160dd2d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,58 +27,46 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="offset.h">
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menu_config.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui.cpp">
-      <Filter>IMGUI</Filter>
+    <ClCompile Include="Game.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_demo.cpp">
-      <Filter>IMGUI</Filter>
+    <ClCompile Include="Render.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_draw.cpp">
-      <Filter>IMGUI</Filter>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_impl_dx9.cpp">
-      <Filter>IMGUI</Filter>
+    <ClCompile Include="offset.h">
+      <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_impl_win32.cpp">
-      <Filter>IMGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="IMGUI\imgui_tables.cpp">
-      <Filter>IMGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="IMGUI\imgui_widgets.cpp">
-      <Filter>IMGUI</Filter>
+    <ClCompile Include="NativeHandle.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imconfig.h">
-      <Filter>IMGUI</Filter>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imgui.h">
-      <Filter>IMGUI</Filter>
+    <ClInclude Include="Game.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imgui_impl_dx9.h">
-      <Filter>IMGUI</Filter>
+    <ClInclude Include="Render.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imgui_impl_win32.h">
-      <Filter>IMGUI</Filter>
+    <ClInclude Include="Memory.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imgui_internal.h">
-      <Filter>IMGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="IMGUI\imstb_rectpack.h">
-      <Filter>IMGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="IMGUI\imstb_textedit.h">
-      <Filter>IMGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="IMGUI\imstb_truetype.h">
-      <Filter>IMGUI</Filter>
+    <ClInclude Include="NativeHandle.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

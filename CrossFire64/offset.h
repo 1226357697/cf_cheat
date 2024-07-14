@@ -1,7 +1,14 @@
 #pragma once
 #include <cstddef>
 
-namespace global_offset {
+namespace crossfire_offset {
+  constexpr static std::ptrdiff_t CLTClientShell = 0x300B0E8;
+
+  // D3D Engine
+  constexpr static std::ptrdiff_t d3d_viewport = 0x56E9A0;
+  constexpr static std::ptrdiff_t d3d_Projection_matrix = d3d_viewport - 0x40;
+  constexpr static std::ptrdiff_t d3d_view_matrix = d3d_viewport - 0x40 - 0x40;
+
   // CLTClientShell
   constexpr static std::ptrdiff_t local_player_index = 0x28a;
   constexpr static std::ptrdiff_t player_start = 0x290;
