@@ -4,7 +4,7 @@
 #include <array>
 #include <cstddef>
 #include <string>
-
+#include <utility>
 #include "Memory.hpp"
 
 
@@ -52,6 +52,7 @@ public:
 	bool waitStart();
 	const char* WindowTitle();
 	const char* WindowClassName();
+	std::pair<int, int> getWindowSize();
 
 	float GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2);
 	float GetDistance2D(const D3DXVECTOR2& pos1, const D3DXVECTOR2& pos2);

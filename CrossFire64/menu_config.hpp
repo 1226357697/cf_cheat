@@ -9,6 +9,8 @@ namespace MenuConfig
 	//inline bool ShowWeaponESP = true;
 	//inline bool ShowEyeRay = true;
 	inline bool ShowPlayerName = false;
+	inline bool ShowPlayerHP = false;
+	inline bool ShowPlayerDistance = false;
 	inline bool TeamCheck = false;
 
 	inline bool AimBot = true;
@@ -16,9 +18,6 @@ namespace MenuConfig
 	// 0: head 1: neck 3: spine
 	inline int  AimPosition = 0;
 	inline DWORD  AimPositionIndex = 0;// BONEINDEX::head;
-
-	// 0: normal 1: dynamic
-	inline int  BoxType = 0;
 
 	inline ImColor BoneColor = ImColor(255, 255, 255, 255);
 	inline ImColor BoxColor = ImColor(255, 255, 255, 255);

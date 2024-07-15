@@ -4,7 +4,6 @@
 
 #include "Game.h"
 #include "menu_config.hpp"
-#include "OS-ImGui/OS-ImGui.h"
 #include "Logger.h"
 
 
@@ -15,7 +14,11 @@ static const std::vector<int>  BoneIndexRightArm{ hand_r , elbow_r, shoulder_r, 
 static const std::vector<int>  BoneIndexLeftArm{ hand_l , elbow_l, shoulder_l, spine };
 static const std::vector<int>  BoneIndexHead{ spine , head };
 const float boneThickness = 1.8;
-const float boxThickness= 1.8;
+const float boxThickness = 1.8;
+const float LineThickness= 1.8;
+
+static int s_render_frame = 0;
+static Vec2 s_game_window_size;
 
 void DrawBonePart(std::array<D3DXVECTOR2, BoneCount>& BonePos, const std::vector<int>& BonePartIndex)
 {
@@ -37,8 +40,8 @@ void DrawBonePart(std::array<D3DXVECTOR2, BoneCount>& BonePos, const std::vector
 		}
 
 		Gui.Line(
-			ImVec2(prevPosint.x, prevPosint.y),
-			ImVec2(pos.x, pos.y),
+			Vec2(prevPosint.x, prevPosint.y),
+			Vec2(pos.x, pos.y),
 			MenuConfig::BoneColor,
 			boneThickness
 		);
@@ -47,20 +50,64 @@ void DrawBonePart(std::array<D3DXVECTOR2, BoneCount>& BonePos, const std::vector
 	}
 }
 
+std::pair<Vec2, Vec2> Render::CalcPlayerBoneRect(const std::array<D3DXVECTOR2, BoneCount>& screenBonePos)
+{
+	float head_circlerad = game_.GetDistance2D(screenBonePos[neck], screenBonePos[head]);
+	Vec2 leftTop, rightBottom, boxSize;
+	leftTop, rightBottom = Vec2{ 0, 0 };
+	bool bInit = false;
+	for (int j = 0; j < screenBonePos.size(); ++j)
+	{
+		const D3DXVECTOR2& pos = screenBonePos[j];
+		if (pos == invalidScreenPos)
+			continue;
+
+		if (!bInit)
+		{
+			leftTop = rightBottom = Vec2{ pos.x, pos.y };
+			bInit = true;
+			continue;
+		}
+
+		leftTop.x = min(pos.x, leftTop.x);
+		leftTop.y = min(pos.y, leftTop.y);
+		rightBottom.x = max(pos.x, rightBottom.x);
+		rightBottom.y = max(pos.y, rightBottom.y);
+	}
+	leftTop.y -= head_circlerad * 2;
+	boxSize.x = rightBottom.x - leftTop.x;
+	boxSize.y = rightBottom.y - leftTop.y;
+
+	return std::make_pair(leftTop, boxSize);
+}
+
 void Render::PlayerESP()
 {
 	std::array<D3DXVECTOR3, BoneCount> BonePos;
 	std::array<D3DXVECTOR2, BoneCount> boneScreenPos;
+	std::array<D3DXVECTOR3, BoneCount> LocalPlayerBonePos;
 	std::array<ImVec2, 15>  BonePosArray;
 
-	if (MenuConfig::ShowBoneESP || MenuConfig::ShowBoxESP)
+	if (MenuConfig::ShowBoneESP || MenuConfig::ShowBoxESP
+		|| MenuConfig::ShowPlayerName)
 	{
+		if ((s_render_frame % 30) == 0)
+		{
+			auto [w, h] = game_.getWindowSize();
+			s_game_window_size = Vec2(w,h);
+		}
+		s_render_frame++;
+
 		int local_player_index = game_.getLocalPlayerIndex();
 		// 有可能刚进入对局，数据有问题
 		if (game_.validPlayerIndex(local_player_index))
 		{
 			std::ptrdiff_t local_player = game_.getPlayer(local_player_index);
 			uint8_t local_player_team = game_.getPlayerTeam(local_player);
+			game_.getPlayerBones(local_player, LocalPlayerBonePos);
+
+
+
 			for (int i = 0; i < player_count; ++i)
 			{
 				std::ptrdiff_t player = 0;
@@ -97,13 +144,13 @@ void Render::PlayerESP()
 					}
 				}
 
-				int head_circlerad = game_.GetDistance2D(boneScreenPos[neck], boneScreenPos[head]);
 
 				if(MenuConfig::ShowBoneESP && canDrawBone)
 				{
 					// draw bone
 					if (canDrawBone)
 					{
+						float head_circlerad = game_.GetDistance2D(boneScreenPos[neck], boneScreenPos[head]);
 						D3DXVECTOR2& headPos = boneScreenPos[head];
 
 						DrawBonePart(boneScreenPos, BoneIndexRightLeg);
@@ -114,39 +161,40 @@ void Render::PlayerESP()
 						DrawBonePart(boneScreenPos, BoneIndexHead);
 						Gui.Circle({ headPos.x, headPos.y - head_circlerad }, head_circlerad, MenuConfig::BoneColor, boneThickness);
 
-						const D3DXVECTOR2& pos = boneScreenPos[foot_l];
-						Gui.Text(name.c_str(), { pos.x,pos.y }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+						//const D3DXVECTOR2& pos = boneScreenPos[foot_l];
+						//Gui.Text(name.c_str(), { pos.x,pos.y }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
 					}
 				}
 
+				auto [leftTop, boxSize] = CalcPlayerBoneRect(boneScreenPos);
 				if (MenuConfig::ShowBoxESP)
 				{
-					Vec2 leftTop, rightBottom, boxSize;
-					leftTop, rightBottom = Vec2{ 0, 0 };
-					bool bInit = false;
-					for (int j = 0; j < BonePos.size(); ++j)
-					{
-						D3DXVECTOR2& pos = boneScreenPos[j];
-						if (pos == invalidScreenPos)
-							continue;
-
-						if (!bInit)
-						{
-							leftTop = rightBottom = Vec2{ pos.x, pos.y };
-							bInit = true;
-							continue;
-						}
-
-						leftTop.x = min(pos.x, leftTop.x);
-						leftTop.y = min(pos.y, leftTop.y);
-						rightBottom.x = max(pos.x, rightBottom.x);
-						rightBottom.y = max(pos.y, rightBottom.y);
-					}
-					leftTop.y -= head_circlerad * 2;
-					boxSize.x = rightBottom.x - leftTop.x;
-					boxSize.y = rightBottom.y - leftTop.y;
 					Gui.Rectangle(leftTop, boxSize, MenuConfig::BoxColor, boxThickness);
 				}
+
+				if (MenuConfig::ShowPlayerName)
+				{
+					Gui.Text(name, {leftTop.x + boxSize.x / 2 ,leftTop.y + boxSize.y }, MenuConfig::BoxColor, 15.0f, true);
+				}
+
+				if (MenuConfig::ShowPlayerHP)
+				{
+					
+				}
+
+				if (MenuConfig::ShowPlayerDistance)
+				{
+					float distance = game_.GetDistance3D(LocalPlayerBonePos[head], BonePos[head]);
+					Gui.Text(std::to_string((int)distance /10) + "m", {leftTop.x + boxSize.x / 2 ,leftTop.y + boxSize.y + 15.0f}, MenuConfig::BoxColor, 15.0f, true);
+
+				}
+
+				if (MenuConfig::ShowLineToEnemy)
+				{
+					auto [w, h] = s_game_window_size;
+					Gui.Line({w/2, 0}, { leftTop .x + boxSize .x / 2, leftTop .y }, MenuConfig::BoxColor, LineThickness);
+				}
+
 			}
 		}
 	}
@@ -164,13 +212,13 @@ void DrawMenu()
 			ImGui::SameLine();
 			ImGui::ColorEdit4("##BoxColor", reinterpret_cast<float*>(&MenuConfig::BoxColor), ImGuiColorEditFlags_NoInputs);
 
-			ImGui::Combo("BoxType", &MenuConfig::BoxType, "Normal\0Dynamic");
-
 			Gui.MyCheckBox("BoneESP", &MenuConfig::ShowBoneESP);
 			ImGui::SameLine();
 			ImGui::ColorEdit4("##BoneColor", reinterpret_cast<float*>(&MenuConfig::BoneColor), ImGuiColorEditFlags_NoInputs);
 
 			Gui.MyCheckBox("PlayerName", &MenuConfig::ShowPlayerName);
+			Gui.MyCheckBox("PlayerHP", &MenuConfig::ShowPlayerHP);
+			Gui.MyCheckBox("PlayerDistance", &MenuConfig::ShowPlayerDistance);
 			Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
 
 			Gui.MyCheckBox("LineToEnemy", &MenuConfig::ShowLineToEnemy);

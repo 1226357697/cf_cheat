@@ -51,6 +51,13 @@ const char* Game::WindowClassName()
 	return s_GameWindowClassName;
 }
 
+std::pair<int, int> Game::getWindowSize()
+{
+	RECT rc;
+	GetWindowRect(gameWindow_,&rc);
+	return std::make_pair(rc.right - rc.left, rc.bottom - rc.top);
+}
+
 float Game::GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2)
 {
 	return sqrt(pow(pos2.x - pos1.x,2) + pow(pos2.y - pos1.y, 2) + pow(pos2.z - pos1.z, 2));
