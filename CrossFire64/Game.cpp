@@ -4,14 +4,18 @@
 #include <assert.h>
 #include <cmath>
 
+static const char* s_GameProcessName = "crossfire.exe";
+static const char* s_GameWindowTitleName = "´©Ô½»ðÏß";
+static const char* s_GameWindowClassName = "CrossFire";
+
 Game::~Game()
 {
 }
 
-bool Game::init(std::string_view processName, std::string_view gameWindowName, std::string_view gameWindowClass)
+bool Game::init()
 {
-  pid_ = util::get_process_id(processName);
-  gameWindow_ = FindWindowA(gameWindowClass.data(), gameWindowName.data());
+  pid_ = util::get_process_id(s_GameProcessName);
+  gameWindow_ = FindWindowA(s_GameWindowClassName, s_GameWindowTitleName);
 	if(pid_ == 0 || gameWindow_ == NULL)
 		return false;
 
@@ -28,6 +32,23 @@ bool Game::init(std::string_view processName, std::string_view gameWindowName, s
 		return false;
 
   return true;
+}
+
+bool Game::waitStart()
+{
+	while(FindWindowA(s_GameWindowClassName, s_GameWindowTitleName) == NULL)
+		Sleep(300);
+	return true;
+}
+
+const char* Game::WindowTitle()
+{
+	return s_GameWindowTitleName;
+}
+
+const char* Game::WindowClassName()
+{
+	return s_GameWindowClassName;
 }
 
 float Game::GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2)

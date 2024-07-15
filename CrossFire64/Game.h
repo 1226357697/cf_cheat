@@ -45,9 +45,13 @@ class Game
 public:
   Game() =default;
   ~Game();
-  bool init(std::string_view processName, std::string_view gameWindowName, std::string_view gameWindowClass = "");
+  bool init();
   inline HWND window()const {return gameWindow_;}
   inline int pid() {return pid_;}
+
+	bool waitStart();
+	const char* WindowTitle();
+	const char* WindowClassName();
 
 	float GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2);
 	float GetDistance2D(const D3DXVECTOR2& pos1, const D3DXVECTOR2& pos2);

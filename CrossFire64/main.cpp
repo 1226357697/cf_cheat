@@ -70,11 +70,15 @@ void load_styles()
 int main() 
 {
 	Game crossfire;
-	crossfire.init("crossfire.exe", "穿越火线", "CrossFire");
+	if (!crossfire.waitStart() || !crossfire.init())
+	{
+		Logger::info("游戏初始化失败");
+		return 1;
+	}
 
 	try
 	{
-		Gui.AttachAnotherWindow("穿越火线", "CrossFire", Render(crossfire));
+		Gui.AttachAnotherWindow(crossfire.WindowTitle(), crossfire.WindowClassName(), Render(crossfire));
 	}
 	catch (const OSImGui::OSException& e)
 	{

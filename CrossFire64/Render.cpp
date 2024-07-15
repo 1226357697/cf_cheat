@@ -14,8 +14,8 @@ static const std::vector<int>  BoneIndexSpine{ hip , spine };
 static const std::vector<int>  BoneIndexRightArm{ hand_r , elbow_r, shoulder_r, spine };
 static const std::vector<int>  BoneIndexLeftArm{ hand_l , elbow_l, shoulder_l, spine };
 static const std::vector<int>  BoneIndexHead{ spine , head };
-const float boneThickness = 2.1;
-const float boxThickness= 2.1;
+const float boneThickness = 1.8;
+const float boxThickness= 1.8;
 
 void DrawBonePart(std::array<D3DXVECTOR2, BoneCount>& BonePos, const std::vector<int>& BonePartIndex)
 {
@@ -52,7 +52,8 @@ void Render::PlayerESP()
 	std::array<D3DXVECTOR3, BoneCount> BonePos;
 	std::array<D3DXVECTOR2, BoneCount> boneScreenPos;
 	std::array<ImVec2, 15>  BonePosArray;
-	if (MenuConfig::ShowBoneESP)
+
+	if (MenuConfig::ShowBoneESP || MenuConfig::ShowBoxESP)
 	{
 		int local_player_index = game_.getLocalPlayerIndex();
 		// 有可能刚进入对局，数据有问题
@@ -97,23 +98,28 @@ void Render::PlayerESP()
 				}
 
 				int head_circlerad = game_.GetDistance2D(boneScreenPos[neck], boneScreenPos[head]);
-				// draw bone
-				if (canDrawBone)
+
+				if(MenuConfig::ShowBoneESP && canDrawBone)
 				{
-					D3DXVECTOR2& headPos = boneScreenPos[head];
+					// draw bone
+					if (canDrawBone)
+					{
+						D3DXVECTOR2& headPos = boneScreenPos[head];
 
-					DrawBonePart(boneScreenPos, BoneIndexRightLeg);
-					DrawBonePart(boneScreenPos, BoneIndexLeftLeg);
-					DrawBonePart(boneScreenPos, BoneIndexSpine);
-					DrawBonePart(boneScreenPos, BoneIndexRightArm);
-					DrawBonePart(boneScreenPos, BoneIndexLeftArm);
-					DrawBonePart(boneScreenPos, BoneIndexHead);
-					Gui.Circle({ headPos.x, headPos.y - head_circlerad }, head_circlerad, MenuConfig::BoneColor, boneThickness);
+						DrawBonePart(boneScreenPos, BoneIndexRightLeg);
+						DrawBonePart(boneScreenPos, BoneIndexLeftLeg);
+						DrawBonePart(boneScreenPos, BoneIndexSpine);
+						DrawBonePart(boneScreenPos, BoneIndexRightArm);
+						DrawBonePart(boneScreenPos, BoneIndexLeftArm);
+						DrawBonePart(boneScreenPos, BoneIndexHead);
+						Gui.Circle({ headPos.x, headPos.y - head_circlerad }, head_circlerad, MenuConfig::BoneColor, boneThickness);
 
-					const D3DXVECTOR2& pos = boneScreenPos[foot_l];
-					Gui.Text(name.c_str(), { pos.x,pos.y }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+						const D3DXVECTOR2& pos = boneScreenPos[foot_l];
+						Gui.Text(name.c_str(), { pos.x,pos.y }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+					}
 				}
 
+				if (MenuConfig::ShowBoxESP)
 				{
 					Vec2 leftTop, rightBottom, boxSize;
 					leftTop, rightBottom = Vec2{ 0, 0 };
@@ -136,20 +142,14 @@ void Render::PlayerESP()
 						rightBottom.x = max(pos.x, rightBottom.x);
 						rightBottom.y = max(pos.y, rightBottom.y);
 					}
-					leftTop.y -= head_circlerad *2;
+					leftTop.y -= head_circlerad * 2;
 					boxSize.x = rightBottom.x - leftTop.x;
 					boxSize.y = rightBottom.y - leftTop.y;
 					Gui.Rectangle(leftTop, boxSize, MenuConfig::BoxColor, boxThickness);
-
 				}
-				
-
 			}
 		}
-
-		
 	}
-
 
 }
 
@@ -193,8 +193,8 @@ Render::Render(Game& game)
 
 void Render::run()
 {
-	static DWORD lastTick = 0;
-	DWORD currentTick = GetTickCount();
+	static ULONGLONG lastTick = 0;
+	ULONGLONG currentTick = GetTickCount64();
 	if ((GetAsyncKeyState(VK_HOME) & 0x8000) && currentTick - lastTick >= 150) {
 		// Check key state per 150ms once to avoid loop
 		MenuConfig::ShowMenu = !MenuConfig::ShowMenu;
