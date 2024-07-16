@@ -1,10 +1,12 @@
 #include "Render.h"
 #include <vector>
+#include <map>
 #include <assert.h>
 
 #include "Game.h"
 #include "menu_config.hpp"
 #include "Logger.h"
+#include "HealthBar.h"
 
 
 static const std::vector<int>  BoneIndexRightLeg{ foot_r , shank_r , hip_r ,hip };
@@ -16,6 +18,9 @@ static const std::vector<int>  BoneIndexHead{ spine , head };
 const float boneThickness = 1.8;
 const float boxThickness = 1.8;
 const float LineThickness= 1.8;
+const float HealtWidthSacle = 0.2;
+const float HealtMaxWidth = 7.5f;
+const float HealtMinWidth = 4.0f;
 
 static int s_render_frame = 0;
 static Vec2 s_game_window_size;
@@ -79,6 +84,22 @@ std::pair<Vec2, Vec2> Render::CalcPlayerBoneRect(const std::array<D3DXVECTOR2, B
 	boxSize.y = rightBottom.y - leftTop.y;
 
 	return std::make_pair(leftTop, boxSize);
+}
+
+void Render::DrawHealthBar(std::ptrdiff_t Sign, float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size, bool Horizontal)
+{
+	static std::map<std::ptrdiff_t, HealthBar> HealthBarMap;
+	if (!HealthBarMap.count(Sign))
+	{
+		HealthBarMap.insert({ Sign,HealthBar() });
+	}
+	if (HealthBarMap.count(Sign))
+	{
+		if (Horizontal)
+			HealthBarMap[Sign].DrawHealthBar_Horizontal(MaxHealth, CurrentHealth, Pos, Size);
+		else
+			HealthBarMap[Sign].DrawHealthBar_Vertical(MaxHealth, CurrentHealth, Pos, Size);
+	}
 }
 
 void Render::PlayerESP()
@@ -179,7 +200,11 @@ void Render::PlayerESP()
 
 				if (MenuConfig::ShowPlayerHP)
 				{
-					
+					float healthBarWidth = boxSize.x * HealtWidthSacle;
+					healthBarWidth = healthBarWidth > HealtMaxWidth ? HealtMaxWidth : healthBarWidth;
+					healthBarWidth = healthBarWidth < HealtMinWidth ? HealtMinWidth : healthBarWidth;
+
+					DrawHealthBar(player, 100, player_hp, { leftTop.x - healthBarWidth, leftTop.y}, { healthBarWidth, boxSize.y}, false);
 				}
 
 				if (MenuConfig::ShowPlayerDistance)

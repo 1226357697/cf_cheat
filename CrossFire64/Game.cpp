@@ -70,11 +70,9 @@ float Game::GetDistance2D(const D3DXVECTOR2& pos1, const D3DXVECTOR2& pos2)
 
 bool Game::WorldToScreen(const D3DXVECTOR3& worldPos, D3DXVECTOR2& screenPos)
 {
-	D3DXMATRIX View = mm_.read<D3DXMATRIX>(0x14056E9A0 - 0x80);
-	D3DXMATRIX Projection = mm_.read<D3DXMATRIX>(0x14056E9A0 - 0x40);
-
-
-	D3DVIEWPORT9 viewport = mm_.read<D3DVIEWPORT9>(0x14056E9A0);
+	D3DXMATRIX View = mm_.read<D3DXMATRIX>(crossfireModule_ + crossfire_offset::d3d_view_matrix);
+	D3DXMATRIX Projection = mm_.read<D3DXMATRIX>(crossfireModule_ + crossfire_offset::d3d_Projection_matrix);
+	D3DVIEWPORT9 viewport = mm_.read<D3DVIEWPORT9>(crossfireModule_ + crossfire_offset::d3d_viewport);
 
 	D3DXVECTOR3 vScreen;
 	D3DXVECTOR3 PlayerPos(worldPos.x, worldPos.y, worldPos.z);

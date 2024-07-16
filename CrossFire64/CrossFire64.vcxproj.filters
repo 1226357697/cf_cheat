@@ -19,6 +19,9 @@
     <Filter Include="Base">
       <UniqueIdentifier>{6ea715a6-2f0c-49d8-a1d8-a481160dd2d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Render">
+      <UniqueIdentifier>{52eafd32-0f39-4421-945d-95352349fe16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,6 +51,9 @@
     <ClCompile Include="NativeHandle.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Core\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -67,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="NativeHandle.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Core\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
