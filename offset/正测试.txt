@@ -1,3 +1,27 @@
+武器： REZ
+COP 357
+KNIFE
+
+cshell_x64.dll.text+1CE1E6 - 48 8B 05 8BB12303     - mov rax,[cshell_x64.dll+340A378] { (56D8D880) }
+cshell_x64.dll.text+1CE1ED - 49 0FBF CA            - movsx rcx,r10w
+cshell_x64.dll.text+1CE1F1 - 48 8B 0C C8           - mov rcx,[rax+rcx*8]
+cshell_x64.dll.text+1CE1F5 - 83 B9 246F0000 00     - cmp dword ptr [rcx+00006F24],00 { 0 }
+cshell_x64.dll.text+1CE1FC - 74 07                 - je cshell_x64.dll.text+1CE205
+cshell_x64.dll.text+1CE1FE - B0 01                 - mov al,01 { 1 }
+cshell_x64.dll.text+1CE200 - 48 83 C4 28           - add rsp,28 { 40 }
+cshell_x64.dll.text+1CE204 - C3                    - ret 
+cshell_x64.dll.text+1CE205 - 32 C0                 - xor al,al
+
+
+[cshell_x64.dll+340A378]
+56D8D880+51a*8
+62DD4E60 + E 武器名
+
+
+[cshell_x64.dll+340A378] + 5*8 = KNIFE REZ
+[cshell_x64.dll+340A378] + 1306*8 = COP 357 REZ
+
+
 CAIBotModePlayer: cshell_x64.dll+3277A08
 子弹：
     2d8
@@ -8,7 +32,29 @@ yaw:
 HP:
     +1704
 
+CAIBotModePlayer:
+    [cshell_x64.dll+346EE38]
+    +868 视角Y
+    +86c 视角X
+
+0936F040
+ObjectMgr:
+    +2fd0
+
+F7553010
+CAIBotMode3rdPlayer:    
+    +f4
+
+10C99802C
+GamePlayer_AIBotMode:
+    +314
+
+CRightHandWeapon
+    1DF0:武器： REZ
+
 CharacFx:
++160: yaw
++164 pitch
 +170:xyz
 +17c 0x17c
 +1a4: 武器枪口位置 xyz
@@ -18,6 +64,36 @@ CharacFx:
 28c:?
 +5B4 :存活
 +5c8:?
++ ??:CRightHandWeapon
++113F8: 武器地址
++17A94:武器id
+
+
+
+武器id:
+cshell_x64.dll.text+1519B9F - 74 09                 - je cshell_x64.dll.text+1519BAA
+cshell_x64.dll.text+1519BA1 - 41 89 B9 A4000000     - mov [r9+000000A4],edi
+cshell_x64.dll.text+1519BA8 - EB 0B                 - jmp cshell_x64.dll.text+1519BB5
+cshell_x64.dll.text+1519BAA - 41 C7 81 A4000000 01000000 - mov [r9+000000A4],00000001 { 1 }
+cshell_x64.dll.text+1519BB5 - 48 8B BC 24 80000000  - mov rdi,[rsp+00000080]
+cshell_x64.dll.text+1519BBD - 45 84 ED              - test r13b,r13b
+cshell_x64.dll.text+1519BC0 - 74 1A                 - je cshell_x64.dll.text+1519BDC
+cshell_x64.dll.text+1519BC2 - 0FB7 83 34140100      - movzx eax,word ptr [rbx+00011434]
+cshell_x64.dll.text+1519BC9 - 66 89 83 947A0100     - mov [rbx+00017A94],ax
+cshell_x64.dll.text+1519BD0 - 8B 83 38140100        - mov eax,[rbx+00011438]
+cshell_x64.dll.text+1519BD6 - 89 83 987A0100        - mov [rbx+00017A98],eax
+cshell_x64.dll.text+1519BDC - 48 83 C4 48           - add rsp,48 { 72 }
+cshell_x64.dll.text+1519BE0 - 41 5F                 - pop r15
+cshell_x64.dll.text+1519BE2 - 41 5D                 - pop r13
+cshell_x64.dll.text+1519BE4 - 41 5C                 - pop r12
+cshell_x64.dll.text+1519BE6 - 5B                    - pop rbx
+cshell_x64.dll.text+1519BE7 - C3                    - ret 
+cshell_x64.dll.text+1519BE8 - CC                    - int 3 
+cshell_x64.dll.text+1519BE9 - CC                    - int 3 
+cshell_x64.dll.text+1519BEA - CC                    - int 3 
+
+
+
 
 GamePlayer_AIBotMode
 +52 name

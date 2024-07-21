@@ -14,7 +14,7 @@ public:
 private:
   void run();
   void PlayerESP();
-  std::pair<Vec2, Vec2> CalcPlayerBoneRect(const std::array<D3DXVECTOR2, BoneCount>& screenBonePos);
+  bool CalcPlayerBoneRect(const std::array<D3DXVECTOR2, BoneCount>& screenBonePos, std::pair<Vec2, Vec2>& Rect);
   void DrawHealthBar(std::ptrdiff_t Sign, float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size, bool Horizontal);
 
 private:

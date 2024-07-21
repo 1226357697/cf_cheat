@@ -2,12 +2,28 @@
 #include <vector>
 #include <map>
 #include <assert.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
+#include "util.h"
 #include "Game.h"
 #include "menu_config.hpp"
 #include "Logger.h"
 #include "HealthBar.h"
 
+#define DEG_TO_RAD(deg) ((deg) * (M_PI / 180.0))
+#define RAD_TO_DEG(rad) ((rad) * (180.0 / M_PI))
+
+
+inline double DegreesToRadians(double degrees) 
+{
+	return DEG_TO_RAD(degrees);
+}
+
+inline double RadiansToDegrees(double radians)
+{
+	return RAD_TO_DEG(radians);
+}
 
 static const std::vector<int>  BoneIndexRightLeg{ foot_r , shank_r , hip_r ,hip };
 static const std::vector<int>  BoneIndexLeftLeg{ foot_l , shank_l , hip_l, hip };
@@ -19,7 +35,7 @@ const float boneThickness = 1.8;
 const float boxThickness = 1.8;
 const float LineThickness= 1.8;
 const float HealtWidthSacle = 0.2;
-const float HealtMaxWidth = 7.5f;
+const float HealtMaxWidth = 7.0f;
 const float HealtMinWidth = 4.0f;
 
 static int s_render_frame = 0;
@@ -55,11 +71,12 @@ void DrawBonePart(std::array<D3DXVECTOR2, BoneCount>& BonePos, const std::vector
 	}
 }
 
-std::pair<Vec2, Vec2> Render::CalcPlayerBoneRect(const std::array<D3DXVECTOR2, BoneCount>& screenBonePos)
+bool Render::CalcPlayerBoneRect(const std::array<D3DXVECTOR2, BoneCount>& screenBonePos, std::pair<Vec2, Vec2>& Rect)
 {
+	Vec2 inValidPosint = Vec2{ 0, 0 };
 	float head_circlerad = game_.GetDistance2D(screenBonePos[neck], screenBonePos[head]);
 	Vec2 leftTop, rightBottom, boxSize;
-	leftTop, rightBottom = Vec2{ 0, 0 };
+	leftTop, rightBottom = inValidPosint;
 	bool bInit = false;
 	for (int j = 0; j < screenBonePos.size(); ++j)
 	{
@@ -79,11 +96,15 @@ std::pair<Vec2, Vec2> Render::CalcPlayerBoneRect(const std::array<D3DXVECTOR2, B
 		rightBottom.x = max(pos.x, rightBottom.x);
 		rightBottom.y = max(pos.y, rightBottom.y);
 	}
+	if (leftTop == inValidPosint && rightBottom == inValidPosint)
+		return false;
+
 	leftTop.y -= head_circlerad * 2;
 	boxSize.x = rightBottom.x - leftTop.x;
 	boxSize.y = rightBottom.y - leftTop.y;
 
-	return std::make_pair(leftTop, boxSize);
+	Rect = std::make_pair(leftTop, boxSize);
+	return true;
 }
 
 void Render::DrawHealthBar(std::ptrdiff_t Sign, float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size, bool Horizontal)
@@ -101,6 +122,24 @@ void Render::DrawHealthBar(std::ptrdiff_t Sign, float MaxHealth, float CurrentHe
 			HealthBarMap[Sign].DrawHealthBar_Vertical(MaxHealth, CurrentHealth, Pos, Size);
 	}
 }
+
+void CalculateEndPoint(const D3DXVECTOR3& startPoint, float yaw, float pitch, float length, D3DXVECTOR3& endPoint) 
+{
+
+	// 计算方向向量
+	float cosYaw = cosf(yaw);
+	float sinYaw = sinf(yaw);
+	float cosPitch = cosf(pitch);
+	float sinPitch = sinf(pitch);
+
+	// 计算视线的终点位置
+	endPoint.x = startPoint.x + length * cosPitch * cosYaw;
+	endPoint.y = startPoint.y + length * sinPitch;
+	endPoint.z = startPoint.z + length * cosPitch * sinYaw;
+}
+
+static float gyaw= 0;
+static float gpitch =0;
 
 void Render::PlayerESP()
 {
@@ -148,7 +187,7 @@ void Render::PlayerESP()
 				name = game_.getPlayerName(player);
 
 				// 队友
-				if (local_player_team == player_team)
+				if (local_player_team == player_team && MenuConfig::TeamCheck)
 					continue;
 
 				if (player_hp == 0)
@@ -187,7 +226,11 @@ void Render::PlayerESP()
 					}
 				}
 
-				auto [leftTop, boxSize] = CalcPlayerBoneRect(boneScreenPos);
+				std::pair<Vec2, Vec2> Rect;
+				if(!CalcPlayerBoneRect(boneScreenPos, Rect))
+					continue;
+
+				auto [leftTop, boxSize] = Rect;
 				if (MenuConfig::ShowBoxESP)
 				{
 					Gui.Rectangle(leftTop, boxSize, MenuConfig::BoxColor, boxThickness);
@@ -220,6 +263,42 @@ void Render::PlayerESP()
 					Gui.Line({w/2, 0}, { leftTop .x + boxSize .x / 2, leftTop .y }, MenuConfig::BoxColor, LineThickness);
 				}
 
+				if (MenuConfig::ShowPlayerAngle)
+				{
+					ViewAngle angle;
+					if (game_.getPlayerAngle(player, angle) && boneScreenPos[head] != invalidScreenPos && BonePos[head] != invalidWorldPos)
+					{
+						char buffer[100];
+						angle.yaw += DegreesToRadians(-90);
+						angle.yaw = -angle.yaw;
+						angle.pitch = -angle.pitch;
+						float Length = 70;
+						Vec2 StartPoint;
+						D3DXVECTOR2 EndPoint;
+						D3DXVECTOR3 Temp;
+						StartPoint = Vec2{boneScreenPos[head].x, boneScreenPos[head].y};
+
+						//float LineLength = cos(angle.pitch) * Length;
+						//Temp.x = BonePos[head].x + cos(angle.yaw) * cos(angle.pitch) * Length;
+						//Temp.y = BonePos[head].y + sin(angle.pitch) * Length;
+						//Temp.z = BonePos[head].z + cos(angle.pitch) * sin(angle.yaw) * Length;
+						CalculateEndPoint(BonePos[head], angle.yaw, angle.pitch, Length, Temp);
+						
+						if (game_.WorldToScreen(Temp, EndPoint))
+						{
+							Gui.Line(StartPoint, { EndPoint.x, EndPoint.y }, MenuConfig::AngleColor, LineThickness);
+							//Gui.CircleFilled({ EndPoint.x, EndPoint.y },2, ImColor(255,0 , 0, 255));
+						}
+					}
+				}
+
+				if (MenuConfig::ShowC4)
+				{
+					if (game_.playerHasC4(player))
+					{
+						Gui.Text(util::CharToUtf8( ">>>携带C4<<<"), {leftTop.x + boxSize.x / 2 ,leftTop.y + boxSize.y + 15.0f *2}, MenuConfig::BoxColor, 15.0f, true);
+					}
+				}
 			}
 		}
 	}
@@ -249,6 +328,16 @@ void DrawMenu()
 			Gui.MyCheckBox("LineToEnemy", &MenuConfig::ShowLineToEnemy);
 			ImGui::SameLine();
 			ImGui::ColorEdit4("##LineToEnemyColor", reinterpret_cast<float*>(&MenuConfig::LineToEnemyColor), ImGuiColorEditFlags_NoInputs);
+
+
+			Gui.MyCheckBox("Show C4", &MenuConfig::ShowC4);
+
+			Gui.MyCheckBox("ViewAngle", &MenuConfig::ShowPlayerAngle);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("##ViewAngle", reinterpret_cast<float*>(&MenuConfig::AngleColor), ImGuiColorEditFlags_NoInputs);
+
+			ImGui::InputFloat("yaw", &gyaw);
+			ImGui::InputFloat("pitch", &gpitch);
 
 		}
 		ImGui::Text("[HOME] HideMenu");

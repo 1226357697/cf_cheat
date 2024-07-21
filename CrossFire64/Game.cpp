@@ -122,6 +122,11 @@ std::ptrdiff_t Game::getPlayer(int index)
 	return CLTClientShell + crossfire_offset::player_start + index * crossfire_offset::player_size;
 }
 
+bool Game::playerHasC4(std::ptrdiff_t player)
+{
+	return mm_.read<int>(player + crossfire_offset::player_HasC4) == 1;
+}
+
 int Game::getPlayerTeam(std::ptrdiff_t player)
 {
 	return (int)mm_.read<uint8_t>(player + crossfire_offset::player_team);
@@ -154,4 +159,15 @@ std::string Game::getPlayerName(std::ptrdiff_t player)
 
 	mm_.read(player + crossfire_offset::player_name, name.data(), name.size());
 	return util::CharToUtf8(name);
+}
+
+bool Game::getPlayerAngle(std::ptrdiff_t player, ViewAngle& agnle)
+{
+	std::ptrdiff_t CharacFx = mm_.read<ptrdiff_t>(player + crossfire_offset::player_CharacFx);
+	if (CharacFx == 0)
+		return false;
+
+	agnle.yaw = mm_.read<float>(CharacFx + crossfire_offset::player_yaw);
+	agnle.pitch = mm_.read<float>(CharacFx + crossfire_offset::player_pitch);
+	return true;
 }

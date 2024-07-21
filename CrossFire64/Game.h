@@ -40,6 +40,12 @@ const D3DXVECTOR3 invalidWorldPos{ -1,-1,-1 };
 const D3DXVECTOR2 invalidScreenPos{ -1,-1};
 
 
+struct ViewAngle
+{
+	float yaw; // º½Ïò½Ç
+	float pitch; // ¸©Ñö½Ç
+};
+
 class Game
 {
 public:
@@ -64,10 +70,12 @@ public:
 	std::ptrdiff_t getPlayer(int index);
 
 	// Player
+	bool playerHasC4(std::ptrdiff_t player);
 	int getPlayerTeam(std::ptrdiff_t player) ;
 	int getPlayerHP(std::ptrdiff_t player) ;
 	void getPlayerBones(std::ptrdiff_t player, std::array<D3DXVECTOR3, BoneCount>& bones) ;
 	std::string getPlayerName(std::ptrdiff_t player);
+	bool getPlayerAngle(std::ptrdiff_t player, ViewAngle& agnle);
 
 
   

@@ -19,9 +19,12 @@ namespace crossfire_offset {
   constexpr static std::ptrdiff_t player_team = 0x9;
   constexpr static std::ptrdiff_t player_name = 0xA;
   constexpr static std::ptrdiff_t player_CharacFx = 0x18;
+  constexpr static std::ptrdiff_t player_HasC4 = 0x28;
   constexpr static std::ptrdiff_t player_hp = 0x44;
 
   // CharacFx
+  constexpr static std::ptrdiff_t player_yaw = 0x160;
+  constexpr static std::ptrdiff_t player_pitch = player_yaw +4;
   constexpr static std::ptrdiff_t player_x = 0x170;
   constexpr static std::ptrdiff_t player_y = 0x174;
   constexpr static std::ptrdiff_t player_z = 0x178;

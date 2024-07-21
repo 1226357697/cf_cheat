@@ -11,6 +11,8 @@ namespace MenuConfig
 	inline bool ShowPlayerName = false;
 	inline bool ShowPlayerHP = false;
 	inline bool ShowPlayerDistance = false;
+	inline bool ShowPlayerAngle = false;
+	inline bool ShowC4 = false;
 	inline bool TeamCheck = false;
 
 	inline bool AimBot = true;
@@ -21,6 +23,7 @@ namespace MenuConfig
 
 	inline ImColor BoneColor = ImColor(255, 255, 255, 255);
 	inline ImColor BoxColor = ImColor(255, 255, 255, 255);
+	inline ImColor AngleColor = ImColor(255, 255, 255, 255);
 	inline ImColor EyeRayColor = ImColor(255, 0, 0, 255);
 
 	inline bool ShowMenu = true;
