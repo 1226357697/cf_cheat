@@ -54,6 +54,9 @@
     <ClCompile Include="HealthBar.cpp">
       <Filter>Core\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Radar.cpp">
+      <Filter>Core\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -75,6 +78,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
+      <Filter>Core\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Radar.h">
       <Filter>Core\Render</Filter>
     </ClInclude>
   </ItemGroup>

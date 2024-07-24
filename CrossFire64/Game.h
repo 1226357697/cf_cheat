@@ -76,6 +76,7 @@ public:
 	void getPlayerBones(std::ptrdiff_t player, std::array<D3DXVECTOR3, BoneCount>& bones) ;
 	std::string getPlayerName(std::ptrdiff_t player);
 	bool getPlayerAngle(std::ptrdiff_t player, ViewAngle& agnle);
+	bool setLocalPlayerAngle(std::ptrdiff_t player, const ViewAngle& agnle);
 
 
   
@@ -87,5 +88,6 @@ private:
   Memory mm_;
 
 	std::ptrdiff_t CLTClientShell = 0;
+	std::ptrdiff_t CAIBotModePlayer = 0;
 };
 

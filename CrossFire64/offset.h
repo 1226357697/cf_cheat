@@ -3,11 +3,17 @@
 
 namespace crossfire_offset {
   constexpr static std::ptrdiff_t CLTClientShell = 0x32001C8;
+  constexpr static std::ptrdiff_t CAIBotModePlayer = 0x346EE38;
 
   // D3D Engine
   constexpr static std::ptrdiff_t d3d_viewport = 0x57D0E0;
   constexpr static std::ptrdiff_t d3d_Projection_matrix = d3d_viewport - 0x40;
   constexpr static std::ptrdiff_t d3d_view_matrix = d3d_viewport - 0x40 - 0x40;
+
+  // CAIBotModePlayer
+  constexpr static std::ptrdiff_t local_angle_yaw = 0x86c;
+  constexpr static std::ptrdiff_t local_angle_pitch = local_angle_yaw - 4;
+
 
   // CLTClientShell
   constexpr static std::ptrdiff_t local_player_index = 0x28a;

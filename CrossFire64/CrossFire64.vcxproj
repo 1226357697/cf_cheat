@@ -143,6 +143,7 @@
     <ClCompile Include="menu_config.hpp" />
     <ClCompile Include="NativeHandle.cpp" />
     <ClCompile Include="offset.h" />
+    <ClCompile Include="Radar.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="NativeHandle.h" />
+    <ClInclude Include="Radar.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>

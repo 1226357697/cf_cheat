@@ -29,12 +29,12 @@ namespace MenuConfig
 	inline bool ShowMenu = true;
 
 	inline bool ShowRadar = true;
-	inline float RadarRange = 150;
+	inline float RadarRange = 100;
 	inline bool ShowCrossLine = true;
 	inline ImColor CrossLineColor = ImColor(34, 34, 34, 180);
 	// 0: circle 1: arrow 2: circle with arrow
-	inline int RadarType = 2;
-	inline float Proportion = 2300;
+	inline int RadarType = 0;
+	inline float Proportion = 1500;
 
 	inline bool TriggerBot = true;
 	inline int TriggerHotKey = 0;

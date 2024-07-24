@@ -31,6 +31,10 @@ bool Game::init()
 	if (CLTClientShell == 0)
 		return false;
 
+	CAIBotModePlayer = mm_.read<std::ptrdiff_t>(cshell_x64Module_ + crossfire_offset::CAIBotModePlayer);
+	if (CAIBotModePlayer == 0)
+		return false;
+
   return true;
 }
 
@@ -170,4 +174,11 @@ bool Game::getPlayerAngle(std::ptrdiff_t player, ViewAngle& agnle)
 	agnle.yaw = mm_.read<float>(CharacFx + crossfire_offset::player_yaw);
 	agnle.pitch = mm_.read<float>(CharacFx + crossfire_offset::player_pitch);
 	return true;
+}
+
+bool Game::setLocalPlayerAngle(std::ptrdiff_t player, const ViewAngle& agnle)
+{
+	mm_.write(CAIBotModePlayer + crossfire_offset::local_angle_yaw, &agnle.yaw);
+	mm_.write(CAIBotModePlayer + crossfire_offset::local_angle_pitch, &agnle.pitch);
+	return false;
 }

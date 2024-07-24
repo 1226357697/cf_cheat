@@ -123,6 +123,17 @@ void Render::DrawHealthBar(std::ptrdiff_t Sign, float MaxHealth, float CurrentHe
 	}
 }
 
+void Render::RadarSetting(Base_Radar& Radar)
+{
+	Radar.SetPos({85,85});
+	Radar.SetProportion(2000);
+	Radar.SetRange(MenuConfig::RadarRange);
+	Radar.SetSize(65*2);
+	Radar.SetCrossColor(MenuConfig::CrossLineColor);
+	Radar.ShowCrossLine = MenuConfig::ShowCrossLine;
+	Radar.Opened = true;
+}
+
 void CalculateEndPoint(const D3DXVECTOR3& startPoint, float yaw, float pitch, float length, D3DXVECTOR3& endPoint) 
 {
 
@@ -138,15 +149,13 @@ void CalculateEndPoint(const D3DXVECTOR3& startPoint, float yaw, float pitch, fl
 	endPoint.z = startPoint.z + length * cosPitch * sinYaw;
 }
 
-static float gyaw= 0;
-static float gpitch =0;
-
 void Render::PlayerESP()
 {
+	std::array<D3DXVECTOR3, BoneCount> localPlayerBonePos;
 	std::array<D3DXVECTOR3, BoneCount> BonePos;
 	std::array<D3DXVECTOR2, BoneCount> boneScreenPos;
-	std::array<D3DXVECTOR3, BoneCount> LocalPlayerBonePos;
 	std::array<ImVec2, 15>  BonePosArray;
+	ViewAngle localAngle;
 
 	if (MenuConfig::ShowBoneESP || MenuConfig::ShowBoxESP
 		|| MenuConfig::ShowPlayerName)
@@ -164,8 +173,17 @@ void Render::PlayerESP()
 		{
 			std::ptrdiff_t local_player = game_.getPlayer(local_player_index);
 			uint8_t local_player_team = game_.getPlayerTeam(local_player);
-			game_.getPlayerBones(local_player, LocalPlayerBonePos);
 
+			// Radar Data
+			//Base_Radar Radar;
+			//RadarSetting(Radar);
+			D3DXVECTOR3 AimPos = invalidWorldPos;
+			D3DXVECTOR2 AimPos2d = invalidScreenPos;
+			float tmpdis = -1;
+
+			Vec2 gameWindowCentre = s_game_window_size / 2;
+			game_.getPlayerAngle(local_player, localAngle);
+			game_.getPlayerBones(local_player, localPlayerBonePos);
 
 
 			for (int i = 0; i < player_count; ++i)
@@ -193,6 +211,9 @@ void Render::PlayerESP()
 				if (player_hp == 0)
 					continue;
 
+
+				ViewAngle playerAngle;
+
 				bool canDrawBone = true;
 				game_.getPlayerBones(player, BonePos);
 				for (int j = 0; j < BonePos.size(); ++j)
@@ -203,6 +224,40 @@ void Render::PlayerESP()
 						canDrawBone = false;
 					}
 				}
+
+				game_.getPlayerAngle(player, playerAngle);
+
+				if (boneScreenPos[i] != invalidScreenPos)
+				{
+					float dis = game_.GetDistance2D(boneScreenPos[i], {gameWindowCentre.x, gameWindowCentre.y });
+					if (tmpdis == -1)
+					{
+						tmpdis = dis;
+						AimPos = BonePos[head];
+						AimPos2d = boneScreenPos[head];
+					}
+					else
+					{
+						if (dis < tmpdis)
+						{
+							tmpdis = dis;
+							AimPos = BonePos[head];
+							AimPos2d = boneScreenPos[head];
+						}
+					}
+				}
+
+				// Add entity to radar
+			/*	if (MenuConfig::ShowRadar)
+				{
+					Radar.AddPoint(Vec3{ localPlayerBonePos[head].x,localPlayerBonePos[head].y, localPlayerBonePos[head].z },
+						RadiansToDegrees(-(localAngle.yaw + DegreesToRadians(-90))),
+						Vec3{ BonePos[head].x,BonePos[head].y, BonePos[head].z },
+						ImColor(237, 85, 106, 200),
+						MenuConfig::RadarType,
+						RadiansToDegrees(-(playerAngle.yaw + DegreesToRadians(-90))));
+				}*/
+
 
 
 				if(MenuConfig::ShowBoneESP && canDrawBone)
@@ -252,7 +307,7 @@ void Render::PlayerESP()
 
 				if (MenuConfig::ShowPlayerDistance)
 				{
-					float distance = game_.GetDistance3D(LocalPlayerBonePos[head], BonePos[head]);
+					float distance = game_.GetDistance3D(localPlayerBonePos[head], BonePos[head]);
 					Gui.Text(std::to_string((int)distance /10) + "m", {leftTop.x + boxSize.x / 2 ,leftTop.y + boxSize.y + 15.0f}, MenuConfig::BoxColor, 15.0f, true);
 
 				}
@@ -278,16 +333,11 @@ void Render::PlayerESP()
 						D3DXVECTOR3 Temp;
 						StartPoint = Vec2{boneScreenPos[head].x, boneScreenPos[head].y};
 
-						//float LineLength = cos(angle.pitch) * Length;
-						//Temp.x = BonePos[head].x + cos(angle.yaw) * cos(angle.pitch) * Length;
-						//Temp.y = BonePos[head].y + sin(angle.pitch) * Length;
-						//Temp.z = BonePos[head].z + cos(angle.pitch) * sin(angle.yaw) * Length;
 						CalculateEndPoint(BonePos[head], angle.yaw, angle.pitch, Length, Temp);
 						
 						if (game_.WorldToScreen(Temp, EndPoint))
 						{
 							Gui.Line(StartPoint, { EndPoint.x, EndPoint.y }, MenuConfig::AngleColor, LineThickness);
-							//Gui.CircleFilled({ EndPoint.x, EndPoint.y },2, ImColor(255,0 , 0, 255));
 						}
 					}
 				}
@@ -299,7 +349,72 @@ void Render::PlayerESP()
 						Gui.Text(util::CharToUtf8( ">>>Ð¯´øC4<<<"), {leftTop.x + boxSize.x / 2 ,leftTop.y + boxSize.y + 15.0f *2}, MenuConfig::BoxColor, 15.0f, true);
 					}
 				}
+
+				if (MenuConfig::ShowRadar)
+				{
+
+					float position_x = 83;
+					float position_y = 86;
+
+					float radius_x = 64;
+					float radius_y = 64;
+
+					D3DXVECTOR3 playerPos = BonePos[head];
+					D3DXVECTOR3 localPlayerPos = localPlayerBonePos[head];
+
+					float part1 = pow((localPlayerPos.x - playerPos.x), 2);
+					float part2 = pow((localPlayerPos.z - playerPos.z), 2);
+					float underRadical = part1 + part2;
+					float  result = (float)sqrt(underRadical);
+					result /= 64.4;
+
+					float dx = localPlayerPos.x - playerPos.x;
+					float dy = localPlayerPos.z - playerPos.z;
+					float yaw = atan2f(dy, dx);
+
+					if (result > radius_x)
+						result = radius_x;
+					float myYaw = localAngle.yaw;
+					myYaw *= -1;
+					myYaw = yaw - myYaw;
+
+					const float radb = myYaw;
+
+					float x2 = position_x - (cos(radb) * result);
+					float y2 = position_y + (sin(radb) * result);
+					//D3DRECT back2 = { x2 - 1, y2 - 1, x2 + 2, y2 + 2 };
+					Gui.CircleFilled({ x2 , y2 }, 2, ImColor(255, 0, 0, 255));
+					//Gui.CircleFilled({ position_x , position_y }, 2, MenuConfig::BoneColor);
+					std::pair<Vec2, Vec2> Line1;
+					std::pair<Vec2, Vec2> Line2;
+					Line1.first = Vec2{ position_x- radius_x,position_y };
+					Line1.second = Vec2{ position_x+ radius_x,position_y };
+					Line2.first = Vec2{ position_x,position_y - radius_y };
+					Line2.second = Vec2{position_x,position_y + radius_y };
+
+					Gui.Line(Line1.first, Line1.second, ImColor(255, 255, 255, 255), 1);
+					Gui.Line(Line2.first, Line2.second, ImColor(255, 255, 255, 255), 1);
+
+				}
+			
 			}
+
+			if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && AimPos != invalidWorldPos)
+			{
+				ViewAngle angle = {0,0};
+
+				D3DXVECTOR3 playerPos = localPlayerBonePos[head];
+				D3DXVECTOR3 fDist = AimPos - playerPos;
+				angle.pitch = (float)atan2(-fDist.y, sqrt(fDist.x * fDist.x + fDist.z * fDist.z));
+				angle.yaw = (float)atan2(fDist.x, fDist.z);
+				//Logger::info("pitch %f yaw %f", angle.pitch, angle.yaw);
+				game_.setLocalPlayerAngle(local_player, angle);
+				Gui.Text("+", { AimPos2d .x, AimPos2d .y}, ImColor(255, 0, 0, 255));
+			}
+			/*if (MenuConfig::ShowRadar)
+			{
+				Radar.Render();
+			}*/
 		}
 	}
 
@@ -336,8 +451,9 @@ void DrawMenu()
 			ImGui::SameLine();
 			ImGui::ColorEdit4("##ViewAngle", reinterpret_cast<float*>(&MenuConfig::AngleColor), ImGuiColorEditFlags_NoInputs);
 
-			ImGui::InputFloat("yaw", &gyaw);
-			ImGui::InputFloat("pitch", &gpitch);
+
+			Gui.MyCheckBox("Show Radar", &MenuConfig::ShowRadar);
+			
 
 		}
 		ImGui::Text("[HOME] HideMenu");
