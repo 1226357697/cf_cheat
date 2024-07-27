@@ -4,7 +4,7 @@
 #include <tuple>
 #include "OS-ImGui/OS-ImGui.h"
 
-class Base_Radar
+class Radar
 {
 public:
 	// 设置雷达数据
@@ -28,18 +28,16 @@ public:
 	// 比例
 	float Proportion = 2680;
 	// 圆点半径
-	float PointRadius = 4;
-	// 箭头尺寸
-	float ArrowSize = 11;
+	float PointRadius = 3;
 	// 圆弧箭头尺寸
-	float ArcArrowSize = 7;
+	float ArcArrowSize = 3;
 	// 雷达范围
 	float RenderRange = 250;
 	// 本地Yaw数据
 	float LocalYaw = 0.0f;
 	// 状态
 	bool Opened = true;
-	// 雷达绘制类型 0:圆形 1:箭头 2:圆弧箭头
+	// 雷达绘制类型 0:圆形 1:圆弧箭头
 	int  PointType = 0;
 private:
 	Vec2  Pos{ 0,0 };

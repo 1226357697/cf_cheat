@@ -1,10 +1,11 @@
 #include "util.h"
 #include <tlhelp32.h>
 
+
 std::string util::random_string()
 {
 	srand((unsigned int)time((time_t*)0));
-	std::string str = xor_a("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890");
+	std::string str = xorstr_("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890");
 	std::string newstr;
 	int pos;
 	while (newstr.size() != 32) {

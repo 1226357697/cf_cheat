@@ -5,48 +5,48 @@ Vec2 RevolveCoordinatesSystem(float RevolveAngle, Vec2 OriginPos, Vec2 DestPos)
 	Vec2 ResultPos;
 	if (RevolveAngle == 0)
 		return DestPos;
-	ResultPos.x = OriginPos.x + (DestPos.x - OriginPos.x) * cos(RevolveAngle * M_PI / 180) + (DestPos.y - OriginPos.y) * sin(RevolveAngle * M_PI / 180);
-	ResultPos.y = OriginPos.y - (DestPos.x - OriginPos.x) * sin(RevolveAngle * M_PI / 180) + (DestPos.y - OriginPos.y) * cos(RevolveAngle * M_PI / 180);
+	ResultPos.x = OriginPos.x + (DestPos.x - OriginPos.x) * cos(RevolveAngle) + (DestPos.y - OriginPos.y) * sin(RevolveAngle);
+	ResultPos.y = OriginPos.y - (DestPos.x - OriginPos.x) * sin(RevolveAngle) + (DestPos.y - OriginPos.y) * cos(RevolveAngle);
 	return ResultPos;
 }
 
 
-void Base_Radar::SetRange(const float& Range)
+void Radar::SetRange(const float& Range)
 {
 	this->RenderRange = Range;
 }
 
-void Base_Radar::SetCrossColor(const ImColor& Color)
+void Radar::SetCrossColor(const ImColor& Color)
 {
 	this->CrossColor = Color;
 }
 
-void Base_Radar::SetPos(const Vec2& Pos)
+void Radar::SetPos(const Vec2& Pos)
 {
 	this->Pos = Pos;
 }
 
-void Base_Radar::SetSize(const float& Size)
+void Radar::SetSize(const float& Size)
 {
 	this->Width = Size;
 }
 
-float Base_Radar::GetSize()
+float Radar::GetSize()
 {
 	return this->Width;
 }
 
-Vec2 Base_Radar::GetPos()
+Vec2 Radar::GetPos()
 {
 	return this->Pos;
 }
 
-void Base_Radar::SetProportion(const float& Proportion)
+void Radar::SetProportion(const float& Proportion)
 {
 	this->Proportion = Proportion;
 }
 
-void Base_Radar::AddPoint(const Vec3& LocalPos, const float& LocalYaw, const Vec3& Pos, ImColor Color, int Type, float Yaw)
+void Radar::AddPoint(const Vec3& LocalPos, const float& LocalYaw, const Vec3& Pos, ImColor Color, int Type, float Yaw)
 {
 	Vec2 PointPos;
 	float Distance;
@@ -54,20 +54,16 @@ void Base_Radar::AddPoint(const Vec3& LocalPos, const float& LocalYaw, const Vec
 
 	this->LocalYaw = LocalYaw;
 
-	Distance = sqrt(pow(LocalPos.x - Pos.x, 2) + pow(LocalPos.y - Pos.y, 2));
-	Distance = Distance / 10;
+	Angle = atan2f(LocalPos.z - Pos.z, LocalPos.x - Pos.x);
+	Angle = this->LocalYaw - Angle;
 
-	Angle = atan2(Pos.y - LocalPos.y, Pos.x - LocalPos.x) * 180 / M_PI;
-	Angle = (this->LocalYaw - Angle) * M_PI / 180;
+	Distance = sqrt(pow(LocalPos.x - Pos.x, 2) + pow(LocalPos.z - Pos.z, 2));
+	Distance/= this->Proportion;
+	Distance = min(Distance, this->RenderRange);
 
-	Distance = Distance / this->Proportion * this->RenderRange * 2;
 
-	PointPos.x = this->Pos.x + Distance * sin(Angle);
-	PointPos.y = this->Pos.y - Distance * cos(Angle);
-
-	Distance = sqrt(pow(this->Pos.x - PointPos.x, 2) + pow(this->Pos.y - PointPos.y, 2));
-	if (Distance > this->RenderRange)
-		return;
+	PointPos.x = this->Pos.x - Distance * sin(Angle);
+	PointPos.y = this->Pos.y + Distance * cos(Angle);
 
 	std::tuple<Vec2, ImColor, int, float> Data(PointPos, Color, Type, Yaw);
 	this->Points.push_back(Data);
@@ -90,7 +86,7 @@ void DrawTriangle(Vec2 Center, ImColor Color, float Width, float Height, float Y
 		Color);
 }
 
-void Base_Radar::Render()
+void Radar::Render()
 {
 	if (Width <= 0)
 		return;
@@ -126,52 +122,19 @@ void Base_Radar::Render()
 			}
 			else if (PointType == 1)
 			{
-				// 箭头样式
-				Vec2 a, b, c;
-				Vec2 Re_a, Re_b, Re_c;
-				Vec2 Re_Point;
-				float Angle = (this->LocalYaw - PointYaw) + 180;
-				Re_Point = RevolveCoordinatesSystem(Angle, this->Pos, PointPos);
-
-				Re_a = Vec2(Re_Point.x, Re_Point.y + this->ArrowSize);
-				Re_b = Vec2(Re_Point.x - this->ArrowSize / 1.5, Re_Point.y - this->ArrowSize / 2);
-				Re_c = Vec2(Re_Point.x + this->ArrowSize / 1.5, Re_Point.y - this->ArrowSize / 2);
-
-				a = RevolveCoordinatesSystem(-Angle, this->Pos, Re_a);
-				b = RevolveCoordinatesSystem(-Angle, this->Pos, Re_b);
-				c = RevolveCoordinatesSystem(-Angle, this->Pos, Re_c);
-
-				ImGui::GetForegroundDrawList()->AddQuadFilled(
-					ImVec2(a.x, a.y),
-					ImVec2(b.x, b.y),
-					ImVec2(PointPos.x, PointPos.y),
-					ImVec2(c.x, c.y),
-					PointColor
-				);
-				ImGui::GetForegroundDrawList()->AddQuad(
-					ImVec2(a.x, a.y),
-					ImVec2(b.x, b.y),
-					ImVec2(PointPos.x, PointPos.y),
-					ImVec2(c.x, c.y),
-					ImColor(0, 0, 0, 150),
-					0.1
-				);
-			}
-			else
-			{
 				// 圆弧箭头
 				Vec2 TrianglePoint;
 				float Angle = (this->LocalYaw - PointYaw) - 90;
 				Gui.Arc(PointPos.ToImVec2(), this->ArcArrowSize, ImColor(220, 220, 220, 170), 0.05,
-					(Angle - 0.2 * M_PI) * M_PI / 180, (Angle + 0.2 * M_PI) * M_PI / 180);
+					(Angle - 0.2 * M_PI), (Angle + 0.2 * M_PI));
 
 				Gui.Arc(PointPos.ToImVec2(), this->ArcArrowSize, ImColor(220, 220, 220, 200), 1.5,
-					(Angle - 0.125 * M_PI) * M_PI / 180, (Angle + 0.125 * M_PI) * M_PI / 180);
+					(Angle - 0.125 * M_PI), (Angle + 0.125 * M_PI));
 
 				Gui.CircleFilled(PointPos, 0.85 * this->ArcArrowSize, PointColor, 30);
 				Gui.Circle(PointPos, 0.95 * this->ArcArrowSize, ImColor(0, 0, 0, 150), 0.1);
-				TrianglePoint.x = PointPos.x + this->ArcArrowSize * cos(-Angle * M_PI / 180);
-				TrianglePoint.y = PointPos.y - this->ArcArrowSize * sin(-Angle * M_PI / 180);
+				TrianglePoint.x = PointPos.x + this->ArcArrowSize * cos(-Angle);
+				TrianglePoint.y = PointPos.y - this->ArcArrowSize * sin(-Angle);
 				DrawTriangle(TrianglePoint, ImColor(255, 255, 255, 220), 0.7 * this->ArcArrowSize, 0.5 * this->ArcArrowSize, Angle + 90);
 			}
 		}

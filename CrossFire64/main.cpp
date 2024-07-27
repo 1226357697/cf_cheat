@@ -6,8 +6,8 @@
 #include "Logger.h"
 #include "Render.h"
 #include "OS-ImGui/OS-ImGui.h"
+#include "xorstr.hpp"
 
-#define xor_a(x)  x
 
 void load_styles()
 {
@@ -72,17 +72,18 @@ int main()
 	Game crossfire;
 	if (!crossfire.waitStart() || !crossfire.init())
 	{
-		Logger::info("游戏初始化失败");
+		Logger::info(("游戏初始化失败") );
 		return 1;
 	}
 
 	try
 	{
 		Gui.AttachAnotherWindow(crossfire.WindowTitle(), crossfire.WindowClassName(), Render(crossfire));
+		//Gui.NewWindow("WindowName", Vec2(500, 500), Render(crossfire), true);
 	}
 	catch (const OSImGui::OSException& e)
 	{
-		Logger::info("OSImGui Exception: %s", e.what());
+		Logger::info(xorstr_("OSImGui Exception: %s"), e.what());
 	}
 
   return 0;

@@ -3,6 +3,8 @@
 #include <utility>
 #include "OS-ImGui/OS-ImGui.h"
 #include "Radar.h"
+#include "AimBot.h"
+#include "FrameConetxt.h"
 
 class Render 
 {
@@ -14,13 +16,21 @@ public:
 
 private:
   void run();
+  void DrawMenu();
+
   void PlayerESP();
+  bool calcPlayerBox(const APawn& pawn, Rect& rt);
   bool CalcPlayerBoneRect(const std::array<D3DXVECTOR2, BoneCount>& screenBonePos, std::pair<Vec2, Vec2>& Rect);
   void DrawHealthBar(std::ptrdiff_t Sign, float MaxHealth, float CurrentHealth, ImVec2 Pos, ImVec2 Size, bool Horizontal);
-  void RadarSetting(Base_Radar& Radar);
+  void RadarSetting(Radar& Radar);
+  void resetFrameContext();
+  void addRanderRectText(const Rect& rect, int index, const std::string& txt);
+  void drawPayerBone(const APawn& pawn);
 
 private:
   Game& game_;
+  FrameContext frame_ctx_;
+  AimBot aimbot_;
 };
 
 

@@ -34,6 +34,12 @@ namespace crossfire_offset {
   constexpr static std::ptrdiff_t player_x = 0x170;
   constexpr static std::ptrdiff_t player_y = 0x174;
   constexpr static std::ptrdiff_t player_z = 0x178;
+  constexpr static std::ptrdiff_t player_weapon = 0x113F8;
+  constexpr static std::ptrdiff_t player_weapon_id = 0x17A94;
+
+  // Weapon
+  constexpr static std::ptrdiff_t weapon_name = 0xe;
+
 
   // ModelInstance
   constexpr static std::ptrdiff_t bone_matrix = 0x2910;

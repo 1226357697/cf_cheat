@@ -40,6 +40,17 @@ public:
 		WriteProcessMemory(targetProcess_, (PVOID)address, buffer, size, NULL);
 	}
 
+	template<typename T>
+	inline bool forc_write(std::ptrdiff_t address, const T* value)
+	{
+		bool ret = false;
+		DWORD oldProetct = 0;
+		VirtualProtectEx(targetProcess_, (LPVOID)address, sizeof(T), PAGE_EXECUTE_READWRITE, &oldProetct);
+		ret = WriteProcessMemory(targetProcess_, (PVOID)address, value, sizeof(T), NULL) == TRUE;
+		VirtualProtectEx(targetProcess_, (LPVOID)address, sizeof(T), oldProetct, &oldProetct);
+		return ret;
+	}
+
 private:
 	int pid_ = 0;
 	Handle targetProcess_ = NULL;

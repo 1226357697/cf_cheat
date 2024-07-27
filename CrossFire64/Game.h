@@ -49,7 +49,7 @@ struct ViewAngle
 class Game
 {
 public:
-  Game() =default;
+  Game();
   ~Game();
   bool init();
   inline HWND window()const {return gameWindow_;}
@@ -69,6 +69,8 @@ public:
 	bool validPlayer(std::ptrdiff_t player);
 	std::ptrdiff_t getPlayer(int index);
 
+	D3DXVECTOR3 getFOVPos();
+
 	// Player
 	bool playerHasC4(std::ptrdiff_t player);
 	int getPlayerTeam(std::ptrdiff_t player) ;
@@ -76,8 +78,8 @@ public:
 	void getPlayerBones(std::ptrdiff_t player, std::array<D3DXVECTOR3, BoneCount>& bones) ;
 	std::string getPlayerName(std::ptrdiff_t player);
 	bool getPlayerAngle(std::ptrdiff_t player, ViewAngle& agnle);
-	bool setLocalPlayerAngle(std::ptrdiff_t player, const ViewAngle& agnle);
-
+	bool setLocalPlayerAngle(const ViewAngle& agnle);
+	std::string getPlayerWeaponName(std::ptrdiff_t player);
 
   
 private:  

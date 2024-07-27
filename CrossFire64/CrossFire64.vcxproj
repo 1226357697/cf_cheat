@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AimBot.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -148,6 +149,8 @@
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AimBot.h" />
+    <ClInclude Include="FrameConetxt.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Logger.h" />
@@ -156,6 +159,7 @@
     <ClInclude Include="Radar.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="xorstr.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="OS-ImGui\OS-ImGui.vcxproj">

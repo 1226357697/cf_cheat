@@ -3,10 +3,19 @@
 #include "offset.h"
 #include <assert.h>
 #include <cmath>
+#include "xorstr.hpp"
+#include <stdexcept>
 
-static const char* s_GameProcessName = "crossfire.exe";
-static const char* s_GameWindowTitleName = "穿越火线";
-static const char* s_GameWindowClassName = "CrossFire";
+static const char* s_GameProcessName = NULL;
+static const char* s_GameWindowTitleName = NULL;
+static const char* s_GameWindowClassName = NULL;
+
+Game::Game()
+{
+	s_GameProcessName = ("crossfire.exe");
+	s_GameWindowTitleName = ("穿越火线");
+	s_GameWindowClassName = ("CrossFire");
+}
 
 Game::~Game()
 {
@@ -22,8 +31,8 @@ bool Game::init()
 	if(!mm_.init() || !mm_.attach(pid_))
 		return false;
 
-	crossfireModule_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, "crossfire.exe");
-	cshell_x64Module_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, "cshell_x64.dll");
+	crossfireModule_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, xorstr_("crossfire.exe"));
+	cshell_x64Module_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, xorstr_("cshell_x64.dll"));
 	if (crossfireModule_ == 0 || cshell_x64Module_ == 0)
 		return false;
 
@@ -34,6 +43,12 @@ bool Game::init()
 	CAIBotModePlayer = mm_.read<std::ptrdiff_t>(cshell_x64Module_ + crossfire_offset::CAIBotModePlayer);
 	if (CAIBotModePlayer == 0)
 		return false;
+
+	//float a = 600.0f;
+	//mm_.forc_write(cshell_x64Module_ + 0X710, &a);
+
+	//int b = 0;
+	//mm_.forc_write(cshell_x64Module_ + 0x700, &b);
 
   return true;
 }
@@ -58,7 +73,7 @@ const char* Game::WindowClassName()
 std::pair<int, int> Game::getWindowSize()
 {
 	RECT rc;
-	GetWindowRect(gameWindow_,&rc);
+	GetClientRect(gameWindow_,&rc);
 	return std::make_pair(rc.right - rc.left, rc.bottom - rc.top);
 }
 
@@ -126,6 +141,13 @@ std::ptrdiff_t Game::getPlayer(int index)
 	return CLTClientShell + crossfire_offset::player_start + index * crossfire_offset::player_size;
 }
 
+D3DXVECTOR3 Game::getFOVPos()
+{
+	D3DXMATRIX View = mm_.read<D3DXMATRIX>(crossfireModule_ + crossfire_offset::d3d_view_matrix);
+	D3DXMatrixInverse(&View, 0, &View);
+	return D3DXVECTOR3(View._41, View._42, View._43);
+}
+
 bool Game::playerHasC4(std::ptrdiff_t player)
 {
 	return mm_.read<int>(player + crossfire_offset::player_HasC4) == 1;
@@ -176,9 +198,23 @@ bool Game::getPlayerAngle(std::ptrdiff_t player, ViewAngle& agnle)
 	return true;
 }
 
-bool Game::setLocalPlayerAngle(std::ptrdiff_t player, const ViewAngle& agnle)
+bool Game::setLocalPlayerAngle(const ViewAngle& agnle)
 {
 	mm_.write(CAIBotModePlayer + crossfire_offset::local_angle_yaw, &agnle.yaw);
 	mm_.write(CAIBotModePlayer + crossfire_offset::local_angle_pitch, &agnle.pitch);
 	return false;
+}
+
+std::string Game::getPlayerWeaponName(std::ptrdiff_t player)
+{
+	std::string name;
+	std::ptrdiff_t CharacFx = mm_.read<ptrdiff_t>(player + crossfire_offset::player_CharacFx);
+	if (CharacFx == 0)
+		return "";
+
+	char buffer[33] = {'\0'};
+	std::ptrdiff_t Weapon = mm_.read<ptrdiff_t>(CharacFx + crossfire_offset::player_weapon);
+
+	mm_.read(Weapon + crossfire_offset::weapon_name, buffer, sizeof(buffer) -1);
+	return util::CharToUtf8(buffer);
 }

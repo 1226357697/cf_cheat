@@ -57,6 +57,9 @@
     <ClCompile Include="Radar.cpp">
       <Filter>Core\Render</Filter>
     </ClCompile>
+    <ClCompile Include="AimBot.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -82,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="Radar.h">
       <Filter>Core\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="xorstr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AimBot.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameConetxt.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
