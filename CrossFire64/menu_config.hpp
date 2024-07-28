@@ -41,11 +41,24 @@ namespace MenuConfig
 	inline ImColor EyeRayColor = ImColor(255, 0, 0, 255);
 
 	// AIMBOT
-	inline bool AimBot = true;
+	inline bool AimBot = false;
 	inline int AimBotHotKey = VK_RBUTTON;
-	// 0: head 1: neck 3: spine
 	inline AimBotPos  AimPosition = kAIM_BOT_POS_HEAD;
 	inline int  AimPositionIndex = 0;
+	inline bool ShowAimRangle = true;
+	inline float AimRangle = 10;
 
 	inline bool TeamCheck = true;
+
+	// KNIFE
+	inline bool  knife_hack = false; //0
+	inline float knife_data_marks = 300; //0
+	inline float knife_data_tap_distance = 340;// 325
+	inline float knife_data_tap_range = 1; // 0
+	inline float knife_data_attack_distance = 345; // 350
+	inline float knife_data_attack_range = 1; // 0
+	inline float knife_data_attack_speed = 1; //1.3
+	inline float knife_data_secondary_distance = 345; //0
+	inline float knife_data_secondary_range = 1; // 0
+	inline float knife_data_movement_speed = 0;
 }

@@ -1,6 +1,151 @@
+数组大小0x10B0
+矩阵基址0x14057D0E0
+判断模式0x320022C
+玩家数组0x32001C8
+人物基址0x98
+人物数据0x290
+本人位置0x28A
+空格连跳0x34D5F48
+骨骼偏移0x2910
+骨骼节点0x16C8
+生化骨骼0x168
+阵营偏移0x18034
+当前武器0x2E8
+挂接地址0x1401B4440
+判断障碍0x140054940
+红名追踪0x1405436C0
+静默追踪0x40
+自瞄设备0x1405BD600
+线条设备0x1405C3948
+文本指针0x17EF650
+范围基址[1]0x14019DF05
+范围基址[2]0x14019DF2C
+范围基址[3]0x14026FF71
+范围偏移[1]0x174
+范围偏移[2]0x178
+范围偏移[3]0x17C
+雷达基址0x16F0145
+蹲下加速0x5B8
+左右加速0x5BC
+前后加速0x5C0
+全局加速0x5B0
+鼠标偏移X0x86C
+鼠标偏移Y0x868
+排位瞄准0x213B50
+
+判断障碍：
+0x140001000 + 0x53940
+特征码
+33 C0 48 83 C4 20 5B C3 CC CC CC CC CC CC CC CC CC CC 4C 8B C9 
+crossfire.exe.text+5392E - 33 C0                 - xor eax,eax
+crossfire.exe.text+53930 - 48 83 C4 20           - add rsp,20 { 32 }
+crossfire.exe.text+53934 - 5B                    - pop rbx
+crossfire.exe.text+53935 - C3                    - ret 
+crossfire.exe.text+53936 - CC                    - int 3 
+crossfire.exe.text+53937 - CC                    - int 3 
+crossfire.exe.text+53938 - CC                    - int 3 
+crossfire.exe.text+53939 - CC                    - int 3 
+crossfire.exe.text+5393A - CC                    - int 3 
+crossfire.exe.text+5393B - CC                    - int 3 
+crossfire.exe.text+5393C - CC                    - int 3 
+crossfire.exe.text+5393D - CC                    - int 3 
+crossfire.exe.text+5393E - CC                    - int 3 
+crossfire.exe.text+5393F - CC                    - int 3 
+crossfire.exe.text+53940 - 4C 8B C9              - mov r9,rcx
+crossfire.exe.text+53943 - 4C 8B C2              - mov r8,rdx
+crossfire.exe.text+53946 - 48 8B 0D 43845600     - mov rcx,[crossfire.exe+5BCD90] { (140549E00) }
+crossfire.exe.text+5394D - 49 8B D1              - mov rdx,r9
+crossfire.exe.text+53950 - 48 8B 01              - mov rax,[rcx]
+crossfire.exe.text+53953 - 48 FF 60 18           - jmp qword ptr [rax+18] // crossfire.exe.text+1B81A0
+crossfire.exe.text+53957 - CC                    - int 3 
+
+crossfire.exe.text+1B81A0 - 49 8B C0              - mov rax,r8
+crossfire.exe.text+1B81A3 - 4C 8B CA              - mov r9,rdx
+crossfire.exe.text+1B81A6 - 4C 8D 41 20           - lea r8,[rcx+20]
+crossfire.exe.text+1B81AA - 48 8B D0              - mov rdx,rax
+crossfire.exe.text+1B81AD - 49 8B C9              - mov rcx,r9
+crossfire.exe.text+1B81B0 - E9 537D0B00           - jmp crossfire.exe.text+26FF08 // 140270F08
+crossfire.exe.text+1B81B5 - CC                    - int 3 
+
+
+
+CLTClient
+0x7FFD3F5B1000 + 0x16E77D5
+cshell_x64.dll.text+16E78CB - 48 8B 05 3E79B101     - mov rax,[cshell_x64.dll+3200210]
+cshell_x64.dll.text+16E78D2 - FF 90 90010000        - call qword ptr [rax+00000190] // 0x140054940 <<<<<<<<<<<<<<<<<<<<< 
+
+
+cshell_x64.dll.text+16E77D5 - 41 0F28 CF            - movaps xmm1,xmm15
+cshell_x64.dll.text+16E77D9 - F3 0F59 CA            - mulss xmm1,xmm2
+cshell_x64.dll.text+16E77DD - F3 0F58 D8            - addss xmm3,xmm0
+cshell_x64.dll.text+16E77E1 - F3 0F58 E1            - addss xmm4,xmm1
+cshell_x64.dll.text+16E77E5 - 41 0F28 C6            - movaps xmm0,xmm14
+cshell_x64.dll.text+16E77E9 - F3 0F59 C2            - mulss xmm0,xmm2
+cshell_x64.dll.text+16E77ED - F3 0F58 C5            - addss xmm0,xmm5
+cshell_x64.dll.text+16E77F1 - F3 0F11 85 CC000000   - movss [rbp+000000CC],xmm0
+cshell_x64.dll.text+16E77F9 - F3 0F11 A5 D0000000   - movss [rbp+000000D0],xmm4
+cshell_x64.dll.text+16E7801 - F3 0F11 9D D4000000   - movss [rbp+000000D4],xmm3
+cshell_x64.dll.text+16E7809 - 48 8D 05 00CEFFFF     - lea rax,[cshell_x64.dll.text+16E4610] { (-2092412096) }
+cshell_x64.dll.text+16E7810 - 48 89 85 E8000000     - mov [rbp+000000E8],rax
+cshell_x64.dll.text+16E7817 - 48 8D 05 C20472FF     - lea rax,[cshell_x64.dll.text+E07CE0] { (-2092412096) }
+cshell_x64.dll.text+16E781E - 48 89 85 00010000     - mov [rbp+00000100],rax
+cshell_x64.dll.text+16E7825 - 44 89 75 D8           - mov [rbp-28],r14d
+cshell_x64.dll.text+16E7829 - 45 8B EE              - mov r13d,r14d
+cshell_x64.dll.text+16E782C - 44 89 75 AC           - mov [rbp-54],r14d
+cshell_x64.dll.text+16E7830 - 45 8B E6              - mov r12d,r14d
+cshell_x64.dll.text+16E7833 - 44 89 75 A8           - mov [rbp-58],r14d
+cshell_x64.dll.text+16E7837 - 44 88 25 BF4B9D01     - mov [cshell_x64.dll.data+EC3FD],r12b { (0) }
+cshell_x64.dll.text+16E783E - 41 BA 04000000        - mov r10d,00000004 { 4 }
+cshell_x64.dll.text+16E7844 - 44 89 55 DC           - mov [rbp-24],r10d
+cshell_x64.dll.text+16E7848 - 48 8B 05 7979B101     - mov rax,[cshell_x64.dll+32001C8] { (7FFD42A1EDA0) }
+cshell_x64.dll.text+16E784F - 0FB7 88 F80B0200      - movzx ecx,word ptr [rax+00020BF8]
+cshell_x64.dll.text+16E7856 - E8 558EADFE           - call cshell_x64.dll.text+1C06B0
+cshell_x64.dll.text+16E785B - 48 85 C0              - test rax,rax
+cshell_x64.dll.text+16E785E - 74 14                 - je cshell_x64.dll.text+16E7874
+cshell_x64.dll.text+16E7860 - B9 06000000           - mov ecx,00000006 { 6 }
+cshell_x64.dll.text+16E7865 - 83 B8 34040000 31     - cmp dword ptr [rax+00000434],31 { 49 }
+cshell_x64.dll.text+16E786C - 44 0F44 D1            - cmove r10d,ecx
+cshell_x64.dll.text+16E7870 - 44 89 55 DC           - mov [rbp-24],r10d
+cshell_x64.dll.text+16E7874 - 44 88 75 80           - mov [rbp-80],r14b
+cshell_x64.dll.text+16E7878 - C6 45 82 FF           - mov byte ptr [rbp-7E],-01 { 255 }
+cshell_x64.dll.text+16E787C - 41 B7 FF              - mov r15b,-01 { 255 }
+cshell_x64.dll.text+16E787F - 44 88 65 88           - mov [rbp-78],r12b
+cshell_x64.dll.text+16E7883 - 0FB6 C3               - movzx eax,bl
+cshell_x64.dll.text+16E7886 - 48 89 45 00           - mov [rbp+00],rax
+cshell_x64.dll.text+16E788A - 48 BB 2050040000000040 - mov rbx,4000000000045020 { 2.00 }
+cshell_x64.dll.text+16E7894 - F3 44 0F10 15 7F3C3F01  - movss xmm10,[cshell_x64.dll.rdata+5F451C] { (3.00) }
+cshell_x64.dll.text+16E789D - F3 44 0F10 1D 0E3F3F01  - movss xmm11,[cshell_x64.dll.rdata+5F47B4] { (20.00) }
+cshell_x64.dll.text+16E78A6 - F3 44 0F10 25 A53E3F01  - movss xmm12,[cshell_x64.dll.rdata+5F4754] { (12.00) }
+cshell_x64.dll.text+16E78AF - F3 44 0F10 2D 443F3F01  - movss xmm13,[cshell_x64.dll.rdata+5F47FC] { (32.00) }
+cshell_x64.dll.text+16E78B8 - F3 0F10 35 F03D3F01   - movss xmm6,[cshell_x64.dll.rdata+5F46B0] { (5.00) }
+cshell_x64.dll.text+16E78C0 - 48 8D 55 10           - lea rdx,[rbp+10]
+cshell_x64.dll.text+16E78C4 - 48 8D 8D C0000000     - lea rcx,[rbp+000000C0]
+cshell_x64.dll.text+16E78CB - 48 8B 05 3E79B101     - mov rax,[cshell_x64.dll+3200210] { ("05T@") }
+cshell_x64.dll.text+16E78D2 - FF 90 90010000        - call qword ptr [rax+00000190] //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+cshell_x64.dll.text+16E78D8 - 84 C0                 - test al,al
+cshell_x64.dll.text+16E78DA - 0F84 540E0000         - je cshell_x64.dll.text+16E8734
+cshell_x64.dll.text+16E78E0 - 33 C0                 - xor eax,eax
+cshell_x64.dll.text+16E78E2 - 48 89 45 F0           - mov [rbp-10],rax
+cshell_x64.dll.text+16E78E6 - 48 63 4D 40           - movsxd  rcx,dword ptr [rbp+40]
+cshell_x64.dll.text+16E78EA - 85 C9                 - test ecx,ecx
+cshell_x64.dll.text+16E78EC - 78 23                 - js cshell_x64.dll.text+16E7911
+cshell_x64.dll.text+16E78EE - 8B 05 C86BB101        - mov eax,[cshell_x64.dll+31FF4BC] { (25) }
+cshell_x64.dll.text+16E78F4 - FF C8                 - dec eax
+cshell_x64.dll.text+16E78F6 - 3B C8                 - cmp ecx,eax
+cshell_x64.dll.text+16E78F8 - 7F 17                 - jg cshell_x64.dll.text+16E7911
+cshell_x64.dll.text+16E78FA - 83 F9 3F              - cmp ecx,3F { 63 }
+cshell_x64.dll.text+16E78FD - 7F 12                 - jg cshell_x64.dll.text+16E7911
+cshell_x64.dll.text+16E78FF - 48 69 C1 94050000     - imul rax,rcx,00000594 { 1428 }
+cshell_x64.dll.text+16E7906 - 48 03 05 BB6BB101     - add rax,[cshell_x64.dll+31FF4C8] { (52C55FE0) }
+cshell_x64.dll.text+16E790D - 48 89 45 F0           - mov [rbp-10],rax
+cshell_x64.dll.text+16E7911 - 48 8B 0D 2871B101     - mov rcx,[cshell_x64.dll+31FFA40] { (152) }
+cshell_x64.dll.text+16E7918 - 48 8B 01              - mov rax,[rcx]
+
+
+
 武器： REZ
-COP 357
-KNIFE
+COP 357 id:1306
+KNIFE id:5
 
 cshell_x64.dll.text+1CE1E6 - 48 8B 05 8BB12303     - mov rax,[cshell_x64.dll+340A378] { (56D8D880) }
 cshell_x64.dll.text+1CE1ED - 49 0FBF CA            - movsx rcx,r10w

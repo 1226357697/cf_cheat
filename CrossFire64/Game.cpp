@@ -40,9 +40,9 @@ bool Game::init()
 	if (CLTClientShell == 0)
 		return false;
 
-	CAIBotModePlayer = mm_.read<std::ptrdiff_t>(cshell_x64Module_ + crossfire_offset::CAIBotModePlayer);
-	if (CAIBotModePlayer == 0)
-		return false;
+	//CAIBotModePlayer = mm_.read<std::ptrdiff_t>(cshell_x64Module_ + crossfire_offset::CAIBotModePlayer);
+	//if (CAIBotModePlayer == 0)
+	//	return false;
 
 	//float a = 600.0f;
 	//mm_.forc_write(cshell_x64Module_ + 0X710, &a);
@@ -51,6 +51,15 @@ bool Game::init()
 	//mm_.forc_write(cshell_x64Module_ + 0x700, &b);
 
   return true;
+}
+
+bool Game::update()
+{
+	CAIBotModePlayer = mm_.read<std::ptrdiff_t>(cshell_x64Module_ + crossfire_offset::CAIBotModePlayer);
+	if (CAIBotModePlayer == 0)
+		return false;
+
+	return true;
 }
 
 bool Game::waitStart()
@@ -76,6 +85,7 @@ std::pair<int, int> Game::getWindowSize()
 	GetClientRect(gameWindow_,&rc);
 	return std::make_pair(rc.right - rc.left, rc.bottom - rc.top);
 }
+
 
 float Game::GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2)
 {
@@ -217,4 +227,173 @@ std::string Game::getPlayerWeaponName(std::ptrdiff_t player)
 
 	mm_.read(Weapon + crossfire_offset::weapon_name, buffer, sizeof(buffer) -1);
 	return util::CharToUtf8(buffer);
+}
+
+void Game::hookKnifeData(bool hook)
+{
+	// original
+	uint8_t original_code_move_speed1[10] = { 0xF3, 0x0F, 0x10, 0x87, 0x44, 0x14, 0x00, 0x00, 0xF3, 0x0F };
+	uint8_t original_code_move_speed2[10] = { 0xF3, 0x0F, 0x10, 0x87, 0x44, 0x14, 0x00, 0x00, 0x48, 0x8B };
+
+	uint8_t original_code_knife_mark1[10] = { 0xF3, 0x0F, 0x10, 0xB2, 0x30, 0x0C, 0x00, 0x00, 0x0F, 0x57 };
+	uint8_t original_code_knife_mark2[10] = { 0xF3, 0x0F, 0x10, 0xB3, 0x30, 0x0C, 0x00, 0x00, 0xF3, 0x0F };
+	uint8_t original_code_knife_mark3[10] = { 0xF3, 0x0F, 0x10, 0xB3, 0x30, 0x0C, 0x00, 0x00, 0xF3, 0x0F };
+
+	uint8_t original_code_tap_distance1[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x8C, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_tap_distance2[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x8C, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_tap_distance3[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x90, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_tap_distance4[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x90, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+
+	uint8_t original_code_tap_range1[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x9C, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_tap_range2[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x9C, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_tap_range3[10] = { 0xF3, 0x0F, 0x10, 0x83, 0xA0, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_tap_range4[10] = { 0xF3, 0x0F, 0x10, 0x83, 0xA0, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+
+	uint8_t original_code_attack_distance1[10] = { 0xF3, 0x41, 0x0F, 0x10, 0x8E, 0xBC, 0x0F, 0x00, 0x00, 0xFF };
+	uint8_t original_code_attack_distance2[10] = { 0xF3, 0x41, 0x0F, 0x10, 0x8E, 0xBC, 0x0F, 0x00, 0x00, 0x0F };
+	uint8_t original_code_attack_distance3[10] = { 0xF3, 0x41, 0x0F, 0x10, 0x86, 0xBC, 0x0F, 0x00, 0x00, 0x0F };
+	uint8_t original_code_attack_distance4[10] = { 0xF3, 0x41, 0x0F, 0x10, 0x86, 0xBC, 0x0F, 0x00, 0x00, 0x0F };
+
+	uint8_t original_code_attack_range1[10] = { 0xF3, 0x0F, 0x10, 0x83, 0xCC, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_attack_range2[10] = { 0xF3, 0x0F, 0x10, 0x83, 0xCC, 0x0F, 0x00, 0x00, 0x48, 0x8B };
+
+	uint8_t original_code_attack_speed1[10] = { 0xF3, 0x0F, 0x10, 0xB6, 0xDC, 0x0F, 0x00, 0x00, 0xE8, 0xB6 };
+	uint8_t original_code_attack_speed2[10] = { 0xF3, 0x0F, 0x10, 0xB6, 0xDC, 0x0F, 0x00, 0x00, 0xE8, 0xAA };
+
+	uint8_t original_code_secondary_distance1[10] = { 0xF3, 0x41, 0x0F, 0x10, 0x8E, 0x1C, 0x10, 0x00, 0x00, 0x41 };
+	uint8_t original_code_secondary_distance2[10] = { 0xF3, 0x41, 0x0F, 0x10, 0x8E, 0x1C, 0x10, 0x00, 0x00, 0x0F };
+	uint8_t original_code_secondary_distance3[10] = { 0xF3, 0x41, 0x0F, 0x10, 0x86, 0x1C, 0x10, 0x00, 0x00, 0x41 };
+
+	uint8_t original_code_secondary_range1[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x2C, 0x10, 0x00, 0x00, 0x48, 0x8B };
+	uint8_t original_code_secondary_range2[10] = { 0xF3, 0x0F, 0x10, 0x83, 0x2C, 0x10, 0x00, 0x00, 0x48, 0x8B };
+
+	// HOOK 
+	uint8_t hook_code_move_speed1[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x64, 0xF0, 0x27, 0xFF, 0xF3, 0x0F };
+	uint8_t hook_code_move_speed2[10] = { 0xF3, 0x0F, 0x10, 0x05, 0xDA, 0x0B, 0x88, 0xFE, 0x48, 0x8B };
+
+	uint8_t hook_code_knife_mark1[10] = { 0xF3, 0x0F, 0x10, 0x35, 0x86, 0xB8, 0x26, 0xFF, 0x0F, 0x57 };
+	uint8_t hook_code_knife_mark2[10] = { 0xF3, 0x0F, 0x10, 0x35, 0xDC, 0xE5, 0x86, 0xFE, 0xF3, 0x0F };
+	uint8_t hook_code_knife_mark3[10] = { 0xF3, 0x0F, 0x10, 0x35, 0xB0, 0xE5, 0x86, 0xFE, 0xF3, 0x0F };
+
+	uint8_t hook_code_tap_distance1[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x21, 0x8B, 0x25, 0xFF, 0x48, 0x8B };
+	uint8_t hook_code_tap_distance2[10] = { 0xF3, 0x0F, 0x10, 0x05, 0xA4, 0xC2, 0x85, 0xFE, 0x48, 0x8B };
+	uint8_t hook_code_tap_distance3[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x65, 0x8B, 0x25, 0xFF, 0x48, 0x8B };
+	uint8_t hook_code_tap_distance4[10] = { 0xF3, 0x0F, 0x10, 0x05, 0xE8, 0xC2, 0x85, 0xFE, 0x48, 0x8B };
+
+	uint8_t hook_code_tap_range1[10] = { 0xF3, 0x0F, 0x10, 0x05, 0xFB, 0x85, 0x25, 0xFF, 0x48, 0x8B };
+	uint8_t hook_code_tap_range2[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x20, 0xBD, 0x85, 0xFE, 0x48, 0x8B };
+	uint8_t hook_code_tap_range3[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x3F, 0x86, 0x25, 0xFF, 0x48, 0x8B };
+	uint8_t hook_code_tap_range4[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x64, 0xBD, 0x85, 0xFE, 0x48, 0x8B };
+
+	uint8_t hook_code_attack_distance1[10] = { 0xF3, 0x0F, 0x10, 0x0D, 0xD8, 0xA7, 0x26, 0xFF, 0x90, 0xFF };
+	uint8_t hook_code_attack_distance2[10] = { 0xF3, 0x0F, 0x10, 0x0D, 0xC3, 0xA7, 0x26, 0xFF, 0x90, 0x0F };
+	uint8_t hook_code_attack_distance3[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x56, 0xDD, 0x86, 0xFE, 0x90, 0x0F };
+	uint8_t hook_code_attack_distance4[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x4E, 0x70, 0x45, 0xFE, 0x90, 0x0F };
+
+	uint8_t hook_code_attack_range1[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x56, 0xDD, 0x86, 0xFE, 0x90, 0x0F };
+	uint8_t hook_code_attack_range2[10] = { 0xF3, 0x0F, 0x10, 0x35, 0xFF, 0xCC, 0x87, 0xFE, 0xE8, 0xAA };
+	
+	uint8_t hook_code_attack_speed1[10] = { 0xF3, 0x0F, 0x10, 0x35, 0x0B, 0xBD, 0x27, 0xFF, 0xE8, 0xB6 };
+	uint8_t hook_code_attack_speed2[10] = { 0xF3, 0x0F, 0x10, 0x35, 0xFF, 0xCC, 0x87, 0xFE, 0xE8, 0xAA };
+
+	uint8_t hook_code_secondary_distance1[10] = { 0xF3, 0x0F, 0x10, 0x0D, 0x52, 0xA7, 0x26, 0xFF, 0x90, 0x41 };
+	uint8_t hook_code_secondary_distance2[10] = { 0xF3, 0x0F, 0x10, 0x0D, 0x2F, 0xA7, 0x26, 0xFF, 0x90, 0x0F };
+	uint8_t hook_code_secondary_distance3[10] = { 0xF3, 0x0F, 0x10, 0x05, 0xF1, 0xDC, 0x86, 0xFE, 0x90, 0x41 };
+
+	uint8_t hook_code_secondary_range1[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x55, 0x87, 0x25, 0xFF, 0x48, 0x8B };
+	uint8_t hook_code_secondary_range2[10] = { 0xF3, 0x0F, 0x10, 0x05, 0x76, 0xBE, 0x85, 0xFE, 0x48, 0x8B };
+
+	if (hook)
+	{
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_marks1, hook_code_knife_mark1, sizeof(hook_code_knife_mark1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_marks2, hook_code_knife_mark2, sizeof(hook_code_knife_mark2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_marks3, hook_code_knife_mark3, sizeof(hook_code_knife_mark3));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance1, hook_code_tap_distance1, sizeof(hook_code_tap_distance1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance2, hook_code_tap_distance2, sizeof(hook_code_tap_distance2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance3, hook_code_tap_distance3, sizeof(hook_code_tap_distance3));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance4, hook_code_tap_distance4, sizeof(hook_code_tap_distance4));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range1, hook_code_tap_range1, sizeof(hook_code_tap_range1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range2, hook_code_tap_range2, sizeof(hook_code_tap_range2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range3, hook_code_tap_range3, sizeof(hook_code_tap_range3));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range4, hook_code_tap_range4, sizeof(hook_code_tap_range4));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance1, hook_code_attack_distance1, sizeof(hook_code_attack_distance1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance2, hook_code_attack_distance2, sizeof(hook_code_attack_distance2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance3, hook_code_attack_distance3, sizeof(hook_code_attack_distance3));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance4, hook_code_attack_distance4, sizeof(hook_code_attack_distance4));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_range1, hook_code_attack_range1, sizeof(hook_code_attack_range1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_range2, hook_code_attack_range2, sizeof(hook_code_attack_range2));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_speed1, hook_code_attack_speed1, sizeof(hook_code_attack_speed1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_speed2, hook_code_attack_speed2, sizeof(hook_code_attack_speed2));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_distance1, hook_code_secondary_distance1, sizeof(hook_code_secondary_distance1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_distance2, hook_code_secondary_distance2, sizeof(hook_code_secondary_distance2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_distance3, hook_code_secondary_distance3, sizeof(hook_code_secondary_distance3));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_range1, hook_code_secondary_range1, sizeof(hook_code_secondary_range1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_range2, hook_code_secondary_range2, sizeof(hook_code_secondary_range2));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_movement_speed1, hook_code_move_speed1, sizeof(hook_code_move_speed1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_movement_speed2, hook_code_move_speed2, sizeof(hook_code_move_speed2));
+	}
+	else
+	{
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_marks1, original_code_knife_mark1, sizeof(original_code_knife_mark1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_marks2, original_code_knife_mark2, sizeof(original_code_knife_mark2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_marks3, original_code_knife_mark3, sizeof(original_code_knife_mark3));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance1, original_code_tap_distance1, sizeof(original_code_tap_distance1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance2, original_code_tap_distance2, sizeof(original_code_tap_distance2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance3, original_code_tap_distance3, sizeof(original_code_tap_distance3));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_distance4, original_code_tap_distance4, sizeof(original_code_tap_distance4));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range1, original_code_tap_range1, sizeof(original_code_tap_range1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range2, original_code_tap_range2, sizeof(original_code_tap_range2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range3, original_code_tap_range3, sizeof(original_code_tap_range3));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_tap_range4, original_code_tap_range4, sizeof(original_code_tap_range4));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance1, original_code_attack_distance1, sizeof(original_code_attack_distance1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance2, original_code_attack_distance2, sizeof(original_code_attack_distance2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance3, original_code_attack_distance3, sizeof(original_code_attack_distance3));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_distance4, original_code_attack_distance4, sizeof(original_code_attack_distance4));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_range1, original_code_attack_range1, sizeof(original_code_attack_range1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_range2, original_code_attack_range2, sizeof(original_code_attack_range2));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_speed1, original_code_attack_speed1, sizeof(original_code_attack_speed1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_attack_speed2, original_code_attack_speed2, sizeof(original_code_attack_speed2));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_distance1, original_code_secondary_distance1, sizeof(original_code_secondary_distance1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_distance2, original_code_secondary_distance2, sizeof(original_code_secondary_distance2));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_distance3, original_code_secondary_distance3, sizeof(original_code_secondary_distance3));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_range1, original_code_secondary_range1, sizeof(original_code_secondary_range1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_secondary_range2, original_code_secondary_range2, sizeof(original_code_secondary_range2));
+
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_movement_speed1, original_code_move_speed1, sizeof(original_code_move_speed1));
+		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_movement_speed2, original_code_move_speed2, sizeof(original_code_move_speed2));
+	}
+	is_hooked_knife = hook;
+}
+
+bool Game::setKnifeData(const KnifeData& data)
+{
+	if(!is_hooked_knife)
+		return false;
+
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_marks, &data.marks);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_tap_distance, &data.tap_distance);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_tap_range, &data.tap_range);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_attack_distance, &data.attack_distance);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_attack_range, &data.attack_range);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_attack_speed, &data.attack_speed);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_secondary_distance, &data.secondary_distance);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_secondary_range, &data.secondary_range);
+	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_movement_speed, &data.movement_speed);
+
+	return true;
 }

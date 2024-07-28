@@ -51,12 +51,20 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 	if (GetAsyncKeyState(vkey_) & 0x8000)
 	{
 		ViewAngle angle = {0,0};
-
-		D3DXVECTOR3 fovPos = game_.getFOVPos();
-		D3DXVECTOR3 dist = aimPos - fovPos;
-		angle.pitch = (float)atan2(-dist.y, sqrt(dist.x * dist.x + dist.z * dist.z));
-		angle.yaw = (float)atan2(dist.x, dist.z);
-		game_.setLocalPlayerAngle(angle);
-		Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
+		float center_x = frame_ctx.game_window_size.x / 2;
+		float center_y = frame_ctx.game_window_size.y / 2;
+		float r = MenuConfig::AimRangle;
+		float circle_dis_x = center_x - aimPos2d.x;
+		float circle_dis_y = center_y - aimPos2d.y;
+		if (!(circle_dis_x * circle_dis_x + circle_dis_y * circle_dis_y > r * r))
+		{
+			D3DXVECTOR3 fovPos = game_.getFOVPos();
+			D3DXVECTOR3 dist = aimPos - fovPos;
+			angle.pitch = (float)atan2(-dist.y, sqrt(dist.x * dist.x + dist.z * dist.z));
+			angle.yaw = (float)atan2(dist.x, dist.z);
+			game_.setLocalPlayerAngle(angle);
+			Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
+		}
+		
 	}
 }

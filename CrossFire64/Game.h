@@ -39,6 +39,18 @@ constexpr int player_count = 16;
 const D3DXVECTOR3 invalidWorldPos{ -1,-1,-1 };
 const D3DXVECTOR2 invalidScreenPos{ -1,-1};
 
+struct KnifeData
+{
+	 float marks;
+	 float tap_distance;
+	 float tap_range ;
+	 float attack_distance;
+	 float attack_range;
+	 float attack_speed ;
+	 float secondary_distance;
+	 float secondary_range;
+	 float movement_speed;
+};
 
 struct ViewAngle
 {
@@ -59,6 +71,7 @@ public:
 	const char* WindowTitle();
 	const char* WindowClassName();
 	std::pair<int, int> getWindowSize();
+	bool update();
 
 	float GetDistance3D(const D3DXVECTOR3& pos1, const D3DXVECTOR3& pos2);
 	float GetDistance2D(const D3DXVECTOR2& pos1, const D3DXVECTOR2& pos2);
@@ -81,7 +94,10 @@ public:
 	bool setLocalPlayerAngle(const ViewAngle& agnle);
 	std::string getPlayerWeaponName(std::ptrdiff_t player);
 
-  
+	// HOOK Knife
+  void hookKnifeData(bool hook);
+	bool setKnifeData(const KnifeData& data);
+
 private:  
   int pid_ = 0;
   HWND gameWindow_ = NULL;
@@ -91,5 +107,7 @@ private:
 
 	std::ptrdiff_t CLTClientShell = 0;
 	std::ptrdiff_t CAIBotModePlayer = 0;
+
+	bool is_hooked_knife = false;
 };
 

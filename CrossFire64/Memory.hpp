@@ -51,6 +51,16 @@ public:
 		return ret;
 	}
 
+	inline bool forc_write(std::ptrdiff_t address, const void* value, size_t size)
+	{
+		bool ret = false;
+		DWORD oldProetct = 0;
+		VirtualProtectEx(targetProcess_, (LPVOID)address, size, PAGE_EXECUTE_READWRITE, &oldProetct);
+		ret = WriteProcessMemory(targetProcess_, (PVOID)address, value, size, NULL) == TRUE;
+		VirtualProtectEx(targetProcess_, (LPVOID)address, size, oldProetct, &oldProetct);
+		return ret;
+	}
+
 private:
 	int pid_ = 0;
 	Handle targetProcess_ = NULL;

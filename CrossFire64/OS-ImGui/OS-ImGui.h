@@ -37,7 +37,7 @@ namespace OSImGui
 		// Ô²»¡
 		void Arc(ImVec2 Center, float Radius, ImColor Color, float Thickness, float Aangle_begin, float Angle_end, float Nums = 15);
 		// ¹´Ñ¡¿ò
-		void MyCheckBox(const char* str_id, bool* v);
+		bool MyCheckBox(const char* str_id, bool* v);
 		void MyCheckBox2(const char* str_id, bool* v);
 		void MyCheckBox3(const char* str_id, bool* v);
 		void MyCheckBox4(const char* str_id, bool* v);

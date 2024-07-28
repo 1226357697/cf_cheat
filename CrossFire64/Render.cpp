@@ -282,10 +282,10 @@ void Render::drawPayerBone(const APawn& pawn)
 
 void Render::RadarSetting(Radar& Radar)
 {
-	float position_x = 83;
-	float position_y = 86;
-	float radius_x = 64;
-	float radius_y = 64;
+	const float position_x = 83;
+	const float position_y = 86;
+	const float radius_x = 64;
+	const float radius_y = 64;
 
 	Radar.SetPos({ position_x, position_y });
 	Radar.SetProportion(64.4f);
@@ -298,6 +298,12 @@ void Render::RadarSetting(Radar& Radar)
 
 void Render::PlayerESP()
 {
+	if ((s_render_frame % 120) == 0)
+	{
+		if(!game_.update())
+			return ;
+	}
+
 	resetFrameContext();
 
 	Radar Radar;
@@ -427,7 +433,8 @@ void Render::PlayerESP()
 
 	if (MenuConfig::AimBot)
 	{
-		
+		if(MenuConfig::ShowAimRangle)
+			Gui.Circle(Vec2{frame_ctx_.game_window_size.x / 2, frame_ctx_.game_window_size.y / 2 }, MenuConfig::AimRangle,ImColor(255, 255, 255, 255), 1.3f);
 		aimbot_.aimbot(frame_ctx_);
 	}
 
@@ -498,6 +505,43 @@ void Render::DrawMenu()
 
 			}
 
+
+			Gui.MyCheckBox("Show AimBot Range", &MenuConfig::ShowAimRangle);
+			ImGui::SliderFloat("Aim Range",&MenuConfig::AimRangle, 10, 100, "%.2f", ImGuiColorEditFlags_NoInputs);
+		}
+
+		if (ImGui::CollapsingHeader("Knife Hack"))
+		{
+			
+			if (Gui.MyCheckBox("Enable", &MenuConfig::knife_hack))
+			{
+				game_.hookKnifeData(MenuConfig::knife_hack);
+			}
+			
+			ImGui::InputFloat("marks", &MenuConfig::knife_data_marks);
+			ImGui::InputFloat("tap_distance", &MenuConfig::knife_data_tap_distance);
+			ImGui::InputFloat("tap_range", &MenuConfig::knife_data_tap_range);
+			ImGui::InputFloat("attack_distanc", &MenuConfig::knife_data_attack_distance);
+			ImGui::InputFloat("attack_range", &MenuConfig::knife_data_attack_range);
+			ImGui::InputFloat("attack_speed", &MenuConfig::knife_data_attack_speed);
+			ImGui::InputFloat("secondary_distance", &MenuConfig::knife_data_secondary_distance);
+			ImGui::InputFloat("secondary_range", &MenuConfig::knife_data_secondary_range);
+			ImGui::InputFloat("movement_speed", &MenuConfig::knife_data_movement_speed);
+
+			if(ImGui::Button("apply"))
+			{
+				KnifeData data;
+				data.marks = MenuConfig::knife_data_marks;
+				data.tap_distance = MenuConfig::knife_data_tap_distance;
+				data.tap_range = MenuConfig::knife_data_tap_range;
+				data.attack_distance = MenuConfig::knife_data_attack_distance;
+				data.attack_range = MenuConfig::knife_data_attack_range;
+				data.attack_speed = MenuConfig::knife_data_attack_speed;
+				data.secondary_distance = MenuConfig::knife_data_secondary_distance;
+				data.secondary_range = MenuConfig::knife_data_secondary_range;
+				data.movement_speed = MenuConfig::knife_data_movement_speed;
+				game_.setKnifeData(data);
+			}
 		}
 
 		ImGui::Separator();

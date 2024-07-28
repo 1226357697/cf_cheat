@@ -106,8 +106,9 @@ namespace OSImGui
         DrawList->PathStroke(Color, false, Thickness);
     }
 
-    void OSImGui::MyCheckBox(const char* str_id, bool* v)
+    bool OSImGui::MyCheckBox(const char* str_id, bool* v)
     {
+        bool pressed = false;
         ImVec2 p = ImGui::GetCursorScreenPos();
         ImDrawList* DrawList = ImGui::GetWindowDrawList();
         float Height = ImGui::GetFrameHeight();
@@ -115,7 +116,8 @@ namespace OSImGui
         float Radius = Height / 2 - 2;
 
         ImGui::InvisibleButton(str_id, ImVec2(Width, Height));
-        if (ImGui::IsItemClicked())
+        pressed = ImGui::IsItemClicked();
+        if (pressed)
             *v = !(*v);
         // 组件移动动画
         float t = *v ? 1.0f : 0.f;
@@ -139,6 +141,7 @@ namespace OSImGui
 
         ImGui::SameLine();
         ImGui::Text(str_id);
+        return pressed;
     }
 
     void OSImGui::MyCheckBox2(const char* str_id, bool* v)
