@@ -28,7 +28,6 @@ const float HealtMaxWidth = 7.0f;
 const float HealtMinWidth = 4.0f;
 const float textSize = 15.0f;
 
-static uint64_t s_render_frame = 0;
 
 
 inline double DegreesToRadians(double degrees)
@@ -162,10 +161,10 @@ void CalculateEndPoint(const D3DXVECTOR3& startPoint, float yaw, float pitch, fl
 
 void Render::resetFrameContext()
 {
-	if ((s_render_frame % 2) != 0)
+	if ((render_frame_count_ % 2) != 0)
 		return ;
 
-	if ((s_render_frame % 30) == 0)
+	if ((render_frame_count_ % 30) == 0)
 	{
 		auto [w, h] = game_.getWindowSize();
 		frame_ctx_.game_window_size = Vec2(w, h);
@@ -280,6 +279,24 @@ void Render::drawPayerBone(const APawn& pawn)
 	}
 }
 
+void Render::updateFPS()
+{
+	//static double elapsedTime = 0.0;
+	//static std::chrono::high_resolution_clock::time_point lastTime(std::chrono::high_resolution_clock::now());
+
+	//auto currentTime = std::chrono::high_resolution_clock::now();
+	//std::chrono::duration<double> deltaTime = currentTime - lastTime;
+	//lastTime = currentTime;
+	//elapsedTime += deltaTime.count();
+
+	//if (elapsedTime >= 1.0) {
+	//	fps_ = render_frame_count_ / elapsedTime;
+	//	//render_frame_count_ = 0;
+	//	//elapsedTime = 0.0;
+	//}
+	render_frame_count_++;
+}
+
 void Render::RadarSetting(Radar& Radar)
 {
 	const float position_x = 83;
@@ -298,7 +315,7 @@ void Render::RadarSetting(Radar& Radar)
 
 void Render::PlayerESP()
 {
-	if ((s_render_frame % 120) == 0)
+	if ((render_frame_count_ % 120) == 0)
 	{
 		if(!game_.update())
 			return ;
@@ -438,13 +455,13 @@ void Render::PlayerESP()
 		aimbot_.aimbot(frame_ctx_);
 	}
 
-	s_render_frame++;
 }
 
 
 
 void Render::DrawMenu()
 {
+	
 	ImGui::Begin("Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	{
 		// esp menu
@@ -553,8 +570,6 @@ void Render::DrawMenu()
 }
 
 
-
-
 Render::Render(Game& game)
 	:game_(game), aimbot_(game)
 {
@@ -573,4 +588,6 @@ void Render::run()
 		DrawMenu();
 
 	PlayerESP();
+
+	updateFPS();
 }

@@ -27,10 +27,13 @@ private:
   void addRanderRectText(const Rect& rect, int index, const std::string& txt);
   void drawPayerBone(const APawn& pawn);
 
+  void updateFPS();
 private:
   Game& game_;
   FrameContext frame_ctx_;
   AimBot aimbot_;
+  uint64_t render_frame_count_ = 0; 
+  float fps_ = 0;
 };
 
 
