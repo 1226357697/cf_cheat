@@ -40,7 +40,7 @@ namespace MenuConfig
 
 	// AIMBOT
 	inline bool AimBot = false;
-	inline int AimBotHotKey = VK_XBUTTON2;
+	inline int AimBotHotKey = 2;
 	inline AimBotPos  AimPosition = kAIM_BOT_POS_HEAD;
 	inline int  AimPositionIndex = 0;
 	inline bool ShowAimRangle = true;

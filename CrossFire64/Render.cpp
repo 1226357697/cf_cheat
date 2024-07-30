@@ -328,6 +328,7 @@ void Render::PlayerESP()
 	if(!game_.validPlayerIndex(frame_ctx_.localPlayerIndex))
 		return;
 
+
 	const APawn& localPlayer = frame_ctx_.playerArray[frame_ctx_.localPlayerIndex];
 	for (int i = 0; i < frame_ctx_.playerArray.size(); ++i)
 	{

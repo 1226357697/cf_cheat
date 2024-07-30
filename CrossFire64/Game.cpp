@@ -5,6 +5,7 @@
 #include <cmath>
 #include "xorstr.hpp"
 #include <stdexcept>
+#include "Logger.h"
 
 static const char* s_GameProcessName = NULL;
 static const char* s_GameWindowTitleName = NULL;
@@ -28,8 +29,10 @@ bool Game::init()
 	if(pid_ == 0 || gameWindow_ == NULL)
 		return false;
 
-	if(!mm_.init() || !mm_.attach(pid_))
+	if (!mm_.init() || !mm_.attach(pid_))
+	{
 		return false;
+	}
 
 	crossfireModule_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, xorstr_("crossfire.exe"));
 	cshell_x64Module_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, xorstr_("cshell_x64.dll"));
@@ -40,15 +43,6 @@ bool Game::init()
 	if (CLTClientShell == 0)
 		return false;
 
-	//CAIBotModePlayer = mm_.read<std::ptrdiff_t>(cshell_x64Module_ + crossfire_offset::CAIBotModePlayer);
-	//if (CAIBotModePlayer == 0)
-	//	return false;
-
-	//float a = 600.0f;
-	//mm_.forc_write(cshell_x64Module_ + 0X710, &a);
-
-	//int b = 0;
-	//mm_.forc_write(cshell_x64Module_ + 0x700, &b);
 
   return true;
 }

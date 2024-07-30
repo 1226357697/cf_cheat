@@ -10,6 +10,7 @@ public:
   bool valid() const{return handle_ != NULL && handle_ != INVALID_HANDLE_VALUE;};
   inline operator bool() const {return valid(); };
   inline operator HANDLE()const {return handle_;}
+  HANDLE raw(){return handle_;};
 
 private:
   HANDLE handle_ = NULL;

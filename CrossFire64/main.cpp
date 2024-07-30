@@ -75,6 +75,7 @@ int main()
 		Logger::info(("游戏初始化失败") );
 		return 1;
 	}
+	Logger::info(("游戏初始化完毕"));
 
 	try
 	{

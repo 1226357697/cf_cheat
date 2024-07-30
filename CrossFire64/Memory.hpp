@@ -1,6 +1,6 @@
 #pragma once
 #include <cstddef>
-#include "NativeHandle.h"
+#include <Windows.h>
 
 class Memory
 {
@@ -10,7 +10,9 @@ public:
 
 	bool init();
 	void destory();
-	inline bool isInited() const { return hackDll != NULL;};
+	inline bool isInited() const 
+	//{ return true;} 
+	{return hackDll != NULL;}
 
 	bool attach(int pid);
 	void detach();
@@ -19,8 +21,11 @@ public:
 	template<typename RET>
 	inline RET read(std::ptrdiff_t address)
 	{
+		SIZE_T size = 0;
 		RET ret;
-		ReadProcessMemory(targetProcess_, (PVOID)address, &ret, sizeof(ret), NULL);
+		if (!ReadProcessMemory(targetProcess_, (PVOID)address, &ret, sizeof(ret), &size))
+			return {};
+
 		return ret;
 	}
 
@@ -63,7 +68,7 @@ public:
 
 private:
 	int pid_ = 0;
-	Handle targetProcess_ = NULL;
+	HANDLE targetProcess_ = NULL;
 	HMODULE hackDll = NULL;
 };
 
