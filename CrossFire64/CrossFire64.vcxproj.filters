@@ -22,6 +22,9 @@
     <Filter Include="Core\Render">
       <UniqueIdentifier>{52eafd32-0f39-4421-945d-95352349fe16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{875cf077-1031-453c-8d3b-6b0a6dbf0c8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,9 +35,6 @@
     </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="menu_config.hpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Core</Filter>
@@ -59,6 +59,15 @@
     </ClCompile>
     <ClCompile Include="AimBot.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="menu_config.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="menu_config.hpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFile.cpp">
+      <Filter>Config</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="FrameConetxt.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFile.h">
+      <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

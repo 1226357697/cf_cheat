@@ -78,6 +78,7 @@ int main()
 
 	try
 	{
+		MenuConfig::load();
 		Gui.AttachAnotherWindow(crossfire.WindowTitle(), crossfire.WindowClassName(), Render(crossfire));
 		//Gui.NewWindow("WindowName", Vec2(500, 500), Render(crossfire), true);
 	}

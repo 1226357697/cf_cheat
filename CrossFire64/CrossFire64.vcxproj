@@ -141,9 +141,11 @@
     <ClCompile Include="AimBot.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="IniFile.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="menu_config.cpp" />
     <ClCompile Include="menu_config.hpp" />
     <ClCompile Include="NativeHandle.cpp" />
     <ClCompile Include="offset.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="FrameConetxt.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="IniFile.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="NativeHandle.h" />

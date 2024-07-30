@@ -18,8 +18,6 @@ namespace MenuConfig
 		kAIM_BOT_POS_SPINE,
 	};
 
-	inline bool ShowMenu = true;
-
 	// ESP
 	inline bool ShowBoneESP = false;
 	inline bool ShowBoxESP = false;
@@ -51,6 +49,7 @@ namespace MenuConfig
 
 	// Global
 	inline bool TeamCheck = true;
+	inline bool ShowMenu = true;
 
 	// KNIFE
 	inline bool  knife_hack = false; //0
@@ -63,4 +62,7 @@ namespace MenuConfig
 	inline float knife_data_secondary_distance = 345; //0
 	inline float knife_data_secondary_range = 1; // 0
 	inline float knife_data_movement_speed = 0;
+
+	void load();
+	void save();
 }
