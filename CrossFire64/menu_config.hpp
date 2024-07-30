@@ -42,12 +42,14 @@ namespace MenuConfig
 
 	// AIMBOT
 	inline bool AimBot = false;
-	inline int AimBotHotKey = VK_RBUTTON;
+	inline int AimBotHotKey = VK_XBUTTON2;
 	inline AimBotPos  AimPosition = kAIM_BOT_POS_HEAD;
 	inline int  AimPositionIndex = 0;
 	inline bool ShowAimRangle = true;
 	inline float AimRangle = 10;
+	inline float AimSmooth = 0.75;
 
+	// Global
 	inline bool TeamCheck = true;
 
 	// KNIFE

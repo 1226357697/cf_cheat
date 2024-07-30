@@ -1,10 +1,24 @@
 #include "AimBot.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+#define DEG_TO_RAD(deg) ((deg) * (M_PI / 180.0))
+#define RAD_TO_DEG(rad) ((rad) * (180.0 / M_PI))
+
 AimBot::AimBot(Game& game)
   :game_(game)
 {
 	setHotKey(MenuConfig::AimBotHotKey);
 	setBoneIndex(head);
+	setSmooth(MenuConfig::AimSmooth);
+}
+
+void AimBot::setSmooth(float smooth)
+{
+	if (smooth > 0.0f && smooth < 1.0f)
+	{
+		smooth_ = smooth;
+	}
 }
 
 void AimBot::setHotKey(int vkey)
@@ -18,6 +32,18 @@ void AimBot::setBoneIndex(int boneIndex)
 }
 
 
+// 函数用于将角度标准化到 -PI 到 PI 之间
+double normalizeAngle(double angle) {
+	while (angle > M_PI) angle -= 2.0 * M_PI;
+	while (angle < -M_PI) angle += 2.0 * M_PI;
+	return angle;
+}
+
+// 线性插值函数
+double lerpAngle(double current, double target, double t) {
+	double delta = normalizeAngle(target - current);
+	return current + delta * t;
+}
 
 void AimBot::aimbot(const FrameContext& frame_ctx)
 {
@@ -60,8 +86,13 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 		{
 			D3DXVECTOR3 fovPos = game_.getFOVPos();
 			D3DXVECTOR3 dist = aimPos - fovPos;
-			angle.pitch = (float)atan2(-dist.y, sqrt(dist.x * dist.x + dist.z * dist.z));
+			angle.pitch = (float)atan2(-dist.y, sqrt(dist.x * dist.x + dist.z * dist.z)) ;
 			angle.yaw = (float)atan2(dist.x, dist.z);
+
+			angle.pitch = lerpAngle(localPlayer.viewAngle.pitch, angle.pitch, smooth_);
+			angle.yaw = lerpAngle(localPlayer.viewAngle.yaw, angle.yaw, smooth_);
+			//angle.pitch = DEG_TO_RAD(RAD_TO_DEG(angle.pitch) * ( smooth_)) + localPlayer.viewAngle.pitch;
+			//angle.yaw = DEG_TO_RAD( RAD_TO_DEG(angle.yaw) * ( smooth_)) + localPlayer.viewAngle.yaw;
 			game_.setLocalPlayerAngle(angle);
 			Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
 		}

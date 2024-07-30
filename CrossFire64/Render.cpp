@@ -511,6 +511,12 @@ void Render::DrawMenu()
 				aimbot_.setHotKey(s_vkey_map[MenuConfig::AimBotHotKey]);
 			}
 
+			float SmoothMin = 0.1f, SmoothMax = 1.f;
+			if (Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &MenuConfig::AimSmooth, &SmoothMin, &SmoothMax, "%.2f", ImGuiSliderFlags_None))
+			{
+				aimbot_.setSmooth(MenuConfig::AimSmooth);
+			}
+
 			if (ImGui::Combo("AimPos", (int*)&MenuConfig::AimPosition, "Head\0Neck\0Spine\0"))
 			{
 				if(MenuConfig::AimPosition == MenuConfig::kAIM_BOT_POS_HEAD)
@@ -520,46 +526,47 @@ void Render::DrawMenu()
 				else if (MenuConfig::AimPosition == MenuConfig::kAIM_BOT_POS_SPINE)
 					MenuConfig::AimPositionIndex = spine;
 
+				aimbot_.setBoneIndex(MenuConfig::AimPositionIndex);
 			}
 
 
 			Gui.MyCheckBox("Show AimBot Range", &MenuConfig::ShowAimRangle);
-			ImGui::SliderFloat("Aim Range",&MenuConfig::AimRangle, 10, 100, "%.2f", ImGuiColorEditFlags_NoInputs);
+			ImGui::SliderFloat("Aim Range",&MenuConfig::AimRangle, 20, 180, "%.2f", ImGuiColorEditFlags_NoInputs);
 		}
 
-		if (ImGui::CollapsingHeader("Knife Hack"))
-		{
-			
-			if (Gui.MyCheckBox("Enable", &MenuConfig::knife_hack))
-			{
-				game_.hookKnifeData(MenuConfig::knife_hack);
-			}
-			
-			ImGui::InputFloat("marks", &MenuConfig::knife_data_marks);
-			ImGui::InputFloat("tap_distance", &MenuConfig::knife_data_tap_distance);
-			ImGui::InputFloat("tap_range", &MenuConfig::knife_data_tap_range);
-			ImGui::InputFloat("attack_distanc", &MenuConfig::knife_data_attack_distance);
-			ImGui::InputFloat("attack_range", &MenuConfig::knife_data_attack_range);
-			ImGui::InputFloat("attack_speed", &MenuConfig::knife_data_attack_speed);
-			ImGui::InputFloat("secondary_distance", &MenuConfig::knife_data_secondary_distance);
-			ImGui::InputFloat("secondary_range", &MenuConfig::knife_data_secondary_range);
-			ImGui::InputFloat("movement_speed", &MenuConfig::knife_data_movement_speed);
+		//if (ImGui::CollapsingHeader("Knife Hack"))
+		//{
+		//	
+		//	if (Gui.MyCheckBox("Enable", &MenuConfig::knife_hack))
+		//	{
+		//		game_.hookKnifeData(MenuConfig::knife_hack);
+		//	}
+		//	
+		//	ImGui::InputFloat("marks", &MenuConfig::knife_data_marks);
+		//	ImGui::InputFloat("tap_distance", &MenuConfig::knife_data_tap_distance);
+		//	ImGui::InputFloat("tap_range", &MenuConfig::knife_data_tap_range);
+		//	ImGui::InputFloat("attack_distanc", &MenuConfig::knife_data_attack_distance);
+		//	ImGui::InputFloat("attack_range", &MenuConfig::knife_data_attack_range);
+		//	ImGui::InputFloat("attack_speed", &MenuConfig::knife_data_attack_speed);
+		//	ImGui::InputFloat("secondary_distance", &MenuConfig::knife_data_secondary_distance);
+		//	ImGui::InputFloat("secondary_range", &MenuConfig::knife_data_secondary_range);
+		//	ImGui::InputFloat("movement_speed", &MenuConfig::knife_data_movement_speed);
 
-			if(ImGui::Button("apply"))
-			{
-				KnifeData data;
-				data.marks = MenuConfig::knife_data_marks;
-				data.tap_distance = MenuConfig::knife_data_tap_distance;
-				data.tap_range = MenuConfig::knife_data_tap_range;
-				data.attack_distance = MenuConfig::knife_data_attack_distance;
-				data.attack_range = MenuConfig::knife_data_attack_range;
-				data.attack_speed = MenuConfig::knife_data_attack_speed;
-				data.secondary_distance = MenuConfig::knife_data_secondary_distance;
-				data.secondary_range = MenuConfig::knife_data_secondary_range;
-				data.movement_speed = MenuConfig::knife_data_movement_speed;
-				game_.setKnifeData(data);
-			}
-		}
+		//	if(ImGui::Button("apply"))
+		//	{
+		//		KnifeData data;
+		//		data.marks = MenuConfig::knife_data_marks;
+		//		data.tap_distance = MenuConfig::knife_data_tap_distance;
+		//		data.tap_range = MenuConfig::knife_data_tap_range;
+		//		data.attack_distance = MenuConfig::knife_data_attack_distance;
+		//		data.attack_range = MenuConfig::knife_data_attack_range;
+		//		data.attack_speed = MenuConfig::knife_data_attack_speed;
+		//		data.secondary_distance = MenuConfig::knife_data_secondary_distance;
+		//		data.secondary_range = MenuConfig::knife_data_secondary_range;
+		//		data.movement_speed = MenuConfig::knife_data_movement_speed;
+		//		game_.setKnifeData(data);
+		//	}
+		//}
 
 		ImGui::Separator();
 		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
