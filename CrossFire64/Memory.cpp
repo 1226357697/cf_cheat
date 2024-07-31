@@ -58,7 +58,6 @@ bool Memory::attach(int pid)
   detach();
   pid_ = pid;
   bool ret = EnablePrivilege(SE_DEBUG_NAME, TRUE);
-  Logger::info("attach %d", pid_);
   targetProcess_ = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_QUERY_INFORMATION, FALSE, pid_);
 
   //return targetProcess_.valid();

@@ -10,6 +10,7 @@
 #include "menu_config.hpp"
 #include "Logger.h"
 #include "HealthBar.h"
+#include "VMProtectSDK.h"
 
 #define DEG_TO_RAD(deg) ((deg) * (M_PI / 180.0))
 #define RAD_TO_DEG(rad) ((rad) * (180.0 / M_PI))
@@ -315,6 +316,7 @@ void Render::RadarSetting(Radar& Radar)
 
 void Render::PlayerESP()
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	if ((render_frame_count_ % 120) == 0)
 	{
 		if(!game_.update())
@@ -423,7 +425,7 @@ void Render::PlayerESP()
 				if (mark & value_mark)
 				{
 					char buffer[32] = { '\0' };
-					addRanderRectText(rect, text_index++, util::tiny_format_string("HP: %d/%d", player.hp, max_hp));
+					addRanderRectText(rect, text_index++, util::tiny_format_string(xorstr_("HP: %d/%d"), player.hp, max_hp));
 				}
 			}
 
@@ -432,7 +434,7 @@ void Render::PlayerESP()
 				if (localPlayer.Bone[head].inScreen() && player.Bone[head].inScreen())
 				{
 					float distance = game_.GetDistance3D(localPlayer.Bone[head].worldPos, player.Bone[head].worldPos);
-					addRanderRectText(rect, text_index++, std::to_string((int)distance / 10) + "m");
+					addRanderRectText(rect, text_index++, std::to_string((int)distance / 10) + xorstr_("m"));
 				}
 			}
 
@@ -442,7 +444,7 @@ void Render::PlayerESP()
 			if (MenuConfig::ShowC4)
 			{
 				if (player.has_c4)
-					addRanderRectText(rect, text_index++, util::CharToUtf8(">>>Ð¯´øC4<<<"));
+					addRanderRectText(rect, text_index++, util::CharToUtf8(xorstr_(">>>Ð¯´øC4<<<")));
 			}
 		} //! if (box_ret)
 	}//! for (int i = 0; i < frame_ctx_.playerArray.size(); ++i)
@@ -456,6 +458,7 @@ void Render::PlayerESP()
 		aimbot_.aimbot(frame_ctx_);
 	}
 
+	VMProtectEnd();
 }
 
 
@@ -463,42 +466,42 @@ void Render::PlayerESP()
 void Render::DrawMenu()
 {
 	
-	ImGui::Begin("Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Begin(xorstr_("Menu"), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	{
 		// esp menu
-		if (ImGui::CollapsingHeader("ESP"))
+		if (ImGui::CollapsingHeader(xorstr_("ESP")))
 		{
-			Gui.MyCheckBox("BoxESP", &MenuConfig::ShowBoxESP);
+			Gui.MyCheckBox(xorstr_("BoxESP"), &MenuConfig::ShowBoxESP);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##BoxColor", reinterpret_cast<float*>(&MenuConfig::BoxColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##BoxColor"), reinterpret_cast<float*>(&MenuConfig::BoxColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox("BoneESP", &MenuConfig::ShowBoneESP);
+			Gui.MyCheckBox(xorstr_("BoneESP"), &MenuConfig::ShowBoneESP);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##BoneColor", reinterpret_cast<float*>(&MenuConfig::BoneColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##BoneColor"), reinterpret_cast<float*>(&MenuConfig::BoneColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox("LineToEnemy", &MenuConfig::ShowLineToEnemy);
+			Gui.MyCheckBox(xorstr_("LineToEnemy"), &MenuConfig::ShowLineToEnemy);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##LineToEnemyColor", reinterpret_cast<float*>(&MenuConfig::LineToEnemyColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##LineToEnemyColor"), reinterpret_cast<float*>(&MenuConfig::LineToEnemyColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox("ViewAngle", &MenuConfig::ShowEyeRay);
+			Gui.MyCheckBox(xorstr_("ViewAngle"), &MenuConfig::ShowEyeRay);
 			ImGui::SameLine();
-			ImGui::ColorEdit4("##ViewAngle", reinterpret_cast<float*>(&MenuConfig::AngleColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##ViewAngle"), reinterpret_cast<float*>(&MenuConfig::AngleColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox("PlayerName", &MenuConfig::ShowPlayerName);
-			ImGui::Combo("PlayerHP", (int*)&MenuConfig::ShowPlayerHP, "None\0Bar\0Value\0Bar+Value\0");
+			Gui.MyCheckBox(xorstr_("PlayerName"), &MenuConfig::ShowPlayerName);
+			ImGui::Combo(xorstr_("PlayerHP"), (int*)&MenuConfig::ShowPlayerHP, xorstr_("None\0Bar\0Value\0Bar+Value\0"));
 
-			Gui.MyCheckBox("PlayerDistance", &MenuConfig::ShowPlayerDistance);
-			Gui.MyCheckBox("PlayerWeapon", &MenuConfig::ShowWeaponESP);
-			Gui.MyCheckBox("Show C4", &MenuConfig::ShowC4);
+			Gui.MyCheckBox(xorstr_("PlayerDistance"), &MenuConfig::ShowPlayerDistance);
+			Gui.MyCheckBox(xorstr_("PlayerWeapon"), &MenuConfig::ShowWeaponESP);
+			Gui.MyCheckBox(xorstr_("Show C4"), &MenuConfig::ShowC4);
 
-			Gui.MyCheckBox("Show Radar", &MenuConfig::ShowRadar);
+			Gui.MyCheckBox(xorstr_("Show Radar"), &MenuConfig::ShowRadar);
 		}
 
-		if (ImGui::CollapsingHeader("AimBot"))
+		if (ImGui::CollapsingHeader(xorstr_("AimBot")))
 		{
-			Gui.MyCheckBox("AimBot", &MenuConfig::AimBot);
+			Gui.MyCheckBox(xorstr_("AimBot"), &MenuConfig::AimBot);
 
-			if (ImGui::Combo("AimKey", &MenuConfig::AimBotHotKey, "RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL\0"))
+			if (ImGui::Combo(xorstr_("AimKey"), &MenuConfig::AimBotHotKey, xorstr_("RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL\0")))
 			{
 				static int s_vkey_map[6] = {
 						VK_RBUTTON,
@@ -513,12 +516,12 @@ void Render::DrawMenu()
 			}
 
 			float SmoothMin = 0.1f, SmoothMax = 1.f;
-			if (Gui.SliderScalarEx1("Smooth", ImGuiDataType_Float, &MenuConfig::AimSmooth, &SmoothMin, &SmoothMax, "%.2f", ImGuiSliderFlags_None))
+			if (Gui.SliderScalarEx1(xorstr_("Smooth"), ImGuiDataType_Float, &MenuConfig::AimSmooth, &SmoothMin, &SmoothMax, xorstr_("%.2f"), ImGuiSliderFlags_None))
 			{
 				aimbot_.setSmooth(MenuConfig::AimSmooth);
 			}
 
-			if (ImGui::Combo("AimPos", (int*)&MenuConfig::AimPosition, "Head\0Neck\0Spine\0"))
+			if (ImGui::Combo(xorstr_("AimPos"), (int*)&MenuConfig::AimPosition, xorstr_("Head\0Neck\0Spine\0")))
 			{
 				if(MenuConfig::AimPosition == MenuConfig::kAIM_BOT_POS_HEAD)
 					MenuConfig::AimPositionIndex = head;
@@ -531,31 +534,31 @@ void Render::DrawMenu()
 			}
 
 
-			Gui.MyCheckBox("Show AimBot Range", &MenuConfig::ShowAimRangle);
-			ImGui::SliderFloat("Aim Range", &MenuConfig::AimRangle, 20, 180, "%.2f", ImGuiColorEditFlags_NoInputs);
+			Gui.MyCheckBox(xorstr_("Show AimBot Range"), &MenuConfig::ShowAimRangle);
+			ImGui::SliderFloat(xorstr_("Aim Range"), &MenuConfig::AimRangle, 20, 180, xorstr_("%.2f"), ImGuiColorEditFlags_NoInputs);
 		}
 
 #if 0
 
-		if (ImGui::CollapsingHeader("Knife Hack"))
+		if (ImGui::CollapsingHeader(xorstr_("Knife Hack")))
 		{
 			
-			if (Gui.MyCheckBox("Enable", &MenuConfig::knife_hack))
+			if (Gui.MyCheckBox(xorstr_("Enable"), &MenuConfig::knife_hack))
 			{
 				game_.hookKnifeData(MenuConfig::knife_hack);
 			}
 			
-			ImGui::InputFloat("marks", &MenuConfig::knife_data_marks);
-			ImGui::InputFloat("tap_distance", &MenuConfig::knife_data_tap_distance);
-			ImGui::InputFloat("tap_range", &MenuConfig::knife_data_tap_range);
-			ImGui::InputFloat("attack_distanc", &MenuConfig::knife_data_attack_distance);
-			ImGui::InputFloat("attack_range", &MenuConfig::knife_data_attack_range);
-			ImGui::InputFloat("attack_speed", &MenuConfig::knife_data_attack_speed);
-			ImGui::InputFloat("secondary_distance", &MenuConfig::knife_data_secondary_distance);
-			ImGui::InputFloat("secondary_range", &MenuConfig::knife_data_secondary_range);
-			ImGui::InputFloat("movement_speed", &MenuConfig::knife_data_movement_speed);
+			ImGui::InputFloat(xorstr_("marks"), &MenuConfig::knife_data_marks);
+			ImGui::InputFloat(xorstr_("tap_distance"), &MenuConfig::knife_data_tap_distance);
+			ImGui::InputFloat(xorstr_("tap_range"), &MenuConfig::knife_data_tap_range);
+			ImGui::InputFloat(xorstr_("attack_distanc"), &MenuConfig::knife_data_attack_distance);
+			ImGui::InputFloat(xorstr_("attack_range"), &MenuConfig::knife_data_attack_range);
+			ImGui::InputFloat(xorstr_("attack_speed"), &MenuConfig::knife_data_attack_speed);
+			ImGui::InputFloat(xorstr_("secondary_distance"), &MenuConfig::knife_data_secondary_distance);
+			ImGui::InputFloat(xorstr_("secondary_range"), &MenuConfig::knife_data_secondary_range);
+			ImGui::InputFloat(xorstr_("movement_speed"), &MenuConfig::knife_data_movement_speed);
 
-			if(ImGui::Button("apply"))
+			if(ImGui::Button(xorstr_("apply")))
 			{
 				KnifeData data;
 				data.marks = MenuConfig::knife_data_marks;
@@ -573,11 +576,11 @@ void Render::DrawMenu()
 #endif
 
 		ImGui::Separator();
-		Gui.MyCheckBox("TeamCheck", &MenuConfig::TeamCheck);
+		Gui.MyCheckBox(xorstr_("TeamCheck"), &MenuConfig::TeamCheck);
 
-		ImGui::Text("[HOME] HideMenu");
+		ImGui::Text(xorstr_("[HOME] HideMenu"));
 
-		if (ImGui::Button("save config"))
+		if (ImGui::Button(xorstr_("save config")))
 			MenuConfig::save();
 	}
 	ImGui::End();

@@ -3,25 +3,26 @@
 #include <shlobj.h>
 #include <filesystem>
 #include <fstream>
+#include "xorstr.hpp"
 
 namespace fs = std::filesystem;
 
 static fs::path get_config_path()
 {
 	fs::path path;
-	const char* config_name = "crossfire.ini";
+	const char* config_name = xorstr_("crossfire.ini");
 	char path_buffer[MAX_PATH];
 	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, path_buffer)))
 	{
 		path = path_buffer;
-		path = path/"cf_hack";
+		path = path/ xorstr_("cf_hack");
 		if (!fs::exists(path)) 
 			fs::create_directories(path);
 		path = path / config_name;
 	}
 	else
 	{
-		strcpy(path_buffer, "./");
+		strcpy(path_buffer, xorstr_("./"));
 		strcat(path_buffer, config_name);
 	}
 
@@ -31,42 +32,42 @@ static fs::path get_config_path()
 
 static void loadESPConfig(IniFile& ini)
 {
-	MenuConfig::ShowAimRangle = ini.readBool("ESP", "ShowBoneESP", MenuConfig::ShowAimRangle);
-	MenuConfig::ShowBoxESP = ini.readBool("ESP", "ShowBoxESP", MenuConfig::ShowBoxESP);
-	MenuConfig::ShowHealthBar = ini.readBool("ESP", "ShowHealthBar", MenuConfig::ShowHealthBar);
-	MenuConfig::ShowEyeRay = ini.readBool("ESP", "ShowEyeRay", MenuConfig::ShowEyeRay);
-	MenuConfig::ShowPlayerName = ini.readBool("ESP", "ShowPlayerName", MenuConfig::ShowPlayerName);
-	MenuConfig::ShowPlayerHP = (MenuConfig::ShowHPWay)ini.readInt("ESP", "ShowPlayerHP", MenuConfig::ShowPlayerHP);
-	MenuConfig::ShowPlayerDistance = ini.readBool("ESP", "ShowPlayerDistance", MenuConfig::ShowPlayerDistance);
-	MenuConfig::ShowC4 = ini.readBool("ESP", "ShowC4", MenuConfig::ShowC4);
-	MenuConfig::ShowRadar = ini.readBool("ESP", "ShowRadar", MenuConfig::ShowRadar);
-	MenuConfig::ShowLineToEnemy = ini.readBool("ESP", "ShowLineToEnemy", MenuConfig::ShowLineToEnemy);
-	MenuConfig::RadarType =  ini.readInt("ESP", "RadarType", MenuConfig::RadarType);
-	MenuConfig::ShowWeaponESP = ini.readBool("ESP", "ShowWeaponESP", MenuConfig::ShowWeaponESP);
+	MenuConfig::ShowAimRangle = ini.readBool(xorstr_("ESP"), xorstr_("ShowBoneESP"), MenuConfig::ShowAimRangle);
+	MenuConfig::ShowBoxESP = ini.readBool(xorstr_("ESP"), xorstr_("ShowBoxESP"), MenuConfig::ShowBoxESP);
+	MenuConfig::ShowHealthBar = ini.readBool(xorstr_("ESP"), xorstr_("ShowHealthBar"), MenuConfig::ShowHealthBar);
+	MenuConfig::ShowEyeRay = ini.readBool(xorstr_("ESP"), xorstr_("ShowEyeRay"), MenuConfig::ShowEyeRay);
+	MenuConfig::ShowPlayerName = ini.readBool(xorstr_("ESP"), xorstr_("ShowPlayerName"), MenuConfig::ShowPlayerName);
+	MenuConfig::ShowPlayerHP = (MenuConfig::ShowHPWay)ini.readInt(xorstr_("ESP"), xorstr_("ShowPlayerHP"), MenuConfig::ShowPlayerHP);
+	MenuConfig::ShowPlayerDistance = ini.readBool(xorstr_("ESP"), xorstr_("ShowPlayerDistance"), MenuConfig::ShowPlayerDistance);
+	MenuConfig::ShowC4 = ini.readBool(xorstr_("ESP"), xorstr_("ShowC4"), MenuConfig::ShowC4);
+	MenuConfig::ShowRadar = ini.readBool(xorstr_("ESP"), xorstr_("ShowRadar"), MenuConfig::ShowRadar);
+	MenuConfig::ShowLineToEnemy = ini.readBool(xorstr_("ESP"), xorstr_("ShowLineToEnemy"), MenuConfig::ShowLineToEnemy);
+	MenuConfig::RadarType =  ini.readInt(xorstr_("ESP"), xorstr_("RadarType"), MenuConfig::RadarType);
+	MenuConfig::ShowWeaponESP = ini.readBool(xorstr_("ESP"), xorstr_("ShowWeaponESP"), MenuConfig::ShowWeaponESP);
 
-	MenuConfig::BoneColor = ini.readInt("ESP", "BoneColor", MenuConfig::BoneColor);
-	MenuConfig::BoxColor = ini.readInt("ESP", "BoxColor", MenuConfig::BoxColor);
-	MenuConfig::AngleColor = ini.readInt("ESP", "AngleColor", MenuConfig::AngleColor);
-	MenuConfig::LineToEnemyColor = ini.readInt("ESP", "LineToEnemyColor", MenuConfig::LineToEnemyColor);
-	MenuConfig::EyeRayColor = ini.readInt("ESP", "EyeRayColor", MenuConfig::EyeRayColor);
+	MenuConfig::BoneColor = ini.readInt(xorstr_("ESP"), xorstr_("BoneColor"), MenuConfig::BoneColor);
+	MenuConfig::BoxColor = ini.readInt(xorstr_("ESP"), xorstr_("BoxColor"), MenuConfig::BoxColor);
+	MenuConfig::AngleColor = ini.readInt(xorstr_("ESP"), xorstr_("AngleColor"), MenuConfig::AngleColor);
+	MenuConfig::LineToEnemyColor = ini.readInt(xorstr_("ESP"), xorstr_("LineToEnemyColor"), MenuConfig::LineToEnemyColor);
+	MenuConfig::EyeRayColor = ini.readInt(xorstr_("ESP"), xorstr_("EyeRayColor"), MenuConfig::EyeRayColor);
 
 }
 
 static void loadAimBotConfig(IniFile& ini)
 {
-	MenuConfig::AimBot = ini.readBool("AimBot", "AimBot", MenuConfig::AimBot);
-	MenuConfig::AimBotHotKey = ini.readInt("AimBot", "AimBotHotKey", MenuConfig::AimBotHotKey);
-	MenuConfig::AimPosition = (MenuConfig::AimBotPos)ini.readInt("AimBot", "AimPosition", MenuConfig::AimPosition);
-	MenuConfig::AimPositionIndex = ini.readInt("AimBot", "AimPositionIndex", MenuConfig::AimPositionIndex);
-	MenuConfig::ShowAimRangle = ini.readBool("AimBot", "ShowAimRangle", MenuConfig::ShowAimRangle);
-	MenuConfig::AimRangle = ini.readFloat("AimBot", "AimRangle", MenuConfig::AimRangle);
-	MenuConfig::AimSmooth = ini.readFloat("AimBot", "AimSmooth", MenuConfig::AimSmooth);
+	MenuConfig::AimBot = ini.readBool(xorstr_("AimBot"), xorstr_("AimBot"), MenuConfig::AimBot);
+	MenuConfig::AimBotHotKey = ini.readInt(xorstr_("AimBot"), xorstr_("AimBotHotKey"), MenuConfig::AimBotHotKey);
+	MenuConfig::AimPosition = (MenuConfig::AimBotPos)ini.readInt(xorstr_("AimBot"), xorstr_("AimPosition"), MenuConfig::AimPosition);
+	MenuConfig::AimPositionIndex = ini.readInt(xorstr_("AimBot"), xorstr_("AimPositionIndex"), MenuConfig::AimPositionIndex);
+	MenuConfig::ShowAimRangle = ini.readBool(xorstr_("AimBot"), xorstr_("ShowAimRangle"), MenuConfig::ShowAimRangle);
+	MenuConfig::AimRangle = ini.readFloat(xorstr_("AimBot"), xorstr_("AimRangle"), MenuConfig::AimRangle);
+	MenuConfig::AimSmooth = ini.readFloat(xorstr_("AimBot"), xorstr_("AimSmooth"), MenuConfig::AimSmooth);
 }
 
 static void loadGlobalConfig(IniFile& ini)
 {
-	MenuConfig::TeamCheck = ini.readBool("Global", "TeamCheck", MenuConfig::TeamCheck);
-	MenuConfig::ShowMenu = ini.readBool("Global", "ShowMenu", MenuConfig::ShowMenu);
+	MenuConfig::TeamCheck = ini.readBool(xorstr_("Global"), xorstr_("TeamCheck"), MenuConfig::TeamCheck);
+	MenuConfig::ShowMenu = ini.readBool(xorstr_("Global"), xorstr_("ShowMenu"), MenuConfig::ShowMenu);
 }
 
 void MenuConfig::load()
@@ -88,41 +89,41 @@ void MenuConfig::load()
 
 static void saveESPConfig(IniFile& ini)
 {
-	 ini.writeBool("ESP", "ShowBoneESP", MenuConfig::ShowAimRangle);
-	 ini.writeBool("ESP", "ShowBoxESP", MenuConfig::ShowBoxESP);
-	 ini.writeBool("ESP", "ShowHealthBar", MenuConfig::ShowHealthBar);
-	 ini.writeBool("ESP", "ShowEyeRay", MenuConfig::ShowEyeRay);
-	 ini.writeBool("ESP", "ShowPlayerName", MenuConfig::ShowPlayerName);
-	 ini.writeInt("ESP", "ShowPlayerHP", (int)MenuConfig::ShowPlayerHP);
-	 ini.writeBool("ESP", "ShowPlayerDistance", MenuConfig::ShowPlayerDistance);
-	 ini.writeBool("ESP", "ShowC4", MenuConfig::ShowC4);
-	 ini.writeBool("ESP", "ShowRadar", MenuConfig::ShowRadar);
-	 ini.writeBool("ESP", "ShowLineToEnemy", MenuConfig::ShowLineToEnemy);
-	 ini.writeInt("ESP", "RadarType", MenuConfig::RadarType);
-	 ini.writeBool("ESP", "ShowWeaponESP", MenuConfig::ShowWeaponESP);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowBoneESP"), MenuConfig::ShowAimRangle);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowBoxESP"), MenuConfig::ShowBoxESP);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowHealthBar"), MenuConfig::ShowHealthBar);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowEyeRay"), MenuConfig::ShowEyeRay);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowPlayerName"), MenuConfig::ShowPlayerName);
+	 ini.writeInt(xorstr_("ESP"), xorstr_("ShowPlayerHP"), (int)MenuConfig::ShowPlayerHP);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowPlayerDistance"), MenuConfig::ShowPlayerDistance);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowC4"), MenuConfig::ShowC4);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowRadar"), MenuConfig::ShowRadar);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowLineToEnemy"), MenuConfig::ShowLineToEnemy);
+	 ini.writeInt(xorstr_("ESP"), xorstr_("RadarType"), MenuConfig::RadarType);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowWeaponESP"), MenuConfig::ShowWeaponESP);
 
-	 ini.writeInt("ESP", "BoneColor", MenuConfig::BoneColor);
-	 ini.writeInt("ESP", "BoxColor", MenuConfig::BoxColor);
-	 ini.writeInt("ESP", "AngleColor", MenuConfig::AngleColor);
-	 ini.writeInt("ESP", "LineToEnemyColor", MenuConfig::LineToEnemyColor);
-	 ini.writeInt("ESP", "EyeRayColor", MenuConfig::EyeRayColor);
+	 ini.writeInt(xorstr_("ESP"), xorstr_("BoneColor"), MenuConfig::BoneColor);
+	 ini.writeInt(xorstr_("ESP"), xorstr_("BoxColor"), MenuConfig::BoxColor);
+	 ini.writeInt(xorstr_("ESP"), xorstr_("AngleColor"), MenuConfig::AngleColor);
+	 ini.writeInt(xorstr_("ESP"), xorstr_("LineToEnemyColor"), MenuConfig::LineToEnemyColor);
+	 ini.writeInt(xorstr_("ESP"), xorstr_("EyeRayColor"), MenuConfig::EyeRayColor);
 }
 
 static void saveAimBotConfig(IniFile& ini)
 {
-	 ini.writeBool("AimBot", "AimBot", MenuConfig::AimBot);
-	 ini.writeInt("AimBot", "AimBotHotKey", MenuConfig::AimBotHotKey);
-	 (MenuConfig::AimBotPos)ini.writeInt("AimBot", "AimPosition", MenuConfig::AimPosition);
-	 ini.writeInt("AimBot", "AimPositionIndex", MenuConfig::AimPositionIndex);
-	 ini.writeBool("AimBot", "ShowAimRangle", MenuConfig::ShowAimRangle);
-	 ini.writeFloat("AimBot", "AimRangle", MenuConfig::AimRangle);
-	 ini.writeFloat("AimBot", "AimSmooth", MenuConfig::AimSmooth);
+	 ini.writeBool(xorstr_("AimBot"), xorstr_("AimBot"), MenuConfig::AimBot);
+	 ini.writeInt(xorstr_("AimBot"), xorstr_("AimBotHotKey"), MenuConfig::AimBotHotKey);
+	 (MenuConfig::AimBotPos)ini.writeInt(xorstr_("AimBot"), xorstr_("AimPosition"), MenuConfig::AimPosition);
+	 ini.writeInt(xorstr_("AimBot"), xorstr_("AimPositionIndex"), MenuConfig::AimPositionIndex);
+	 ini.writeBool(xorstr_("AimBot"), xorstr_("ShowAimRangle"), MenuConfig::ShowAimRangle);
+	 ini.writeFloat(xorstr_("AimBot"), xorstr_("AimRangle"), MenuConfig::AimRangle);
+	 ini.writeFloat(xorstr_("AimBot"), xorstr_("AimSmooth"), MenuConfig::AimSmooth);
 }
 
 static void saveGlobalConfig(IniFile& ini)
 {
-	ini.writeBool("Global", "TeamCheck", MenuConfig::TeamCheck);
-	ini.writeBool("Global", "ShowMenu", MenuConfig::ShowMenu);
+	ini.writeBool(xorstr_("Global"), xorstr_("TeamCheck"), MenuConfig::TeamCheck);
+	ini.writeBool(xorstr_("Global"), xorstr_("ShowMenu"), MenuConfig::ShowMenu);
 }
 
 static bool create_file(const fs::path& path)

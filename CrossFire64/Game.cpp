@@ -6,16 +6,19 @@
 #include "xorstr.hpp"
 #include <stdexcept>
 #include "Logger.h"
+#include "VMProtectSDK.h"
 
-static const char* s_GameProcessName = NULL;
-static const char* s_GameWindowTitleName = NULL;
-static const char* s_GameWindowClassName = NULL;
+static char* s_GameProcessName = NULL;
+static char* s_GameWindowTitleName = NULL;
+static char* s_GameWindowClassName = NULL;
 
 Game::Game()
 {
-	s_GameProcessName = ("crossfire.exe");
-	s_GameWindowTitleName = ("穿越火线");
-	s_GameWindowClassName = ("CrossFire");
+	VMProtectBeginMutation(__FUNCSIG__);
+	s_GameProcessName = xorstr_("crossfire.exe");
+	s_GameWindowTitleName = xorstr_("穿越火线");
+	s_GameWindowClassName = xorstr_("CrossFire"); 
+	VMProtectEnd();
 }
 
 Game::~Game()
@@ -24,6 +27,7 @@ Game::~Game()
 
 bool Game::init()
 {
+	VMProtectBeginUltra(__FUNCSIG__);
   pid_ = util::get_process_id(s_GameProcessName);
   gameWindow_ = FindWindowA(s_GameWindowClassName, s_GameWindowTitleName);
 	if(pid_ == 0 || gameWindow_ == NULL)
@@ -43,7 +47,7 @@ bool Game::init()
 	if (CLTClientShell == 0)
 		return false;
 
-
+	VMProtectEnd();
   return true;
 }
 
@@ -58,8 +62,10 @@ bool Game::update()
 
 bool Game::waitStart()
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	while(FindWindowA(s_GameWindowClassName, s_GameWindowTitleName) == NULL)
 		Sleep(300);
+	VMProtectEnd();
 	return true;
 }
 
@@ -93,6 +99,7 @@ float Game::GetDistance2D(const D3DXVECTOR2& pos1, const D3DXVECTOR2& pos2)
 
 bool Game::WorldToScreen(const D3DXVECTOR3& worldPos, D3DXVECTOR2& screenPos)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	D3DXMATRIX View = mm_.read<D3DXMATRIX>(crossfireModule_ + crossfire_offset::d3d_view_matrix);
 	D3DXMATRIX Projection = mm_.read<D3DXMATRIX>(crossfireModule_ + crossfire_offset::d3d_Projection_matrix);
 	D3DVIEWPORT9 viewport = mm_.read<D3DVIEWPORT9>(crossfireModule_ + crossfire_offset::d3d_viewport);
@@ -112,7 +119,7 @@ bool Game::WorldToScreen(const D3DXVECTOR3& worldPos, D3DXVECTOR2& screenPos)
 		screenPos.y = vScreen.y;
 		return true;
 	}
-	return false;
+	VMProtectEnd();
 	return false;
 }
 
@@ -128,6 +135,7 @@ int Game::getLocalPlayerIndex()
 
 bool Game::validPlayer(std::ptrdiff_t player)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	std::ptrdiff_t CharacFx = mm_.read<ptrdiff_t>(player + crossfire_offset::player_CharacFx);
 	if (CharacFx == 0)
 		return false;
@@ -136,6 +144,7 @@ bool Game::validPlayer(std::ptrdiff_t player)
 	if (model_instance == 0)
 		return false;
 
+	VMProtectEnd();
 	return true;
 }
 
@@ -147,8 +156,10 @@ std::ptrdiff_t Game::getPlayer(int index)
 
 D3DXVECTOR3 Game::getFOVPos()
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	D3DXMATRIX View = mm_.read<D3DXMATRIX>(crossfireModule_ + crossfire_offset::d3d_view_matrix);
 	D3DXMatrixInverse(&View, 0, &View);
+	VMProtectEnd();
 	return D3DXVECTOR3(View._41, View._42, View._43);
 }
 
@@ -169,6 +180,7 @@ int Game::getPlayerHP(std::ptrdiff_t player)
 
 void Game::getPlayerBones(std::ptrdiff_t player, std::array<D3DXVECTOR3, BoneCount>& bones)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	std::ptrdiff_t model_instance = mm_.read<ptrdiff_t>(player + crossfire_offset::model_instance);
 	if (model_instance == 0)
 		return;
@@ -180,37 +192,45 @@ void Game::getPlayerBones(std::ptrdiff_t player, std::array<D3DXVECTOR3, BoneCou
 		D3DXVECTOR3 bonePos{ matrix._14, matrix._24, matrix._34 };
 		bones[i] = bonePos;
 	}
+	VMProtectEnd();
 }
 
 std::string Game::getPlayerName(std::ptrdiff_t player)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	std::string name;
 	name.resize(14);
 
 	mm_.read(player + crossfire_offset::player_name, name.data(), name.size());
+	VMProtectEnd();
 	return util::CharToUtf8(name);
 }
 
 bool Game::getPlayerAngle(std::ptrdiff_t player, ViewAngle& agnle)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	std::ptrdiff_t CharacFx = mm_.read<ptrdiff_t>(player + crossfire_offset::player_CharacFx);
 	if (CharacFx == 0)
 		return false;
 
 	agnle.yaw = mm_.read<float>(CharacFx + crossfire_offset::player_yaw);
 	agnle.pitch = mm_.read<float>(CharacFx + crossfire_offset::player_pitch);
+	VMProtectEnd();
 	return true;
 }
 
 bool Game::setLocalPlayerAngle(const ViewAngle& agnle)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	mm_.write(CAIBotModePlayer + crossfire_offset::local_angle_yaw, &agnle.yaw);
 	mm_.write(CAIBotModePlayer + crossfire_offset::local_angle_pitch, &agnle.pitch);
+	VMProtectEnd();
 	return false;
 }
 
 std::string Game::getPlayerWeaponName(std::ptrdiff_t player)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	std::string name;
 	std::ptrdiff_t CharacFx = mm_.read<ptrdiff_t>(player + crossfire_offset::player_CharacFx);
 	if (CharacFx == 0)
@@ -220,11 +240,13 @@ std::string Game::getPlayerWeaponName(std::ptrdiff_t player)
 	std::ptrdiff_t Weapon = mm_.read<ptrdiff_t>(CharacFx + crossfire_offset::player_weapon);
 
 	mm_.read(Weapon + crossfire_offset::weapon_name, buffer, sizeof(buffer) -1);
+	VMProtectEnd();
 	return util::CharToUtf8(buffer);
 }
 
 void Game::hookKnifeData(bool hook)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	// original
 	uint8_t original_code_move_speed1[10] = {0xF3, 0x0F, 0x10, 0x87, 0x44, 0x14, 0x00, 0x00, 0xF3, 0x0F};
 	uint8_t original_code_move_speed2[10] = {0xF3, 0x0F, 0x10, 0x87, 0x44, 0x14, 0x00, 0x00, 0x48, 0x8B};
@@ -372,10 +394,12 @@ void Game::hookKnifeData(bool hook)
 		mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_movement_speed2, original_code_move_speed2, sizeof(original_code_move_speed2));
 	}
 	is_hooked_knife = hook;
+	VMProtectEnd();
 }
 
 bool Game::setKnifeData(const KnifeData& data)
 {
+	VMProtectBeginMutation(__FUNCSIG__);
 	if(!is_hooked_knife)
 		return false;
 
@@ -389,5 +413,6 @@ bool Game::setKnifeData(const KnifeData& data)
 	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_secondary_range, &data.secondary_range);
 	mm_.forc_write(cshell_x64Module_ + crossfire_offset::knife_data_movement_speed, &data.movement_speed);
 
+	VMProtectEnd();
 	return true;
 }

@@ -7,6 +7,7 @@
 #include "Render.h"
 #include "OS-ImGui/OS-ImGui.h"
 #include "xorstr.hpp"
+#include "VMProtectSDK.h"
 
 
 void load_styles()
@@ -69,13 +70,14 @@ void load_styles()
 
 int main() 
 {
+	VMProtectBeginUltra(__FUNCSIG__);
 	Game crossfire;
 	if (!crossfire.waitStart() || !crossfire.init())
 	{
-		Logger::info(("游戏初始化失败") );
+		Logger::info(xorstr_("游戏初始化失败") );
 		return 1;
 	}
-	Logger::info(("游戏初始化完毕"));
+	Logger::info(xorstr_("游戏初始化完毕"));
 
 	try
 	{
@@ -87,6 +89,6 @@ int main()
 	{
 		Logger::info(xorstr_("OSImGui Exception: %s"), e.what());
 	}
-
+	VMProtectEnd();
   return 0;
 }
