@@ -8,17 +8,15 @@
 #include "Logger.h"
 #include "VMProtectSDK.h"
 
-static char* s_GameProcessName = NULL;
-static char* s_GameWindowTitleName = NULL;
-static char* s_GameWindowClassName = NULL;
+static const char* s_GameProcessName = NULL;
+static const char* s_GameWindowTitleName = NULL;
+static const char* s_GameWindowClassName = NULL;
 
 Game::Game()
 {
-	VMProtectBeginMutation(__FUNCSIG__);
-	s_GameProcessName = xorstr_("crossfire.exe");
-	s_GameWindowTitleName = xorstr_("穿越火线");
-	s_GameWindowClassName = xorstr_("CrossFire"); 
-	VMProtectEnd();
+	s_GameProcessName = ("crossfire.exe");
+	s_GameWindowTitleName = ("穿越火线");
+	s_GameWindowClassName = ("CrossFire");
 }
 
 Game::~Game()
@@ -27,6 +25,8 @@ Game::~Game()
 
 bool Game::init()
 {
+
+	Logger::info(xorstr_("Game Initialize"));
 	VMProtectBeginUltra(__FUNCSIG__);
   pid_ = util::get_process_id(s_GameProcessName);
   gameWindow_ = FindWindowA(s_GameWindowClassName, s_GameWindowTitleName);
@@ -62,10 +62,9 @@ bool Game::update()
 
 bool Game::waitStart()
 {
-	VMProtectBeginMutation(__FUNCSIG__);
 	while(FindWindowA(s_GameWindowClassName, s_GameWindowTitleName) == NULL)
 		Sleep(300);
-	VMProtectEnd();
+	Logger::info(xorstr_("Find Game"));
 	return true;
 }
 

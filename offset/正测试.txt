@@ -214,6 +214,15 @@ CharacFx:
 +17A94:武器id
 
 
+61293730
+cshell_x64.dll.text+167F076 - 49 C7 C0 FFFFFFFF     - mov r8,FFFFFFFFFFFFFFFF { -1 }
+cshell_x64.dll.text+167F07D - 0F1F 00               - nop dword ptr [rax]
+cshell_x64.dll.text+167F080 - 49 FF C0              - inc r8
+cshell_x64.dll.text+167F083 - 42 80 7C 00 0E 00     - cmp byte ptr [rax+r8+0E],00 { 0 }
+cshell_x64.dll.text+167F089 - 75 F5                 - jne cshell_x64.dll.text+167F080
+cshell_x64.dll.text+167F08B - 48 8D 50 0E           - lea rdx,[rax+0E]
+cshell_x64.dll.text+167F08F - 48 8D 4D C8           - lea rcx,[rbp-38]
+
 
 武器id:
 cshell_x64.dll.text+1519B9F - 74 09                 - je cshell_x64.dll.text+1519BAA

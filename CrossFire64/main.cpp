@@ -72,6 +72,7 @@ int main()
 {
 	VMProtectBeginUltra(__FUNCSIG__);
 	Game crossfire;
+	Logger::info(xorstr_("start"));
 	if (!crossfire.waitStart() || !crossfire.init())
 	{
 		Logger::info(xorstr_("”Œœ∑≥ı ºªØ ß∞‹") );
