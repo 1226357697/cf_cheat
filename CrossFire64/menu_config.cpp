@@ -32,7 +32,7 @@ static fs::path get_config_path()
 
 static void loadESPConfig(IniFile& ini)
 {
-	MenuConfig::ShowAimRangle = ini.readBool(xorstr_("ESP"), xorstr_("ShowBoneESP"), MenuConfig::ShowAimRangle);
+	MenuConfig::ShowBoneESP = ini.readBool(xorstr_("ESP"), xorstr_("ShowBoneESP"), MenuConfig::ShowBoneESP);
 	MenuConfig::ShowBoxESP = ini.readBool(xorstr_("ESP"), xorstr_("ShowBoxESP"), MenuConfig::ShowBoxESP);
 	MenuConfig::ShowHealthBar = ini.readBool(xorstr_("ESP"), xorstr_("ShowHealthBar"), MenuConfig::ShowHealthBar);
 	MenuConfig::ShowEyeRay = ini.readBool(xorstr_("ESP"), xorstr_("ShowEyeRay"), MenuConfig::ShowEyeRay);
@@ -89,7 +89,7 @@ void MenuConfig::load()
 
 static void saveESPConfig(IniFile& ini)
 {
-	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowBoneESP"), MenuConfig::ShowAimRangle);
+	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowBoneESP"), MenuConfig::ShowBoneESP);
 	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowBoxESP"), MenuConfig::ShowBoxESP);
 	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowHealthBar"), MenuConfig::ShowHealthBar);
 	 ini.writeBool(xorstr_("ESP"), xorstr_("ShowEyeRay"), MenuConfig::ShowEyeRay);

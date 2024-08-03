@@ -33,6 +33,39 @@
 鼠标偏移Y0x868
 排位瞄准0x213B50
 
+// 红名判断
+出现红名搜1,没有搜0
+bool
+crossfire.exe.text+26FFF8 - 85 C0                 - test eax,eax
+crossfire.exe.text+26FFFA - 74 07                 - je crossfire.exe.text+270003
+crossfire.exe.text+26FFFC - C6 44 24 33 01        - mov byte ptr [rsp+33],01 { 1 }
+crossfire.exe.text+270001 - EB 05                 - jmp crossfire.exe.text+270008
+crossfire.exe.text+270003 - C6 44 24 33 00        - mov byte ptr [rsp+33],00 { 0 }
+crossfire.exe.text+270008 - 8A 44 24 33           - mov al,[rsp+33]
+crossfire.exe.text+27000C - 88 05 FFC03400        - mov [crossfire.exe+5BD111],al { (0) }
+crossfire.exe.text+270012 - 48 8B 84 24 A0000000  - mov rax,[rsp+000000A0]
+crossfire.exe.text+27001A - 8B 40 24              - mov eax,[rax+24]
+crossfire.exe.text+27001D - 83 E0 10              - and eax,10 { 16 }
+crossfire.exe.text+270020 - 85 C0                 - test eax,eax
+
+// 射速
+crossfire.exe.text+5D253 - 2B 05 07FC5500        - sub eax,[crossfire.exe+5BDE60] { (1722625) }
+crossfire.exe.text+5D259 - 0F57 D2               - xorps xmm2,xmm2
+crossfire.exe.text+5D25C - 8B D0                 - mov edx,eax
+crossfire.exe.text+5D25E - 0F57 C0               - xorps xmm0,xmm0
+crossfire.exe.text+5D261 - 8B C8                 - mov ecx,eax
+crossfire.exe.text+5D263 - 89 93 C40E0000        - mov [rbx+00000EC4],edx
+crossfire.exe.text+5D269 - 2B 8B C00E0000        - sub ecx,[rbx+00000EC0]
+crossfire.exe.text+5D26F - 89 8B C80E0000        - mov [rbx+00000EC8],ecx
+crossfire.exe.text+5D275 - F3 48 0F2A C2         - cvtsi2ss xmm0,rdx
+crossfire.exe.text+5D27A - 89 93 C00E0000        - mov [rbx+00000EC0],edx
+crossfire.exe.text+5D280 - F3 48 0F2A D1         - cvtsi2ss xmm2,rcx
+crossfire.exe.text+5D285 - F3 0F5E 05 CB514400   - divss xmm0,[crossfire.exe.rdata+4B458] { (500.00) } << 射速
+crossfire.exe.text+5D28D - F3 0F5E 15 C3514400   - divss xmm2,[crossfire.exe.rdata+4B458] { (500.00) }
+crossfire.exe.text+5D295 - F3 0F11 83 D40E0000   - movss [rbx+00000ED4],xmm0
+crossfire.exe.text+5D29D - F3 0F11 93 CC0E0000   - movss [rbx+00000ECC],xmm2
+
+
 判断障碍：
 0x140001000 + 0x53940
 特征码

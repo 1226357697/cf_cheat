@@ -8,15 +8,15 @@
 #include "Logger.h"
 #include "VMProtectSDK.h"
 
-static const char* s_GameProcessName = NULL;
-static const char* s_GameWindowTitleName = NULL;
-static const char* s_GameWindowClassName = NULL;
+static char s_GameProcessName[MAX_PATH] = {'\0'};
+static char s_GameWindowTitleName[MAX_PATH] = { '\0' };
+static char s_GameWindowClassName[MAX_PATH] = { '\0' };
 
 Game::Game()
 {
-	s_GameProcessName = ("crossfire.exe");
-	s_GameWindowTitleName = ("穿越火线");
-	s_GameWindowClassName = ("CrossFire");
+	strcpy(s_GameProcessName, xorstr_("crossfire.exe"));
+	strcpy(s_GameWindowTitleName, xorstr_("穿越火线"));
+	strcpy(s_GameWindowClassName, xorstr_("CrossFire"));
 }
 
 Game::~Game()
