@@ -1,16 +1,32 @@
 #include "AimBot.h"
-
+#include "Logger.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 #define DEG_TO_RAD(deg) ((deg) * (M_PI / 180.0))
 #define RAD_TO_DEG(rad) ((rad) * (180.0 / M_PI))
 
+
+void mouse_abs_move(int x, int y)
+{
+	mouse_event(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, x, y, 0, NULL);
+}
+
 AimBot::AimBot(Game& game)
   :game_(game)
 {
+	setType(MenuConfig::AimType);
 	setHotKey(MenuConfig::AimBotHotKey);
-	setBoneIndex(head);
+	setBoneIndex(MenuConfig::AimPositionIndex);
 	setSmooth(MenuConfig::AimSmooth);
+
+	pidctrlX_.setProportion(0.9f);
+	pidctrlX_.setIntegral(0.9f);
+	pidctrlX_.setDifferential(0.2f);
+
+	pidctrlY_.setProportion(0.9f);
+	pidctrlY_.setIntegral(0.9f);
+	pidctrlY_.setDifferential(0.2f);
+
 }
 
 void AimBot::setSmooth(float smooth)
@@ -23,12 +39,17 @@ void AimBot::setSmooth(float smooth)
 
 void AimBot::setHotKey(int vkey)
 {
-  vkey_ = vkey;
+	vkey_ = vkey;
 }
 
 void AimBot::setBoneIndex(int boneIndex)
 {
 	boneIndex_ = boneIndex;
+}
+
+void AimBot::setType(MenuConfig::AimBotType t)
+{
+	type_ = t;
 }
 
 
@@ -47,36 +68,73 @@ double lerpAngle(double current, double target, double t) {
 
 void AimBot::aimbot(const FrameContext& frame_ctx)
 {
+	static int prev_index = -1;
+	int player_index =0;
 	float min_dist = -1;
 	D3DXVECTOR3 aimPos = invalidWorldPos;
 	D3DXVECTOR2 aimPos2d = invalidScreenPos;
 	const APawn& localPlayer = frame_ctx.playerArray[frame_ctx.localPlayerIndex];
-	for (int i = 0; i < frame_ctx.playerArray.size(); ++i)
+
+	//if (prev_index != -1)
+	//{
+	//	const APawn& player = frame_ctx.playerArray[prev_index];
+
+	//	bool check = true;
+	//	if (!player.valid || player.hp == 0)
+	//		check = false;
+
+	//	if (MenuConfig::TeamCheck && localPlayer.team == player.team)
+	//		check = false;
+
+	//	if (check)
+	//	{
+	//		const PlayerBoneData& headBone = player.Bone[boneIndex_];
+	//		if (headBone.valid() && headBone.inScreen())
+	//		{
+	//			float dist = game_.GetDistance2D(headBone.screenPos, { frame_ctx.game_window_size.x / 2, frame_ctx.game_window_size.y / 2 });
+	//			if (min_dist == -1 || dist < min_dist)
+	//			{
+	//				aimPos = headBone.worldPos;
+	//				aimPos2d = headBone.screenPos;
+	//				min_dist = dist;
+	//			}
+	//		}
+	//	}
+	//	
+	//}
+
+
+	//if (prev_index == -1)
 	{
-		const APawn& player = frame_ctx.playerArray[i];
-
-		if (!player.valid || player.hp == 0 || frame_ctx.localPlayerIndex == i)
-			continue;
-
-		if (MenuConfig::TeamCheck && localPlayer.team == player.team)
-			continue;
-
-		const PlayerBoneData& headBone = player.Bone[boneIndex_];
-		if (headBone.valid() && headBone.inScreen())
+		for (int i = 0; i < frame_ctx.playerArray.size(); ++i)
 		{
-			float dist = game_.GetDistance2D(headBone.screenPos, { frame_ctx.game_window_size.x /2, frame_ctx.game_window_size.y/2 });
-			if (min_dist == -1 || dist < min_dist)
+			const APawn& player = frame_ctx.playerArray[i];
+
+			if (!player.valid || player.hp == 0 || frame_ctx.localPlayerIndex == i)
+				continue;
+
+			if (MenuConfig::TeamCheck && localPlayer.team == player.team)
+				continue;
+
+			const PlayerBoneData& headBone = player.Bone[boneIndex_];
+			if (headBone.valid() && headBone.inScreen())
 			{
-				aimPos = headBone.worldPos;
-				aimPos2d = headBone.screenPos;
-				min_dist = dist;
+				float dist = game_.GetDistance2D(headBone.screenPos, { frame_ctx.game_window_size.x / 2, frame_ctx.game_window_size.y / 2 });
+				if (min_dist == -1 || dist < min_dist)
+				{
+					aimPos = headBone.worldPos;
+					aimPos2d = headBone.screenPos;
+					min_dist = dist;
+					player_index = i;
+				}
 			}
 		}
-	}
 
+	}
+	
+	
 	if (GetAsyncKeyState(vkey_) & 0x8000)
 	{
-		ViewAngle angle = {0,0};
 		float center_x = frame_ctx.game_window_size.x / 2;
 		float center_y = frame_ctx.game_window_size.y / 2;
 		float r = MenuConfig::AimRangle;
@@ -84,18 +142,61 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 		float circle_dis_y = center_y - aimPos2d.y;
 		if (!(circle_dis_x * circle_dis_x + circle_dis_y * circle_dis_y > r * r))
 		{
-			D3DXVECTOR3 fovPos = game_.getFOVPos();
-			D3DXVECTOR3 dist = aimPos - fovPos;
-			angle.pitch = (float)atan2(-dist.y, sqrt(dist.x * dist.x + dist.z * dist.z)) ;
-			angle.yaw = (float)atan2(dist.x, dist.z);
+			if (type_ == MenuConfig::kAIM_BOT_TYPE_MEMORY)
+			{
+				ViewAngle angle = { 0,0 };
+				{
+					D3DXVECTOR3 fovPos = game_.getFOVPos();
+					D3DXVECTOR3 dist = aimPos - fovPos;
+					angle.pitch = (float)atan2(-dist.y, sqrt(dist.x * dist.x + dist.z * dist.z));
+					angle.yaw = (float)atan2(dist.x, dist.z);
 
-			angle.pitch = lerpAngle(localPlayer.viewAngle.pitch, angle.pitch, smooth_);
-			angle.yaw = lerpAngle(localPlayer.viewAngle.yaw, angle.yaw, smooth_);
-			//angle.pitch = DEG_TO_RAD(RAD_TO_DEG(angle.pitch) * ( smooth_)) + localPlayer.viewAngle.pitch;
-			//angle.yaw = DEG_TO_RAD( RAD_TO_DEG(angle.yaw) * ( smooth_)) + localPlayer.viewAngle.yaw;
-			game_.setLocalPlayerAngle(angle);
-			Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
+					angle.pitch = lerpAngle(localPlayer.viewAngle.pitch, angle.pitch, smooth_);
+					angle.yaw = lerpAngle(localPlayer.viewAngle.yaw, angle.yaw, smooth_);
+					//angle.pitch = DEG_TO_RAD(RAD_TO_DEG(angle.pitch) * ( smooth_)) + localPlayer.viewAngle.pitch;
+					//angle.yaw = DEG_TO_RAD( RAD_TO_DEG(angle.yaw) * ( smooth_)) + localPlayer.viewAngle.yaw;
+					game_.setLocalPlayerAngle(angle);
+					Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
+				}
+			}
+			else if (type_ == MenuConfig::kAIM_BOT_TYPE_KMBOX)
+			{
+				POINT cur_pt;
+				POINT pt;
+				pt.x = aimPos2d.x;
+				pt.y = aimPos2d.y;
+				Logger::info("x:%d y:%d", pt.x, pt.y);
+				if (ClientToScreen(game_.window(), &pt) && GetCursorPos(&cur_pt))
+				{
+					//pt.x -= cur_pt.x;
+					//pt.y -= cur_pt.y;
+					pidctrlX_.setTarget(pt.x);
+					pidctrlY_.setTarget(pt.y);
+					pt.x = pidctrlX_.run(cur_pt.x);
+					pt.y = pidctrlY_.run(cur_pt.y);
+					mouse_abs_move(0, 0);
+					Logger::info("x:%d y:%d", pt.x, pt.y);
+					//if (abs(pt.x) >30 || abs(pt.y) > 30)
+					{
+						//Logger::info("x:%d y:%d", pt.x, pt.y);
+						//kb_.mov_mouse(pt.x*0.7, pt.y * 0.7);
+						//kb_.mov_mouse(10,10);
+					}
+					Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
+					prev_index = player_index;
+				}
+			}
+			else
+			{
+				//assert(false);
+			}
+
 		}
 		
 	}
+}
+
+bool AimBot::connectKmBox(const char* ip, const char* port, const char* uuid)
+{
+	return kb_.connect(ip, port, uuid);
 }

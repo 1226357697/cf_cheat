@@ -69,6 +69,18 @@
     <ClCompile Include="IniFile.cpp">
       <Filter>Config</Filter>
     </ClCompile>
+    <ClCompile Include="KmBox.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="KmBox\kmboxNet.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="KmBox\my_enc.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PIDController.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -106,6 +118,21 @@
     </ClInclude>
     <ClInclude Include="IniFile.h">
       <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="KmBox.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="KmBox\HidTable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="KmBox\kmboxNet.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="KmBox\my_enc.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PIDController.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

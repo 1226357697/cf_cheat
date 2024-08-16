@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>$(ProjectName)1</TargetName>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,7 +114,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)SDK\Lib;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3dx9.lib;VMProtectSDK64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dx9.lib;VMProtectSDK64.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,7 +134,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)SDK\Lib;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3dx9.lib;VMProtectSDK64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dx9.lib;VMProtectSDK64.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -142,6 +142,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="IniFile.cpp" />
+    <ClCompile Include="KmBox.cpp" />
+    <ClCompile Include="KmBox\kmboxNet.cpp" />
+    <ClCompile Include="KmBox\my_enc.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Memory.cpp" />
@@ -149,6 +152,7 @@
     <ClCompile Include="menu_config.hpp" />
     <ClCompile Include="NativeHandle.cpp" />
     <ClCompile Include="offset.h" />
+    <ClCompile Include="PIDController.cpp" />
     <ClCompile Include="Radar.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="util.cpp" />
@@ -159,9 +163,14 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="IniFile.h" />
+    <ClInclude Include="KmBox.h" />
+    <ClInclude Include="KmBox\HidTable.h" />
+    <ClInclude Include="KmBox\kmboxNet.h" />
+    <ClInclude Include="KmBox\my_enc.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Memory.hpp" />
     <ClInclude Include="NativeHandle.h" />
+    <ClInclude Include="PIDController.h" />
     <ClInclude Include="Radar.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="util.h" />

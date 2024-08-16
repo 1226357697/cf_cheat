@@ -1,6 +1,7 @@
 #pragma once
 #include <string_view>
-#include <d3dx9.h>
+#include <d3d9.h>
+#include <d3dx9math.h>
 #include <array>
 #include <cstddef>
 #include <string>

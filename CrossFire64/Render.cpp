@@ -93,6 +93,9 @@ bool Render::calcPlayerBox(const APawn& pawn, Rect& rt)
 	rt.y = leftTop.y;
 	rt.w = boxSize.x;
 	rt.h = boxSize.y;
+
+	if(isinf(rt.x)|| isinf(rt.y) || isinf(rt.w)|| isinf(rt.h))
+		return false;
 	return true;
 }
 
@@ -501,6 +504,11 @@ void Render::DrawMenu()
 		{
 			Gui.MyCheckBox(xorstr_("AimBot"), &MenuConfig::AimBot);
 
+			if (ImGui::Combo(xorstr_("Type"), (int*)&MenuConfig::AimType, xorstr_("MEMORY\0KMBOX\0")))
+			{
+				aimbot_.setType(MenuConfig::AimType);
+			}
+
 			if (ImGui::Combo(xorstr_("AimKey"), &MenuConfig::AimBotHotKey, xorstr_("RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL\0")))
 			{
 				static int s_vkey_map[6] = {
@@ -536,6 +544,23 @@ void Render::DrawMenu()
 
 			Gui.MyCheckBox(xorstr_("Show AimBot Range"), &MenuConfig::ShowAimRangle);
 			ImGui::SliderFloat(xorstr_("Aim Range"), &MenuConfig::AimRangle, 20, 180, xorstr_("%.2f"), ImGuiColorEditFlags_NoInputs);
+		}
+
+
+		if (ImGui::CollapsingHeader(xorstr_("KMBOX")))
+		{
+			ImGui::InputText("ip", MenuConfig::kmbox_ip, sizeof(MenuConfig::kmbox_ip) - 1);
+			ImGui::InputText("port", MenuConfig::kmbox_port, sizeof(MenuConfig::kmbox_port) - 1);
+			ImGui::InputText("uuid", MenuConfig::kmbox_uuid, sizeof(MenuConfig::kmbox_uuid)-1);
+
+			if(ImGui::Button("connect"))
+			{
+				// 192.168.2.188
+				// 33792
+				// 8628E04E
+				bool ret = aimbot_.connectKmBox(MenuConfig::kmbox_ip, MenuConfig::kmbox_port, MenuConfig::kmbox_uuid);
+				ImGui::Text(ret ? "connect success" : "connect failed");
+			}
 		}
 
 #if 0
@@ -590,6 +615,12 @@ void Render::DrawMenu()
 Render::Render(Game& game)
 	:game_(game), aimbot_(game)
 {
+	// 192.168.2.188
+	// 33792
+	// 8628E04E
+	strcpy(MenuConfig::kmbox_ip, "192.168.2.188");
+	strcpy(MenuConfig::kmbox_port, "33792");
+	strcpy(MenuConfig::kmbox_uuid, "8628E04E");
 }
 
 void Render::run()

@@ -38,6 +38,17 @@ bool Game::init()
 		return false;
 	}
 
+	// patch deleter patch 0xeb
+	//const std::ptrdiff_t ACE_CSI64_offset1 = 0x45946 + 0x1000;
+	//const std::ptrdiff_t ACE_CSI64_offset2= 0x56D1B + 0x1000;
+	//std::ptrdiff_t ACE_CSI64 = (std::ptrdiff_t)util::get_module_base_x64(pid_, xorstr_("ACE-CSI64.dll"));
+	//if(ACE_CSI64 == 0)
+	//	return false;
+
+	//uint8_t patch_jmp = 0xeb;
+	//mm_.forc_write(ACE_CSI64 + ACE_CSI64_offset1, &patch_jmp, sizeof(patch_jmp));
+	//mm_.forc_write(ACE_CSI64 + ACE_CSI64_offset2, &patch_jmp, sizeof(patch_jmp));
+
 	crossfireModule_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, xorstr_("crossfire.exe"));
 	cshell_x64Module_ = (std::ptrdiff_t)util::get_module_base_x64(pid_, xorstr_("cshell_x64.dll"));
 	if (crossfireModule_ == 0 || cshell_x64Module_ == 0)

@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 #include "OS-ImGui/OS-ImGui.h"
+#include "Game.h"
+
 namespace MenuConfig
 {
 	enum ShowHPWay:int
@@ -16,6 +18,12 @@ namespace MenuConfig
 		kAIM_BOT_POS_HEAD = 0,
 		kAIM_BOT_POS_NECK,
 		kAIM_BOT_POS_SPINE,
+	};
+
+	enum AimBotType:int
+	{
+		kAIM_BOT_TYPE_MEMORY = 0,
+		kAIM_BOT_TYPE_KMBOX,
 	};
 
 	// ESP
@@ -40,9 +48,10 @@ namespace MenuConfig
 
 	// AIMBOT
 	inline bool AimBot = false;
+	inline AimBotType AimType = kAIM_BOT_TYPE_MEMORY;
 	inline int AimBotHotKey = 2;
 	inline AimBotPos  AimPosition = kAIM_BOT_POS_HEAD;
-	inline int  AimPositionIndex = 0;
+	inline int  AimPositionIndex = head;
 	inline bool ShowAimRangle = true;
 	inline float AimRangle = 10;
 	inline float AimSmooth = 0.75;
@@ -62,6 +71,11 @@ namespace MenuConfig
 	inline float knife_data_secondary_distance = 345; //0
 	inline float knife_data_secondary_range = 1; // 0
 	inline float knife_data_movement_speed = 0;
+
+	// kmbox
+	inline char kmbox_ip[256];
+	inline char kmbox_port[128];
+	inline char kmbox_uuid[128];
 
 	void load();
 	void save();
