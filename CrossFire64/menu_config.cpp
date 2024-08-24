@@ -56,12 +56,18 @@ static void loadESPConfig(IniFile& ini)
 static void loadAimBotConfig(IniFile& ini)
 {
 	MenuConfig::AimBot = ini.readBool(xorstr_("AimBot"), xorstr_("AimBot"), MenuConfig::AimBot);
+	MenuConfig::AimType = (MenuConfig::AimBotType)ini.readInt(xorstr_("AimBot"), xorstr_("AimType"), MenuConfig::AimType);
 	MenuConfig::AimBotHotKey = ini.readInt(xorstr_("AimBot"), xorstr_("AimBotHotKey"), MenuConfig::AimBotHotKey);
 	MenuConfig::AimPosition = (MenuConfig::AimBotPos)ini.readInt(xorstr_("AimBot"), xorstr_("AimPosition"), MenuConfig::AimPosition);
 	MenuConfig::AimPositionIndex = ini.readInt(xorstr_("AimBot"), xorstr_("AimPositionIndex"), MenuConfig::AimPositionIndex);
 	MenuConfig::ShowAimRangle = ini.readBool(xorstr_("AimBot"), xorstr_("ShowAimRangle"), MenuConfig::ShowAimRangle);
 	MenuConfig::AimRangle = ini.readFloat(xorstr_("AimBot"), xorstr_("AimRangle"), MenuConfig::AimRangle);
 	MenuConfig::AimSmooth = ini.readFloat(xorstr_("AimBot"), xorstr_("AimSmooth"), MenuConfig::AimSmooth);
+
+	// aim pid
+	MenuConfig::Aim_PID_p = ini.readFloat(xorstr_("AimBot"), xorstr_("Aim_PID_p"), MenuConfig::Aim_PID_p);
+	MenuConfig::Aim_PID_i = ini.readFloat(xorstr_("AimBot"), xorstr_("Aim_PID_i"), MenuConfig::Aim_PID_i);
+	MenuConfig::Aim_PID_d = ini.readFloat(xorstr_("AimBot"), xorstr_("Aim_PID_d"), MenuConfig::Aim_PID_d);
 }
 
 static void loadGlobalConfig(IniFile& ini)
@@ -112,12 +118,18 @@ static void saveESPConfig(IniFile& ini)
 static void saveAimBotConfig(IniFile& ini)
 {
 	 ini.writeBool(xorstr_("AimBot"), xorstr_("AimBot"), MenuConfig::AimBot);
+	 ini.writeInt(xorstr_("AimBot"), xorstr_("AimType"), MenuConfig::AimType);
 	 ini.writeInt(xorstr_("AimBot"), xorstr_("AimBotHotKey"), MenuConfig::AimBotHotKey);
-	 (MenuConfig::AimBotPos)ini.writeInt(xorstr_("AimBot"), xorstr_("AimPosition"), MenuConfig::AimPosition);
+	 ini.writeInt(xorstr_("AimBot"), xorstr_("AimPosition"), MenuConfig::AimPosition);
 	 ini.writeInt(xorstr_("AimBot"), xorstr_("AimPositionIndex"), MenuConfig::AimPositionIndex);
 	 ini.writeBool(xorstr_("AimBot"), xorstr_("ShowAimRangle"), MenuConfig::ShowAimRangle);
 	 ini.writeFloat(xorstr_("AimBot"), xorstr_("AimRangle"), MenuConfig::AimRangle);
 	 ini.writeFloat(xorstr_("AimBot"), xorstr_("AimSmooth"), MenuConfig::AimSmooth);
+
+	 // aim pid
+	 ini.writeFloat(xorstr_("AimBot"), xorstr_("Aim_PID_p"), MenuConfig::Aim_PID_p);
+	 ini.writeFloat(xorstr_("AimBot"), xorstr_("Aim_PID_i"), MenuConfig::Aim_PID_i);
+	 ini.writeFloat(xorstr_("AimBot"), xorstr_("Aim_PID_d"), MenuConfig::Aim_PID_d);
 }
 
 static void saveGlobalConfig(IniFile& ini)

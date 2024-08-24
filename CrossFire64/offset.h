@@ -2,13 +2,19 @@
 #include <cstddef>
 
 namespace crossfire_offset {
-  constexpr static std::ptrdiff_t CLTClientShell = 0x32053D8;
-  constexpr static std::ptrdiff_t CAIBotModePlayer = 0x3474048;
+  constexpr static std::ptrdiff_t CLTClientShell = 0x32053B8;
+  constexpr static std::ptrdiff_t CAIBotModePlayer = 0x98;
 
   // D3D Engine
   constexpr static std::ptrdiff_t d3d_viewport = 0x57D0E0;
   constexpr static std::ptrdiff_t d3d_Projection_matrix = d3d_viewport - 0x40;
   constexpr static std::ptrdiff_t d3d_view_matrix = d3d_viewport - 0x40 - 0x40;
+
+  // Obstacle detection crossfire.exe
+  constexpr static std::ptrdiff_t obstacle_detection_call = 0x54940;
+
+  // red name detection crossfire.exe
+  constexpr static std::ptrdiff_t red_name_detection = 0x5436C0;
 
   // CAIBotModePlayer
   constexpr static std::ptrdiff_t local_angle_yaw = 0x86c;

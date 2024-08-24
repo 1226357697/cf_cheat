@@ -58,13 +58,17 @@ bool Game::init()
 	if (CLTClientShell == 0)
 		return false;
 
+	IntersectSegment_ = mm_.read<IntersectSegment_t>(cshell_x64Module_ + crossfire_offset::obstacle_detection_call);
+	if (IntersectSegment_ == 0)
+		return false;
+
 	VMProtectEnd();
   return true;
 }
 
 bool Game::update()
 {
-	CAIBotModePlayer = mm_.read<std::ptrdiff_t>(cshell_x64Module_ + crossfire_offset::CAIBotModePlayer);
+	CAIBotModePlayer = mm_.read<std::ptrdiff_t>(CLTClientShell + crossfire_offset::CAIBotModePlayer);
 	if (CAIBotModePlayer == 0)
 		return false;
 
@@ -171,6 +175,15 @@ D3DXVECTOR3 Game::getFOVPos()
 	D3DXMatrixInverse(&View, 0, &View);
 	VMProtectEnd();
 	return D3DXVECTOR3(View._41, View._42, View._43);
+}
+
+bool Game::isVisible(D3DXVECTOR3 from, D3DXVECTOR3 to)
+{
+	IntersectQuery pQuery;
+	IntersectInfo pInfo;
+	pQuery.m_From = from;
+	pQuery.m_To = to;
+	return !IntersectSegment_(pQuery, &pInfo);
 }
 
 bool Game::playerHasC4(std::ptrdiff_t player)

@@ -23,6 +23,7 @@ namespace MenuConfig
 	enum AimBotType:int
 	{
 		kAIM_BOT_TYPE_MEMORY = 0,
+		kAIM_BOT_TYPE_LOGITECH_DRIVER,
 		kAIM_BOT_TYPE_KMBOX,
 	};
 
@@ -55,6 +56,11 @@ namespace MenuConfig
 	inline bool ShowAimRangle = true;
 	inline float AimRangle = 10;
 	inline float AimSmooth = 0.75;
+
+	// PID²ÎÊý
+	inline float Aim_PID_p = 0.3f;
+	inline float Aim_PID_i = 0.2f;
+	inline float Aim_PID_d = 0.1f;
 
 	// Global
 	inline bool TeamCheck = true;

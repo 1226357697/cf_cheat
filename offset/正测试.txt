@@ -190,6 +190,63 @@ cshell_x64.dll.text+1CE200 - 48 83 C4 28           - add rsp,28 { 40 }
 cshell_x64.dll.text+1CE204 - C3                    - ret 
 cshell_x64.dll.text+1CE205 - 32 C0                 - xor al,al
 
+// 武器库特征码
+
+cshell_x64.dll+1CE0AF - CC                    - int 3 
+cshell_x64.dll+1CE0B0 - 66 83 F9 FF           - cmp cx,-01 { 255 }
+cshell_x64.dll+1CE0B4 - 74 51                 - je cshell_x64.dll+1CE107
+cshell_x64.dll+1CE0B6 - B8 19FCFFFF           - mov eax,FFFFFC19 { (0) }
+cshell_x64.dll+1CE0BB - 66 3B C8              - cmp cx,ax
+cshell_x64.dll+1CE0BE - 74 47                 - je cshell_x64.dll+1CE107
+cshell_x64.dll+1CE0C0 - 45 33 C0              - xor r8d,r8d
+cshell_x64.dll+1CE0C3 - 66 85 C9              - test cx,cx
+cshell_x64.dll+1CE0C6 - 78 3B                 - js cshell_x64.dll+1CE103
+cshell_x64.dll+1CE0C8 - 8B 15 06660303        - mov edx,[cshell_x64.dll+32046D4] { (6507) }
+cshell_x64.dll+1CE0CE - FF CA                 - dec edx
+cshell_x64.dll+1CE0D0 - 0FBF C1               - movsx eax,cx
+cshell_x64.dll+1CE0D3 - 3B C2                 - cmp eax,edx
+cshell_x64.dll+1CE0D5 - 7F 2C                 - jg cshell_x64.dll+1CE103
+cshell_x64.dll+1CE0D7 - B8 FF1B0000           - mov eax,00001BFF { 7167 }
+cshell_x64.dll+1CE0DC - 66 3B C8              - cmp cx,ax
+cshell_x64.dll+1CE0DF - 7F 22                 - jg cshell_x64.dll+1CE103
+cshell_x64.dll+1CE0E1 - 48 8B 05 88142403     - mov rax,[cshell_x64.dll+340F570] { (4BDE0160) }
+cshell_x64.dll+1CE0E8 - 48 0FBF D1            - movsx rdx,cx
+cshell_x64.dll+1CE0EC - 48 8B 0D 75142403     - mov rcx,[cshell_x64.dll+340F568] { (4BDD2160) } <<< 武器库首地址
+cshell_x64.dll+1CE0F3 - 48 2B C1              - sub rax,rcx
+cshell_x64.dll+1CE0F6 - 48 C1 F8 03           - sar rax,03 { 3 }
+cshell_x64.dll+1CE0FA - 48 3B D0              - cmp rdx,rax
+cshell_x64.dll+1CE0FD - 73 04                 - jae cshell_x64.dll+1CE103
+cshell_x64.dll+1CE0FF - 4C 8B 04 D1           - mov r8,[rcx+rdx*8]
+cshell_x64.dll+1CE103 - 49 8B C0              - mov rax,r8
+cshell_x64.dll+1CE106 - C3                    - ret 
+cshell_x64.dll+1CE107 - 33 C0                 - xor eax,eax
+cshell_x64.dll+1CE109 - C3                    - ret 
+
+// 武器属性
+cshell_x64.dll+168013C - 41 0FB7 CE            - movzx ecx,r14w
+cshell_x64.dll+1680140 - E8 6BDFB4FE           - call cshell_x64.dll+1CE0B0
+cshell_x64.dll+1680145 - 66 0F6F 05 53294601   - movdqa xmm0,[cshell_x64.dll+2AE2AA0] { (0) }
+cshell_x64.dll+168014D - F3 0F7F 45 D8         - movdqu [rbp-28],xmm0
+cshell_x64.dll+1680152 - C6 45 C8 00           - mov byte ptr [rbp-38],00 { 0 }
+cshell_x64.dll+1680156 - 49 C7 C0 FFFFFFFF     - mov r8,FFFFFFFFFFFFFFFF { (0) }
+cshell_x64.dll+168015D - 0F1F 00               - nop dword ptr [rax]
+cshell_x64.dll+1680160 - 49 FF C0              - inc r8
+cshell_x64.dll+1680163 - 42 80 7C 00 0E 00     - cmp byte ptr [rax+r8+0E],00 { 0 } <<< 武器名字
+cshell_x64.dll+1680169 - 75 F5                 - jne cshell_x64.dll+1680160
+cshell_x64.dll+168016B - 48 8D 50 0E           - lea rdx,[rax+0E]
+cshell_x64.dll+168016F - 48 8D 4D C8           - lea rcx,[rbp-38]
+cshell_x64.dll+1680173 - E8 A8D4B1FE           - call cshell_x64.dll+19D620
+cshell_x64.dll+1680178 - 90                    - nop 
+cshell_x64.dll+1680179 - 48 8B 05 3852B801     - mov rax,[cshell_x64.dll+32053B8] { (7FFA67003F90) }
+cshell_x64.dll+1680180 - 80 B8 311A0500 00     - cmp byte ptr [rax+00051A31],00 { 0 }
+cshell_x64.dll+1680187 - 75 5B                 - jne cshell_x64.dll+16801E4
+cshell_x64.dll+1680189 - E8 2289B9FE           - call cshell_x64.dll+218AB0
+cshell_x64.dll+168018E - 48 8B 48 08           - mov rcx,[rax+08]
+cshell_x64.dll+1680192 - 48 85 C9              - test rcx,rcx
+cshell_x64.dll+1680195 - 74 0D                 - je cshell_x64.dll+16801A4
+cshell_x64.dll+1680197 - 48 8B 01              - mov rax,[rcx]
+
+
 
 [cshell_x64.dll+340A378]
 56D8D880+51a*8
@@ -299,7 +356,7 @@ CPlayerClnt
 
 CLTClientShell:  [cshell_x64.dll+32001C8]
     +48 CCamera
-    +98 CPlayerClnt
+    +98 CPlayerClnt | CAIBotModePlayer
     +28a :word 当前玩家下标
 
     +254B8：观战

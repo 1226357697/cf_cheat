@@ -1,37 +1,68 @@
 #include "AimBot.h"
 #include "Logger.h"
+#include "logitech_mouse/logitech_mouse.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 #define DEG_TO_RAD(deg) ((deg) * (M_PI / 180.0))
 #define RAD_TO_DEG(rad) ((rad) * (180.0 / M_PI))
 
 
-void mouse_abs_move(int x, int y)
+static void mouse_abs_move(int x, int y)
 {
-	mouse_event(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, x, y, 0, NULL);
+	POINT p;
+	GetCursorPos(&p);
+	x = x - p.x;
+	x = y - p.y;
+	logi_mouse_move_rel(x, y);
+	//INPUT input;
+	//input.type = INPUT_MOUSE;
+	//input.mi.dx = x;
+	//input.mi.dy = y;
+	//input.mi.mouseData = 0;
+	//input.mi.dwFlags = MOUSEEVENTF_HWHEEL | MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;   //MOUSEEVENTF_ABSOLUTE 代表决对位置  MOUSEEVENTF_MOVE代表移动事件
+	//input.mi.time = 0;
+	//input.mi.dwExtraInfo = 0;
+
+	//SendInput(1, &input, sizeof(INPUT));
 }
 
 AimBot::AimBot(Game& game)
   :game_(game)
 {
+	logi_mouse_open();
 	setType(MenuConfig::AimType);
-	setHotKey(MenuConfig::AimBotHotKey);
 	setBoneIndex(MenuConfig::AimPositionIndex);
 	setSmooth(MenuConfig::AimSmooth);
+	static int s_vkey_map[6] = {
+						VK_RBUTTON,
+						VK_XBUTTON1,
+						VK_XBUTTON2,
+						VK_CAPITAL,
+						VK_SHIFT,
+						VK_CONTROL
+	};
 
-	pidctrlX_.setProportion(0.9f);
-	pidctrlX_.setIntegral(0.9f);
+	setHotKey(s_vkey_map[MenuConfig::AimBotHotKey]);
+
+	pidctrlX_.setProportion(0.2f);
+	pidctrlX_.setIntegral(0.1f);
 	pidctrlX_.setDifferential(0.2f);
 
-	pidctrlY_.setProportion(0.9f);
-	pidctrlY_.setIntegral(0.9f);
+	pidctrlY_.setProportion(0.2f);
+	pidctrlY_.setIntegral(0.1f);
 	pidctrlY_.setDifferential(0.2f);
 
 }
 
+AimBot::~AimBot()
+{
+	logi_mouse_close();
+}
+
 void AimBot::setSmooth(float smooth)
 {
-	if (smooth > 0.0f && smooth < 1.0f)
+	if (smooth > 0.0f && smooth <= 1.0f)
 	{
 		smooth_ = smooth;
 	}
@@ -151,31 +182,37 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 					angle.pitch = (float)atan2(-dist.y, sqrt(dist.x * dist.x + dist.z * dist.z));
 					angle.yaw = (float)atan2(dist.x, dist.z);
 
+					if(smooth_ >= 1.0f )
+						smooth_ = 0.9999999999f;
 					angle.pitch = lerpAngle(localPlayer.viewAngle.pitch, angle.pitch, smooth_);
 					angle.yaw = lerpAngle(localPlayer.viewAngle.yaw, angle.yaw, smooth_);
-					//angle.pitch = DEG_TO_RAD(RAD_TO_DEG(angle.pitch) * ( smooth_)) + localPlayer.viewAngle.pitch;
-					//angle.yaw = DEG_TO_RAD( RAD_TO_DEG(angle.yaw) * ( smooth_)) + localPlayer.viewAngle.yaw;
+					angle.pitch = DEG_TO_RAD(RAD_TO_DEG(angle.pitch) * ( smooth_)) + localPlayer.viewAngle.pitch;
+					angle.yaw = DEG_TO_RAD( RAD_TO_DEG(angle.yaw) * ( smooth_)) + localPlayer.viewAngle.yaw;
 					game_.setLocalPlayerAngle(angle);
 					Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
 				}
 			}
-			else if (type_ == MenuConfig::kAIM_BOT_TYPE_KMBOX)
+			else if (type_ == MenuConfig::kAIM_BOT_TYPE_LOGITECH_DRIVER)
 			{
 				POINT cur_pt;
 				POINT pt;
 				pt.x = aimPos2d.x;
 				pt.y = aimPos2d.y;
-				Logger::info("x:%d y:%d", pt.x, pt.y);
 				if (ClientToScreen(game_.window(), &pt) && GetCursorPos(&cur_pt))
 				{
+					//Logger::info("x:%d y:%d", pt.x, pt.y);
 					//pt.x -= cur_pt.x;
 					//pt.y -= cur_pt.y;
 					pidctrlX_.setTarget(pt.x);
 					pidctrlY_.setTarget(pt.y);
 					pt.x = pidctrlX_.run(cur_pt.x);
 					pt.y = pidctrlY_.run(cur_pt.y);
-					mouse_abs_move(0, 0);
-					Logger::info("x:%d y:%d", pt.x, pt.y);
+					//Logger::info("adjust x:%d y:%d", pt.x, pt.y);
+					//pt.x -= cur_pt.x;
+					//pt.y -= cur_pt.y;
+					logi_mouse_move_rel(pt.x, pt.y);
+					//mouse_abs_move(pt.x, pt.y);
+					//Logger::info("x:%d y:%d", pt.x, pt.y);
 					//if (abs(pt.x) >30 || abs(pt.y) > 30)
 					{
 						//Logger::info("x:%d y:%d", pt.x, pt.y);
@@ -194,6 +231,24 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 		}
 		
 	}
+}
+
+void AimBot::setPID_p(float p)
+{
+	pidctrlX_.setProportion(p);
+	pidctrlY_.setProportion(p);
+}
+
+void AimBot::setPID_i(float i)
+{
+	pidctrlX_.setIntegral(i);
+	pidctrlY_.setIntegral(i);
+}
+
+void AimBot::setPID_d(float d)
+{
+	pidctrlX_.setDifferential(d);
+	pidctrlY_.setDifferential(d);
 }
 
 bool AimBot::connectKmBox(const char* ip, const char* port, const char* uuid)

@@ -59,6 +59,39 @@ struct ViewAngle
 	float pitch; // ¸©Ñö½Ç
 };
 
+
+class IntersectQuery {
+public:
+	IntersectQuery() {
+		m_Flags = 0;
+		m_FilterFn = 0;
+		m_PolyFilterFn = 0;
+		m_FilterActualIntersectFn = 0;
+		m_pActualIntersectUserData = NULL;
+		m_pUserData = NULL;
+	}
+	D3DXVECTOR3 m_From;
+	D3DXVECTOR3 m_To;
+	uint32_t m_Flags;
+	void* m_FilterFn;
+	__int64 m_FilterActualIntersectFn;
+	__int64 m_PolyFilterFn;
+	void* m_pUserData;
+	void* m_pActualIntersectUserData;
+};
+
+struct IntersectInfo
+{
+	D3DXVECTOR3 vImpactPos;
+	char spacer00[32];
+	__int64 hObjImpact;
+	unsigned long unk1;
+	unsigned long unk2;
+	unsigned long unk3;
+};
+
+typedef bool(WINAPIV* IntersectSegment_t)(const IntersectQuery& iQuery, IntersectInfo* pInfo);
+
 class Game
 {
 public:
@@ -85,6 +118,8 @@ public:
 
 	D3DXVECTOR3 getFOVPos();
 
+	bool isVisible(D3DXVECTOR3 from, D3DXVECTOR3 to);
+
 	// Player
 	bool playerHasC4(std::ptrdiff_t player);
 	int getPlayerTeam(std::ptrdiff_t player) ;
@@ -106,6 +141,7 @@ private:
 	std::ptrdiff_t cshell_x64Module_ = NULL;
   Memory mm_;
 
+	IntersectSegment_t  IntersectSegment_;
 	std::ptrdiff_t CLTClientShell = 0;
 	std::ptrdiff_t CAIBotModePlayer = 0;
 

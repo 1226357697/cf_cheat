@@ -504,7 +504,7 @@ void Render::DrawMenu()
 		{
 			Gui.MyCheckBox(xorstr_("AimBot"), &MenuConfig::AimBot);
 
-			if (ImGui::Combo(xorstr_("Type"), (int*)&MenuConfig::AimType, xorstr_("MEMORY\0KMBOX\0")))
+			if (ImGui::Combo(xorstr_("Type"), (int*)&MenuConfig::AimType, xorstr_("MEMORY\0Logitech Driver\0")))
 			{
 				aimbot_.setType(MenuConfig::AimType);
 			}
@@ -523,12 +523,6 @@ void Render::DrawMenu()
 				aimbot_.setHotKey(s_vkey_map[MenuConfig::AimBotHotKey]);
 			}
 
-			float SmoothMin = 0.1f, SmoothMax = 1.f;
-			if (Gui.SliderScalarEx1(xorstr_("Smooth"), ImGuiDataType_Float, &MenuConfig::AimSmooth, &SmoothMin, &SmoothMax, xorstr_("%.2f"), ImGuiSliderFlags_None))
-			{
-				aimbot_.setSmooth(MenuConfig::AimSmooth);
-			}
-
 			if (ImGui::Combo(xorstr_("AimPos"), (int*)&MenuConfig::AimPosition, xorstr_("Head\0Neck\0Spine\0")))
 			{
 				if(MenuConfig::AimPosition == MenuConfig::kAIM_BOT_POS_HEAD)
@@ -540,6 +534,30 @@ void Render::DrawMenu()
 
 				aimbot_.setBoneIndex(MenuConfig::AimPositionIndex);
 			}
+			if(MenuConfig::AimType == MenuConfig::kAIM_BOT_TYPE_MEMORY)
+			{
+				float SmoothMin = 0.1f, SmoothMax = 1.f;
+				if (Gui.SliderScalarEx1(xorstr_("Smooth"), ImGuiDataType_Float, &MenuConfig::AimSmooth, &SmoothMin, &SmoothMax, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				{
+					aimbot_.setSmooth(MenuConfig::AimSmooth);
+				}
+			}
+			else if(MenuConfig::AimType == MenuConfig::kAIM_BOT_TYPE_LOGITECH_DRIVER)
+			{
+				float min = 0.01f, max = 1.f;
+				if (Gui.SliderScalarEx1(xorstr_("Proportion"), ImGuiDataType_Float, &MenuConfig::Aim_PID_p, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				{
+					aimbot_.setPID_p(MenuConfig::Aim_PID_p);
+				}
+				if (Gui.SliderScalarEx1(xorstr_("Integral"), ImGuiDataType_Float, &MenuConfig::Aim_PID_i, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				{
+					aimbot_.setPID_i(MenuConfig::Aim_PID_i);
+				}
+				if (Gui.SliderScalarEx1(xorstr_("Differential"), ImGuiDataType_Float, &MenuConfig::Aim_PID_d, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				{
+					aimbot_.setPID_d(MenuConfig::Aim_PID_d);
+				}
+			}
 
 
 			Gui.MyCheckBox(xorstr_("Show AimBot Range"), &MenuConfig::ShowAimRangle);
@@ -547,21 +565,21 @@ void Render::DrawMenu()
 		}
 
 
-		if (ImGui::CollapsingHeader(xorstr_("KMBOX")))
-		{
-			ImGui::InputText("ip", MenuConfig::kmbox_ip, sizeof(MenuConfig::kmbox_ip) - 1);
-			ImGui::InputText("port", MenuConfig::kmbox_port, sizeof(MenuConfig::kmbox_port) - 1);
-			ImGui::InputText("uuid", MenuConfig::kmbox_uuid, sizeof(MenuConfig::kmbox_uuid)-1);
+		//if (ImGui::CollapsingHeader(xorstr_("KMBOX")))
+		//{
+		//	ImGui::InputText("ip", MenuConfig::kmbox_ip, sizeof(MenuConfig::kmbox_ip) - 1);
+		//	ImGui::InputText("port", MenuConfig::kmbox_port, sizeof(MenuConfig::kmbox_port) - 1);
+		//	ImGui::InputText("uuid", MenuConfig::kmbox_uuid, sizeof(MenuConfig::kmbox_uuid)-1);
 
-			if(ImGui::Button("connect"))
-			{
-				// 192.168.2.188
-				// 33792
-				// 8628E04E
-				bool ret = aimbot_.connectKmBox(MenuConfig::kmbox_ip, MenuConfig::kmbox_port, MenuConfig::kmbox_uuid);
-				ImGui::Text(ret ? "connect success" : "connect failed");
-			}
-		}
+		//	if(ImGui::Button("connect"))
+		//	{
+		//		// 192.168.2.188
+		//		// 33792
+		//		// 8628E04E
+		//		bool ret = aimbot_.connectKmBox(MenuConfig::kmbox_ip, MenuConfig::kmbox_port, MenuConfig::kmbox_uuid);
+		//		ImGui::Text(ret ? "connect success" : "connect failed");
+		//	}
+		//}
 
 #if 0
 
