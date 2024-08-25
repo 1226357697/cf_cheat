@@ -44,6 +44,7 @@ AimBot::AimBot(Game& game)
 	};
 
 	setHotKey(s_vkey_map[MenuConfig::AimBotHotKey]);
+	setPolicy(MenuConfig::AimPolicy);
 
 	pidctrlX_.setProportion(0.2f);
 	pidctrlX_.setIntegral(0.1f);
@@ -83,6 +84,11 @@ void AimBot::setType(MenuConfig::AimBotType t)
 	type_ = t;
 }
 
+void AimBot::setPolicy(MenuConfig::AimBotPolicy policy)
+{
+	policy_ = policy;
+}
+
 
 // 函数用于将角度标准化到 -PI 到 PI 之间
 double normalizeAngle(double angle) {
@@ -95,6 +101,19 @@ double normalizeAngle(double angle) {
 double lerpAngle(double current, double target, double t) {
 	double delta = normalizeAngle(target - current);
 	return current + delta * t;
+}
+bool inAimBotRangeScreen(const FrameContext& frame_ctx, D3DXVECTOR2 aimPos2d)
+{
+	float center_x = frame_ctx.game_window_size.x / 2;
+	float center_y = frame_ctx.game_window_size.y / 2;
+	float r = MenuConfig::AimRangle;
+	float circle_dis_x = center_x - aimPos2d.x;
+	float circle_dis_y = center_y - aimPos2d.y;
+	if ((circle_dis_x * circle_dis_x + circle_dis_y * circle_dis_y > r * r))
+	{
+		return false;
+	}
+	return true;
 }
 
 void AimBot::aimbot(const FrameContext& frame_ctx)
@@ -147,31 +166,56 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 			if (MenuConfig::TeamCheck && localPlayer.team == player.team)
 				continue;
 
+			
+
 			const PlayerBoneData& headBone = player.Bone[boneIndex_];
 			if (headBone.valid() && headBone.inScreen())
 			{
-				float dist = game_.GetDistance2D(headBone.screenPos, { frame_ctx.game_window_size.x / 2, frame_ctx.game_window_size.y / 2 });
-				if (min_dist == -1 || dist < min_dist)
+				if (policy_ == MenuConfig::AimBotPolicy::kAIM_BOT_POLICY_CLOSEST_CROSSHAIR)
 				{
-					aimPos = headBone.worldPos;
-					aimPos2d = headBone.screenPos;
-					min_dist = dist;
-					player_index = i;
+					float dist = game_.GetDistance2D(headBone.screenPos, { frame_ctx.game_window_size.x / 2, frame_ctx.game_window_size.y / 2 });
+					if (min_dist == -1 || dist < min_dist)
+					{
+						if (inAimBotRangeScreen(frame_ctx, headBone.screenPos))
+						{
+							aimPos = headBone.worldPos;
+							aimPos2d = headBone.screenPos;
+							min_dist = dist;
+							player_index = i;
+						}
+					
+					}
 				}
+				else if(policy_ == MenuConfig::AimBotPolicy::kAIM_BOT_POLICY_CLOSEST_TARGET)
+				{
+					const PlayerBoneData& localheadBone = localPlayer.Bone[head];
+					float dist = game_.GetDistance3D(localheadBone.worldPos, headBone.worldPos);
+					if (min_dist == -1 || dist < min_dist)
+					{
+						if (inAimBotRangeScreen(frame_ctx, headBone.screenPos))
+						{
+							aimPos = headBone.worldPos;
+							aimPos2d = headBone.screenPos;
+							min_dist = dist;
+							player_index = i;
+						}
+					}
+				}
+				
 			}
 		}
 
 	}
 	
 	
-	if (GetAsyncKeyState(vkey_) & 0x8000)
+	if (GetAsyncKeyState(vkey_) & 0x8000 && aimPos2d!=invalidScreenPos)
 	{
-		float center_x = frame_ctx.game_window_size.x / 2;
+		/*float center_x = frame_ctx.game_window_size.x / 2;
 		float center_y = frame_ctx.game_window_size.y / 2;
 		float r = MenuConfig::AimRangle;
 		float circle_dis_x = center_x - aimPos2d.x;
 		float circle_dis_y = center_y - aimPos2d.y;
-		if (!(circle_dis_x * circle_dis_x + circle_dis_y * circle_dis_y > r * r))
+		if (!(circle_dis_x * circle_dis_x + circle_dis_y * circle_dis_y > r * r))*/
 		{
 			if (type_ == MenuConfig::kAIM_BOT_TYPE_MEMORY)
 			{

@@ -63,6 +63,7 @@ static void loadAimBotConfig(IniFile& ini)
 	MenuConfig::ShowAimRangle = ini.readBool(xorstr_("AimBot"), xorstr_("ShowAimRangle"), MenuConfig::ShowAimRangle);
 	MenuConfig::AimRangle = ini.readFloat(xorstr_("AimBot"), xorstr_("AimRangle"), MenuConfig::AimRangle);
 	MenuConfig::AimSmooth = ini.readFloat(xorstr_("AimBot"), xorstr_("AimSmooth"), MenuConfig::AimSmooth);
+	MenuConfig::AimPolicy = (MenuConfig::AimBotPolicy)ini.readInt(xorstr_("AimBot"), xorstr_("AimPolicy"), MenuConfig::AimPolicy);
 
 	// aim pid
 	MenuConfig::Aim_PID_p = ini.readFloat(xorstr_("AimBot"), xorstr_("Aim_PID_p"), MenuConfig::Aim_PID_p);
@@ -125,6 +126,7 @@ static void saveAimBotConfig(IniFile& ini)
 	 ini.writeBool(xorstr_("AimBot"), xorstr_("ShowAimRangle"), MenuConfig::ShowAimRangle);
 	 ini.writeFloat(xorstr_("AimBot"), xorstr_("AimRangle"), MenuConfig::AimRangle);
 	 ini.writeFloat(xorstr_("AimBot"), xorstr_("AimSmooth"), MenuConfig::AimSmooth);
+	 ini.writeInt(xorstr_("AimBot"), xorstr_("AimPolicy"), MenuConfig::AimPolicy);
 
 	 // aim pid
 	 ini.writeFloat(xorstr_("AimBot"), xorstr_("Aim_PID_p"), MenuConfig::Aim_PID_p);

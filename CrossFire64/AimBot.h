@@ -15,6 +15,7 @@ public:
   void setHotKey(int vkey);
   void setBoneIndex(int boneIndex);
   void setType(MenuConfig::AimBotType t);
+  void setPolicy(MenuConfig::AimBotPolicy policy);
   void aimbot(const FrameContext& frame_ctx);
 
   void setPID_p(float p);
@@ -28,6 +29,7 @@ private:
   Game& game_;
   KmBox kb_;
   MenuConfig::AimBotType type_;
+  MenuConfig::AimBotPolicy policy_;
   int boneIndex_;
   int vkey_;
   float smooth_;

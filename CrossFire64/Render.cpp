@@ -509,6 +509,11 @@ void Render::DrawMenu()
 				aimbot_.setType(MenuConfig::AimType);
 			}
 
+			if(ImGui::Combo(xorstr_("AimPolicy"), (int*)&MenuConfig::AimPolicy, xorstr_("Closest distance to target\0Closest distance to the crosshair\0")))
+			{
+				aimbot_.setPolicy(MenuConfig::AimPolicy);
+			}
+
 			if (ImGui::Combo(xorstr_("AimKey"), &MenuConfig::AimBotHotKey, xorstr_("RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL\0")))
 			{
 				static int s_vkey_map[6] = {

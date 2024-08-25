@@ -27,6 +27,12 @@ namespace MenuConfig
 		kAIM_BOT_TYPE_KMBOX,
 	};
 
+	enum AimBotPolicy:int
+	{
+		kAIM_BOT_POLICY_CLOSEST_TARGET = 0,
+		kAIM_BOT_POLICY_CLOSEST_CROSSHAIR,
+	};
+
 	// ESP
 	inline bool ShowBoneESP = false;
 	inline bool ShowBoxESP = false;
@@ -56,6 +62,7 @@ namespace MenuConfig
 	inline bool ShowAimRangle = true;
 	inline float AimRangle = 10;
 	inline float AimSmooth = 0.75;
+	inline AimBotPolicy AimPolicy = kAIM_BOT_POLICY_CLOSEST_TARGET;
 
 	// PID²ÎÊý
 	inline float Aim_PID_p = 0.3f;
