@@ -65,9 +65,10 @@ namespace MenuConfig
 	inline AimBotPolicy AimPolicy = kAIM_BOT_POLICY_CLOSEST_TARGET;
 
 	// PID≤Œ ˝
-	inline float Aim_PID_p = 0.3f;
-	inline float Aim_PID_i = 0.2f;
-	inline float Aim_PID_d = 0.1f;
+	inline float Aim_PID_p = 0.5f;
+	inline float Aim_PID_i = 0.1f;
+	inline float Aim_PID_d = 0.5f;
+	// ¡È√Ù∂» 30
 
 	// Global
 	inline bool TeamCheck = true;
