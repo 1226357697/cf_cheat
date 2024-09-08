@@ -8,7 +8,8 @@
 #include "OS-ImGui/OS-ImGui.h"
 #include "xorstr.hpp"
 #include "VMProtectSDK.h"
-
+#include "util.h"
+#include "../access/access.h"
 
 void load_styles()
 {
@@ -68,11 +69,38 @@ void load_styles()
 	}
 }
 
-int main() 
+static void setupConsole(std::string title)
+{
+	AllocConsole();
+	AttachConsole(GetCurrentProcessId());
+	FILE* stream;
+	freopen_s(&stream, "CONOUT$", "w+", stdout);
+	freopen_s(&stream, "CONOUT$", "w+", stderr);
+	SetConsoleTitleA(title.c_str());
+}
+
+#if 0
+int main()
+#else
+int WinMain(
+	_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPSTR lpCmdLine,
+	_In_ int nShowCmd
+)
+#endif
 {
 	VMProtectBeginUltra(__FUNCSIG__);
+	setupConsole(util::random_string());
+	if (!access_attach())
+	{
+		Logger::info(xorstr_("failed to attach access"));
+		return 1;
+	}
+
 	Game crossfire;
 	Logger::info(xorstr_("start"));
+	Logger::info(xorstr_("find game ..."));
 	if (!crossfire.waitStart() || !crossfire.init())
 	{
 		Logger::info(xorstr_("”Œœ∑≥ı ºªØ ß∞‹") );

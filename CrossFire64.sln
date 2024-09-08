@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OS-ImGui", "CrossFire64\OS-
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "logitech_mouse", "CrossFire64\logitech_mouse\logitech_mouse.vcxproj", "{C8C30120-5688-40E7-B2F5-130DAFE91868}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "launcher", "launcher\launcher.vcxproj", "{25435FA9-9AAB-4C07-B653-C8E66B692553}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "access", "access\access.vcxproj", "{2CD154ED-6111-40CC-9C88-08B8A9C360C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +45,22 @@ Global
 		{C8C30120-5688-40E7-B2F5-130DAFE91868}.Release|x64.Build.0 = Release|x64
 		{C8C30120-5688-40E7-B2F5-130DAFE91868}.Release|x86.ActiveCfg = Release|Win32
 		{C8C30120-5688-40E7-B2F5-130DAFE91868}.Release|x86.Build.0 = Release|Win32
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Debug|x64.ActiveCfg = Debug|x64
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Debug|x64.Build.0 = Debug|x64
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Debug|x86.ActiveCfg = Debug|Win32
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Debug|x86.Build.0 = Debug|Win32
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Release|x64.ActiveCfg = Release|x64
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Release|x64.Build.0 = Release|x64
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Release|x86.ActiveCfg = Release|Win32
+		{25435FA9-9AAB-4C07-B653-C8E66B692553}.Release|x86.Build.0 = Release|Win32
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Debug|x64.ActiveCfg = Debug|x64
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Debug|x64.Build.0 = Debug|x64
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Debug|x86.ActiveCfg = Debug|Win32
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Debug|x86.Build.0 = Debug|Win32
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Release|x64.ActiveCfg = Release|x64
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Release|x64.Build.0 = Release|x64
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Release|x86.ActiveCfg = Release|Win32
+		{2CD154ED-6111-40CC-9C88-08B8A9C360C1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

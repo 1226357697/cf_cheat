@@ -30,27 +30,11 @@ Memory::~Memory()
 
 bool Memory::init()
 {
-#if 0
   return EnablePrivilege(SE_DEBUG_NAME, TRUE);
-
-#else  
-  if(isInited())
-    return true;
-  hackDll = LoadLibraryA("DLL.dll");
-  return isInited();
-
-#endif // 0
 }
 
 void Memory::destory()
 {
-#if 0
-#else
-  if (!isInited())
-    return;
-
-  FreeLibrary(hackDll);
-#endif
 }
 
 bool Memory::attach(int pid)

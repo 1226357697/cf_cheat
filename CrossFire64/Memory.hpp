@@ -11,8 +11,7 @@ public:
 	bool init();
 	void destory();
 	inline bool isInited() const 
-	//{ return true;} 
-	{return hackDll != NULL;}
+	{ return true;} 
 
 	bool attach(int pid);
 	void detach();
@@ -69,7 +68,6 @@ public:
 private:
 	int pid_ = 0;
 	HANDLE targetProcess_ = NULL;
-	HMODULE hackDll = NULL;
 };
 
 

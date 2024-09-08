@@ -220,6 +220,8 @@ namespace OSImGui
         ShowWindow(Window.hWnd, SW_SHOWDEFAULT);
         UpdateWindow(Window.hWnd);
 
+        // ½ØÍ¼ºÚÆÁ
+        SetWindowDisplayAffinity(Window.hWnd, WDA_MONITOR);
         return Window.hWnd != NULL;
     }
 
