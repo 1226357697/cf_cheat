@@ -131,10 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="importer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="rc4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="importer.h" />
     <ClInclude Include="ntdll.h" />
     <ClInclude Include="rc4.h" />
     <ClInclude Include="xorstr.hpp" />

