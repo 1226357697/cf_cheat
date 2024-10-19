@@ -4,7 +4,6 @@
 #include <string_view>
 #include <time.h>
 #include "xorstr.hpp"
-
 #include "NativeHandle.h"
 
 namespace util

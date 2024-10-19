@@ -40,7 +40,7 @@ hash_t wstring_hash(const wchar_t* string)
 
   while (*string) {
     // XOR the byte with the current hash
-    hash ^= (hash_t)(to_lower (*string));
+    hash ^= (hash_t)(to_lower ((char)*string));
     // Multiply by the FNV prime
     hash *= fnv_prime;
     string++;
@@ -56,7 +56,7 @@ hash_t unicode_string_hash(const UNICODE_STRING* string)
   for (USHORT i = 0; i < (string->Length /sizeof(wchar_t)); ++i )
   {
     // XOR the byte with the current hash
-    hash ^= (hash_t)(to_lower(string->Buffer[i]));
+    hash ^= (hash_t)(to_lower((char)string->Buffer[i]));
     // Multiply by the FNV prime
     hash *= fnv_prime;
   }
@@ -107,7 +107,7 @@ void* ldr_find_function(void* dllbase, hash_t hash)
   if(export_dir->NumberOfFunctions == 0 || export_dir->NumberOfNames == 0)
     return NULL;
 
-  for (int i = 0; i < export_dir->NumberOfNames; ++i)
+  for (DWORD i = 0; i < export_dir->NumberOfNames; ++i)
   {
     const char* func_name =  ptr_add(const char*, dllbase, name_table[i]);
     if (string_hash(func_name) == hash)

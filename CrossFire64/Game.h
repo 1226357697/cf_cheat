@@ -1,11 +1,11 @@
 #pragma once
 #include <string_view>
-#include <d3d9.h>
-#include <d3dx9math.h>
 #include <array>
 #include <cstddef>
 #include <string>
 #include <utility>
+#include <d3d9.h>
+#include <d3dx9math.h>
 #include "Memory.hpp"
 
 

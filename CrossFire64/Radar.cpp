@@ -1,4 +1,6 @@
 ﻿#include "Radar.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 Vec2 RevolveCoordinatesSystem(float RevolveAngle, Vec2 OriginPos, Vec2 DestPos)
 {

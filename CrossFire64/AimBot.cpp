@@ -15,6 +15,8 @@ static void mouse_abs_move(int x, int y)
 	x = x - p.x;
 	x = y - p.y;
 	logi_mouse_move_rel(x, y);
+
+
 	//INPUT input;
 	//input.type = INPUT_MOUSE;
 	//input.mi.dx = x;
@@ -31,9 +33,9 @@ AimBot::AimBot(Game& game)
   :game_(game)
 {
 	logi_mouse_open();
-	setType(MenuConfig::AimType);
-	setBoneIndex(MenuConfig::AimPositionIndex);
-	setSmooth(MenuConfig::AimSmooth);
+	setType(MenuConfig.AimType);
+	setBoneIndex(MenuConfig.AimPositionIndex);
+	setSmooth(MenuConfig.AimSmooth);
 	static int s_vkey_map[6] = {
 						VK_RBUTTON,
 						VK_XBUTTON1,
@@ -43,8 +45,8 @@ AimBot::AimBot(Game& game)
 						VK_CONTROL
 	};
 
-	setHotKey(s_vkey_map[MenuConfig::AimBotHotKey]);
-	setPolicy(MenuConfig::AimPolicy);
+	setHotKey(s_vkey_map[MenuConfig.AimBotHotKey]);
+	setPolicy(MenuConfig.AimPolicy);
 
 	pidctrlX_.setProportion(0.2f);
 	pidctrlX_.setIntegral(0.1f);
@@ -79,12 +81,12 @@ void AimBot::setBoneIndex(int boneIndex)
 	boneIndex_ = boneIndex;
 }
 
-void AimBot::setType(MenuConfig::AimBotType t)
+void AimBot::setType(MenuConfig_::AimBotType t)
 {
 	type_ = t;
 }
 
-void AimBot::setPolicy(MenuConfig::AimBotPolicy policy)
+void AimBot::setPolicy(MenuConfig_::AimBotPolicy policy)
 {
 	policy_ = policy;
 }
@@ -106,7 +108,7 @@ bool inAimBotRangeScreen(const FrameContext& frame_ctx, D3DXVECTOR2 aimPos2d)
 {
 	float center_x = frame_ctx.game_window_size.x / 2;
 	float center_y = frame_ctx.game_window_size.y / 2;
-	float r = MenuConfig::AimRangle;
+	float r = MenuConfig.AimRangle;
 	float circle_dis_x = center_x - aimPos2d.x;
 	float circle_dis_y = center_y - aimPos2d.y;
 	if ((circle_dis_x * circle_dis_x + circle_dis_y * circle_dis_y > r * r))
@@ -133,7 +135,7 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 	//	if (!player.valid || player.hp == 0)
 	//		check = false;
 
-	//	if (MenuConfig::TeamCheck && localPlayer.team == player.team)
+	//	if (MenuConfig.TeamCheck && localPlayer.team == player.team)
 	//		check = false;
 
 	//	if (check)
@@ -163,7 +165,7 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 			if (!player.valid || player.hp == 0 || frame_ctx.localPlayerIndex == i)
 				continue;
 
-			if (MenuConfig::TeamCheck && localPlayer.team == player.team)
+			if (MenuConfig.TeamCheck && localPlayer.team == player.team)
 				continue;
 
 			
@@ -171,7 +173,7 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 			const PlayerBoneData& headBone = player.Bone[boneIndex_];
 			if (headBone.valid() && headBone.inScreen())
 			{
-				if (policy_ == MenuConfig::AimBotPolicy::kAIM_BOT_POLICY_CLOSEST_CROSSHAIR)
+				if (policy_ == MenuConfig.AimBotPolicy::kAIM_BOT_POLICY_CLOSEST_CROSSHAIR)
 				{
 					float dist = game_.GetDistance2D(headBone.screenPos, { frame_ctx.game_window_size.x / 2, frame_ctx.game_window_size.y / 2 });
 					if (min_dist == -1 || dist < min_dist)
@@ -186,7 +188,7 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 					
 					}
 				}
-				else if(policy_ == MenuConfig::AimBotPolicy::kAIM_BOT_POLICY_CLOSEST_TARGET)
+				else if(policy_ == MenuConfig.AimBotPolicy::kAIM_BOT_POLICY_CLOSEST_TARGET)
 				{
 					const PlayerBoneData& localheadBone = localPlayer.Bone[head];
 					float dist = game_.GetDistance3D(localheadBone.worldPos, headBone.worldPos);
@@ -212,12 +214,12 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 	{
 		/*float center_x = frame_ctx.game_window_size.x / 2;
 		float center_y = frame_ctx.game_window_size.y / 2;
-		float r = MenuConfig::AimRangle;
+		float r = MenuConfig.AimRangle;
 		float circle_dis_x = center_x - aimPos2d.x;
 		float circle_dis_y = center_y - aimPos2d.y;
 		if (!(circle_dis_x * circle_dis_x + circle_dis_y * circle_dis_y > r * r))*/
 		{
-			if (type_ == MenuConfig::kAIM_BOT_TYPE_MEMORY)
+			if (type_ == MenuConfig.kAIM_BOT_TYPE_MEMORY)
 			{
 				ViewAngle angle = { 0,0 };
 				{
@@ -236,7 +238,7 @@ void AimBot::aimbot(const FrameContext& frame_ctx)
 					Gui.Text("+", { aimPos2d.x, aimPos2d.y }, ImColor(255, 0, 0, 255));
 				}
 			}
-			else if (type_ == MenuConfig::kAIM_BOT_TYPE_LOGITECH_DRIVER)
+			else if (type_ == MenuConfig.kAIM_BOT_TYPE_LOGITECH_DRIVER)
 			{
 				POINT cur_pt;
 				POINT pt;
@@ -295,7 +297,3 @@ void AimBot::setPID_d(float d)
 	pidctrlY_.setDifferential(d);
 }
 
-bool AimBot::connectKmBox(const char* ip, const char* port, const char* uuid)
-{
-	return kb_.connect(ip, port, uuid);
-}

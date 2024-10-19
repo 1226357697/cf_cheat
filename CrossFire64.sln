@@ -11,7 +11,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "logitech_mouse", "CrossFire
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "launcher", "launcher\launcher.vcxproj", "{25435FA9-9AAB-4C07-B653-C8E66B692553}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "access", "access\access.vcxproj", "{2CD154ED-6111-40CC-9C88-08B8A9C360C1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kernel", "access\access.vcxproj", "{2CD154ED-6111-40CC-9C88-08B8A9C360C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 #include <cstddef>
 
 namespace crossfire_offset {
-  constexpr static std::ptrdiff_t CLTClientShell = 0x332D950;
+  constexpr static std::ptrdiff_t CLTClientShell = 0x332D970;
   constexpr static std::ptrdiff_t CAIBotModePlayer = 0xa0;
 
   // D3D Engine

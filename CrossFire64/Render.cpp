@@ -5,11 +5,11 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "util.h"
-#include "Game.h"
-#include "menu_config.hpp"
-#include "Logger.h"
+#include "Radar.h"
 #include "HealthBar.h"
+#include "menu_config.h"
+#include "util.h"
+#include "Logger.h"
 #include "VMProtectSDK.h"
 
 #define DEG_TO_RAD(deg) ((deg) * (M_PI / 180.0))
@@ -31,12 +31,12 @@ const float textSize = 15.0f;
 
 
 
-inline double DegreesToRadians(double degrees)
+inline double DegreesToRadians(float degrees)
 {
 	return DEG_TO_RAD(degrees);
 }
 
-inline double RadiansToDegrees(double radians)
+inline double RadiansToDegrees(float radians)
 {
 	return RAD_TO_DEG(radians);
 }
@@ -97,6 +97,22 @@ bool Render::calcPlayerBox(const APawn& pawn, Rect& rt)
 	if(isinf(rt.x)|| isinf(rt.y) || isinf(rt.w)|| isinf(rt.h))
 		return false;
 	return true;
+}
+
+static void RadarSetting(Radar& Radar)
+{
+	const float position_x = 83;
+	const float position_y = 86;
+	const float radius_x = 64;
+	const float radius_y = 64;
+
+	Radar.SetPos({ position_x, position_y });
+	Radar.SetProportion(64.4f);
+	Radar.SetRange(64.0f);
+	Radar.SetSize(64 * 2);
+	Radar.SetCrossColor(ImColor(255, 255, 255, 255));
+	Radar.ShowCrossLine = true;
+	Radar.Opened = true;
 }
 
 bool Render::CalcPlayerBoneRect(const std::array<D3DXVECTOR2, BoneCount>& screenBonePos, std::pair<Vec2, Vec2>& Rect)
@@ -171,7 +187,7 @@ void Render::resetFrameContext()
 	if ((render_frame_count_ % 30) == 0)
 	{
 		auto [w, h] = game_.getWindowSize();
-		frame_ctx_.game_window_size = Vec2(w, h);
+		frame_ctx_.game_window_size = Vec2((float)w, (float)h);
 	}
 
 	frame_ctx_.localPlayerIndex = game_.getLocalPlayerIndex();
@@ -219,7 +235,7 @@ void Render::resetFrameContext()
 
 void Render::addRanderRectText(const Rect& rect, int index, const std::string& txt)
 {
-	Gui.Text(txt, { rect.x + rect.w / 2 ,rect.y + rect.h + (index * textSize) }, MenuConfig::BoxColor, textSize, true);
+	Gui.Text(txt, { rect.x + rect.w / 2 ,rect.y + rect.h + (index * textSize) }, MenuConfig.BoxColor, textSize, true);
 }
 
 static void DrawBonePart(const std::array<PlayerBoneData, BoneCount>& Bone, const std::vector<int>& BonePartIndex)
@@ -248,7 +264,7 @@ static void DrawBonePart(const std::array<PlayerBoneData, BoneCount>& Bone, cons
 		Gui.Line(
 			DX2IM2d(prevPosint),
 			DX2IM2d(pos.screenPos),
-			MenuConfig::BoneColor,
+			MenuConfig.BoneColor,
 			boneThickness
 		);
 
@@ -279,7 +295,7 @@ void Render::drawPayerBone(const APawn& pawn)
 	if (neckBone.inScreen() && headBone.inScreen())
 	{
 		float head_circlerad = game_.GetDistance2D(neckBone.screenPos, headBone.screenPos);
-		Gui.Circle({ headBone.screenPos.x, headBone.screenPos.y - head_circlerad }, head_circlerad, MenuConfig::BoneColor, boneThickness);
+		Gui.Circle({ headBone.screenPos.x, headBone.screenPos.y - head_circlerad }, head_circlerad, MenuConfig.BoneColor, boneThickness);
 	}
 }
 
@@ -301,21 +317,7 @@ void Render::updateFPS()
 	render_frame_count_++;
 }
 
-void Render::RadarSetting(Radar& Radar)
-{
-	const float position_x = 83;
-	const float position_y = 86;
-	const float radius_x = 64;
-	const float radius_y = 64;
 
-	Radar.SetPos({ position_x, position_y });
-	Radar.SetProportion(64.4f);
-	Radar.SetRange(64.0f);
-	Radar.SetSize(64 * 2);
-	Radar.SetCrossColor(ImColor(255, 255, 255, 255));
-	Radar.ShowCrossLine = true;
-	Radar.Opened = true;
-}
 
 void Render::PlayerESP()
 {
@@ -342,26 +344,26 @@ void Render::PlayerESP()
 		if (!player.valid || player.hp == 0 || frame_ctx_.localPlayerIndex == i)
 			continue;
 
-		if (MenuConfig::TeamCheck && localPlayer.team == player.team)
+		if (MenuConfig.TeamCheck && localPlayer.team == player.team)
 			continue;
 			
-		if (MenuConfig::ShowBoneESP)
+		if (MenuConfig.ShowBoneESP)
 			drawPayerBone(player);
 
 		const auto& [rect, box_ret] = player.box;
 		if (box_ret)
 		{
 			int text_index = 0;
-			if (MenuConfig::ShowBoxESP)
-				Gui.Rectangle(Vec2{ rect.x, rect.y }, Vec2{ rect.w, rect.h }, MenuConfig::BoxColor, boxThickness);
+			if (MenuConfig.ShowBoxESP)
+				Gui.Rectangle(Vec2{ rect.x, rect.y }, Vec2{ rect.w, rect.h }, MenuConfig.BoxColor, boxThickness);
 
-			if (MenuConfig::ShowLineToEnemy)
+			if (MenuConfig.ShowLineToEnemy)
 			{
 				auto [w, h] = frame_ctx_.game_window_size;
-				Gui.Line({ w / 2, 0 }, { rect.x + rect.w / 2, rect.y }, MenuConfig::BoxColor, LineThickness);
+				Gui.Line({ w / 2, 0 }, { rect.x + rect.w / 2, rect.y }, MenuConfig.BoxColor, LineThickness);
 			}
 
-			if (MenuConfig::ShowEyeRay)
+			if (MenuConfig.ShowEyeRay)
 			{
 				const PlayerBoneData& headBone =  player.Bone[head];
 				if (headBone.valid() && headBone.inScreen())
@@ -376,12 +378,12 @@ void Render::PlayerESP()
 					CalculateEndPoint(headBone.worldPos, angle.yaw, angle.pitch, Length, Temp);
 					if (game_.WorldToScreen(Temp, EndPoint))
 					{
-						Gui.Line(StartPoint, { EndPoint.x, EndPoint.y }, MenuConfig::AngleColor, LineThickness);
+						Gui.Line(StartPoint, { EndPoint.x, EndPoint.y }, MenuConfig.AngleColor, LineThickness);
 					}
 				}
 			}
 
-			if (MenuConfig::ShowRadar)
+			if (MenuConfig.ShowRadar)
 			{
 				if (player.Bone[head].valid() && localPlayer.Bone[head].valid())
 				{
@@ -399,22 +401,22 @@ void Render::PlayerESP()
 				}
 			}
 
-			if (MenuConfig::ShowPlayerName)
+			if (MenuConfig.ShowPlayerName)
 				addRanderRectText(rect, text_index++, player.name);
 
-			if (MenuConfig::ShowPlayerHP != MenuConfig::kHP_WAY_NONE)
+			if (MenuConfig.ShowPlayerHP != MenuConfig.kHP_WAY_NONE)
 			{
 				constexpr int max_hp = 100;
 				constexpr int bar_mark = 1;
 				constexpr int value_mark = 2;
 				int mark = 0;
-				if (MenuConfig::ShowPlayerHP == MenuConfig::kHP_WAY_LIFEBAR)
+				if (MenuConfig.ShowPlayerHP == MenuConfig.kHP_WAY_LIFEBAR)
 					mark |= bar_mark;
 
-				if (MenuConfig::ShowPlayerHP == MenuConfig::kHP_WAY_LIFEVALUE)
+				if (MenuConfig.ShowPlayerHP == MenuConfig.kHP_WAY_LIFEVALUE)
 					mark |= value_mark;
 
-				if (MenuConfig::ShowPlayerHP == MenuConfig::kHP_WAY_LIFEBAR_AND_VALUE)
+				if (MenuConfig.ShowPlayerHP == MenuConfig.kHP_WAY_LIFEBAR_AND_VALUE)
 					mark |= (bar_mark | value_mark);
 
 				if (mark & bar_mark)
@@ -432,7 +434,7 @@ void Render::PlayerESP()
 				}
 			}
 
-			if (MenuConfig::ShowPlayerDistance)
+			if (MenuConfig.ShowPlayerDistance)
 			{
 				if (localPlayer.Bone[head].inScreen() && player.Bone[head].inScreen())
 				{
@@ -441,10 +443,10 @@ void Render::PlayerESP()
 				}
 			}
 
-			if (MenuConfig::ShowWeaponESP)
+			if (MenuConfig.ShowWeaponESP)
 				addRanderRectText(rect, text_index++, player.weapon_name);
 
-			if (MenuConfig::ShowC4)
+			if (MenuConfig.ShowC4)
 			{
 				if (player.has_c4)
 					addRanderRectText(rect, text_index++, util::CharToUtf8(xorstr_(">>>Ð¯´øC4<<<")));
@@ -454,10 +456,10 @@ void Render::PlayerESP()
 
 	Radar.Render();
 
-	if (MenuConfig::AimBot)
+	if (MenuConfig.AimBot)
 	{
-		if(MenuConfig::ShowAimRangle)
-			Gui.Circle(Vec2{frame_ctx_.game_window_size.x / 2, frame_ctx_.game_window_size.y / 2 }, MenuConfig::AimRangle,ImColor(255, 255, 255, 255), 1.3f);
+		if(MenuConfig.ShowAimRangle)
+			Gui.Circle(Vec2{frame_ctx_.game_window_size.x / 2, frame_ctx_.game_window_size.y / 2 }, MenuConfig.AimRangle,ImColor(255, 255, 255, 255), 1.3f);
 		aimbot_.aimbot(frame_ctx_);
 	}
 
@@ -474,47 +476,47 @@ void Render::DrawMenu()
 		// esp menu
 		if (ImGui::CollapsingHeader(xorstr_("ESP")))
 		{
-			Gui.MyCheckBox(xorstr_("BoxESP"), &MenuConfig::ShowBoxESP);
+			Gui.MyCheckBox(xorstr_("BoxESP"), &MenuConfig.ShowBoxESP);
 			ImGui::SameLine();
-			ImGui::ColorEdit4(xorstr_("##BoxColor"), reinterpret_cast<float*>(&MenuConfig::BoxColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##BoxColor"), reinterpret_cast<float*>(&MenuConfig.BoxColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox(xorstr_("BoneESP"), &MenuConfig::ShowBoneESP);
+			Gui.MyCheckBox(xorstr_("BoneESP"), &MenuConfig.ShowBoneESP);
 			ImGui::SameLine();
-			ImGui::ColorEdit4(xorstr_("##BoneColor"), reinterpret_cast<float*>(&MenuConfig::BoneColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##BoneColor"), reinterpret_cast<float*>(&MenuConfig.BoneColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox(xorstr_("LineToEnemy"), &MenuConfig::ShowLineToEnemy);
+			Gui.MyCheckBox(xorstr_("LineToEnemy"), &MenuConfig.ShowLineToEnemy);
 			ImGui::SameLine();
-			ImGui::ColorEdit4(xorstr_("##LineToEnemyColor"), reinterpret_cast<float*>(&MenuConfig::LineToEnemyColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##LineToEnemyColor"), reinterpret_cast<float*>(&MenuConfig.LineToEnemyColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox(xorstr_("ViewAngle"), &MenuConfig::ShowEyeRay);
+			Gui.MyCheckBox(xorstr_("ViewAngle"), &MenuConfig.ShowEyeRay);
 			ImGui::SameLine();
-			ImGui::ColorEdit4(xorstr_("##ViewAngle"), reinterpret_cast<float*>(&MenuConfig::AngleColor), ImGuiColorEditFlags_NoInputs);
+			ImGui::ColorEdit4(xorstr_("##ViewAngle"), reinterpret_cast<float*>(&MenuConfig.AngleColor), ImGuiColorEditFlags_NoInputs);
 
-			Gui.MyCheckBox(xorstr_("PlayerName"), &MenuConfig::ShowPlayerName);
-			ImGui::Combo(xorstr_("PlayerHP"), (int*)&MenuConfig::ShowPlayerHP, xorstr_("None\0Bar\0Value\0Bar+Value\0"));
+			Gui.MyCheckBox(xorstr_("PlayerName"), &MenuConfig.ShowPlayerName);
+			ImGui::Combo(xorstr_("PlayerHP"), (int*)&MenuConfig.ShowPlayerHP, xorstr_("None\0Bar\0Value\0Bar+Value\0"));
 
-			Gui.MyCheckBox(xorstr_("PlayerDistance"), &MenuConfig::ShowPlayerDistance);
-			Gui.MyCheckBox(xorstr_("PlayerWeapon"), &MenuConfig::ShowWeaponESP);
-			Gui.MyCheckBox(xorstr_("Show C4"), &MenuConfig::ShowC4);
+			Gui.MyCheckBox(xorstr_("PlayerDistance"), &MenuConfig.ShowPlayerDistance);
+			Gui.MyCheckBox(xorstr_("PlayerWeapon"), &MenuConfig.ShowWeaponESP);
+			Gui.MyCheckBox(xorstr_("Show C4"), &MenuConfig.ShowC4);
 
-			Gui.MyCheckBox(xorstr_("Show Radar"), &MenuConfig::ShowRadar);
+			Gui.MyCheckBox(xorstr_("Show Radar"), &MenuConfig.ShowRadar);
 		}
 
 		if (ImGui::CollapsingHeader(xorstr_("AimBot")))
 		{
-			Gui.MyCheckBox(xorstr_("AimBot"), &MenuConfig::AimBot);
+			Gui.MyCheckBox(xorstr_("AimBot"), &MenuConfig.AimBot);
 
-			if (ImGui::Combo(xorstr_("Type"), (int*)&MenuConfig::AimType, xorstr_("MEMORY\0Logitech Driver\0")))
+			if (ImGui::Combo(xorstr_("Type"), (int*)&MenuConfig.AimType, xorstr_("MEMORY\0Logitech Driver\0")))
 			{
-				aimbot_.setType(MenuConfig::AimType);
+				aimbot_.setType(MenuConfig.AimType);
 			}
 
-			if(ImGui::Combo(xorstr_("AimPolicy"), (int*)&MenuConfig::AimPolicy, xorstr_("Closest distance to target\0Closest distance to the crosshair\0")))
+			if(ImGui::Combo(xorstr_("AimPolicy"), (int*)&MenuConfig.AimPolicy, xorstr_("Closest distance to target\0Closest distance to the crosshair\0")))
 			{
-				aimbot_.setPolicy(MenuConfig::AimPolicy);
+				aimbot_.setPolicy(MenuConfig.AimPolicy);
 			}
 
-			if (ImGui::Combo(xorstr_("AimKey"), &MenuConfig::AimBotHotKey, xorstr_("RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL\0")))
+			if (ImGui::Combo(xorstr_("AimKey"), &MenuConfig.AimBotHotKey, xorstr_("RBUTTON\0XBUTTON1\0XBUTTON2\0CAPITAL\0SHIFT\0CONTROL\0")))
 			{
 				static int s_vkey_map[6] = {
 						VK_RBUTTON,
@@ -525,111 +527,97 @@ void Render::DrawMenu()
 						VK_CONTROL
 				};
 
-				aimbot_.setHotKey(s_vkey_map[MenuConfig::AimBotHotKey]);
+				aimbot_.setHotKey(s_vkey_map[MenuConfig.AimBotHotKey]);
 			}
 
-			if (ImGui::Combo(xorstr_("AimPos"), (int*)&MenuConfig::AimPosition, xorstr_("Head\0Neck\0Spine\0")))
+			if (ImGui::Combo(xorstr_("AimPos"), (int*)&MenuConfig.AimPosition, xorstr_("Head\0Neck\0Spine\0")))
 			{
-				if(MenuConfig::AimPosition == MenuConfig::kAIM_BOT_POS_HEAD)
-					MenuConfig::AimPositionIndex = head;
-				else if (MenuConfig::AimPosition == MenuConfig::kAIM_BOT_POS_NECK)
-					MenuConfig::AimPositionIndex = neck;
-				else if (MenuConfig::AimPosition == MenuConfig::kAIM_BOT_POS_SPINE)
-					MenuConfig::AimPositionIndex = spine;
+				if(MenuConfig.AimPosition == MenuConfig.kAIM_BOT_POS_HEAD)
+					MenuConfig.AimPositionIndex = head;
+				else if (MenuConfig.AimPosition == MenuConfig.kAIM_BOT_POS_NECK)
+					MenuConfig.AimPositionIndex = neck;
+				else if (MenuConfig.AimPosition == MenuConfig.kAIM_BOT_POS_SPINE)
+					MenuConfig.AimPositionIndex = spine;
 
-				aimbot_.setBoneIndex(MenuConfig::AimPositionIndex);
+				aimbot_.setBoneIndex(MenuConfig.AimPositionIndex);
 			}
-			if(MenuConfig::AimType == MenuConfig::kAIM_BOT_TYPE_MEMORY)
+			if(MenuConfig.AimType == MenuConfig.kAIM_BOT_TYPE_MEMORY)
 			{
 				float SmoothMin = 0.1f, SmoothMax = 1.f;
-				if (Gui.SliderScalarEx1(xorstr_("Smooth"), ImGuiDataType_Float, &MenuConfig::AimSmooth, &SmoothMin, &SmoothMax, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				if (Gui.SliderScalarEx1(xorstr_("Smooth"), ImGuiDataType_Float, &MenuConfig.AimSmooth, &SmoothMin, &SmoothMax, xorstr_("%.2f"), ImGuiSliderFlags_None))
 				{
-					aimbot_.setSmooth(MenuConfig::AimSmooth);
+					aimbot_.setSmooth(MenuConfig.AimSmooth);
 				}
 			}
-			else if(MenuConfig::AimType == MenuConfig::kAIM_BOT_TYPE_LOGITECH_DRIVER)
+			else if(MenuConfig.AimType == MenuConfig.kAIM_BOT_TYPE_LOGITECH_DRIVER)
 			{
 				float min = 0.01f, max = 1.f;
-				if (Gui.SliderScalarEx1(xorstr_("Proportion"), ImGuiDataType_Float, &MenuConfig::Aim_PID_p, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				if (Gui.SliderScalarEx1(xorstr_("Proportion"), ImGuiDataType_Float, &MenuConfig.Aim_PID_p, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
 				{
-					aimbot_.setPID_p(MenuConfig::Aim_PID_p);
+					aimbot_.setPID_p(MenuConfig.Aim_PID_p);
 				}
-				if (Gui.SliderScalarEx1(xorstr_("Integral"), ImGuiDataType_Float, &MenuConfig::Aim_PID_i, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				if (Gui.SliderScalarEx1(xorstr_("Integral"), ImGuiDataType_Float, &MenuConfig.Aim_PID_i, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
 				{
-					aimbot_.setPID_i(MenuConfig::Aim_PID_i);
+					aimbot_.setPID_i(MenuConfig.Aim_PID_i);
 				}
-				if (Gui.SliderScalarEx1(xorstr_("Differential"), ImGuiDataType_Float, &MenuConfig::Aim_PID_d, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
+				if (Gui.SliderScalarEx1(xorstr_("Differential"), ImGuiDataType_Float, &MenuConfig.Aim_PID_d, &min, &max, xorstr_("%.2f"), ImGuiSliderFlags_None))
 				{
-					aimbot_.setPID_d(MenuConfig::Aim_PID_d);
+					aimbot_.setPID_d(MenuConfig.Aim_PID_d);
 				}
 			}
 
 
-			Gui.MyCheckBox(xorstr_("Show AimBot Range"), &MenuConfig::ShowAimRangle);
-			ImGui::SliderFloat(xorstr_("Aim Range"), &MenuConfig::AimRangle, 20, 180, xorstr_("%.2f"), ImGuiColorEditFlags_NoInputs);
+			Gui.MyCheckBox(xorstr_("Show AimBot Range"), &MenuConfig.ShowAimRangle);
+			ImGui::SliderFloat(xorstr_("Aim Range"), &MenuConfig.AimRangle, 20, 180, xorstr_("%.2f"), ImGuiColorEditFlags_NoInputs);
 		}
 
 
-		//if (ImGui::CollapsingHeader(xorstr_("KMBOX")))
-		//{
-		//	ImGui::InputText("ip", MenuConfig::kmbox_ip, sizeof(MenuConfig::kmbox_ip) - 1);
-		//	ImGui::InputText("port", MenuConfig::kmbox_port, sizeof(MenuConfig::kmbox_port) - 1);
-		//	ImGui::InputText("uuid", MenuConfig::kmbox_uuid, sizeof(MenuConfig::kmbox_uuid)-1);
 
-		//	if(ImGui::Button("connect"))
-		//	{
-		//		// 192.168.2.188
-		//		// 33792
-		//		// 8628E04E
-		//		bool ret = aimbot_.connectKmBox(MenuConfig::kmbox_ip, MenuConfig::kmbox_port, MenuConfig::kmbox_uuid);
-		//		ImGui::Text(ret ? "connect success" : "connect failed");
-		//	}
-		//}
 
 #if 0
 
 		if (ImGui::CollapsingHeader(xorstr_("Knife Hack")))
 		{
 			
-			if (Gui.MyCheckBox(xorstr_("Enable"), &MenuConfig::knife_hack))
+			if (Gui.MyCheckBox(xorstr_("Enable"), &MenuConfig.knife_hack))
 			{
-				game_.hookKnifeData(MenuConfig::knife_hack);
+				game_.hookKnifeData(MenuConfig.knife_hack);
 			}
 			
-			ImGui::InputFloat(xorstr_("marks"), &MenuConfig::knife_data_marks);
-			ImGui::InputFloat(xorstr_("tap_distance"), &MenuConfig::knife_data_tap_distance);
-			ImGui::InputFloat(xorstr_("tap_range"), &MenuConfig::knife_data_tap_range);
-			ImGui::InputFloat(xorstr_("attack_distanc"), &MenuConfig::knife_data_attack_distance);
-			ImGui::InputFloat(xorstr_("attack_range"), &MenuConfig::knife_data_attack_range);
-			ImGui::InputFloat(xorstr_("attack_speed"), &MenuConfig::knife_data_attack_speed);
-			ImGui::InputFloat(xorstr_("secondary_distance"), &MenuConfig::knife_data_secondary_distance);
-			ImGui::InputFloat(xorstr_("secondary_range"), &MenuConfig::knife_data_secondary_range);
-			ImGui::InputFloat(xorstr_("movement_speed"), &MenuConfig::knife_data_movement_speed);
+			ImGui::InputFloat(xorstr_("marks"), &MenuConfig.knife_data_marks);
+			ImGui::InputFloat(xorstr_("tap_distance"), &MenuConfig.knife_data_tap_distance);
+			ImGui::InputFloat(xorstr_("tap_range"), &MenuConfig.knife_data_tap_range);
+			ImGui::InputFloat(xorstr_("attack_distanc"), &MenuConfig.knife_data_attack_distance);
+			ImGui::InputFloat(xorstr_("attack_range"), &MenuConfig.knife_data_attack_range);
+			ImGui::InputFloat(xorstr_("attack_speed"), &MenuConfig.knife_data_attack_speed);
+			ImGui::InputFloat(xorstr_("secondary_distance"), &MenuConfig.knife_data_secondary_distance);
+			ImGui::InputFloat(xorstr_("secondary_range"), &MenuConfig.knife_data_secondary_range);
+			ImGui::InputFloat(xorstr_("movement_speed"), &MenuConfig.knife_data_movement_speed);
 
 			if(ImGui::Button(xorstr_("apply")))
 			{
 				KnifeData data;
-				data.marks = MenuConfig::knife_data_marks;
-				data.tap_distance = MenuConfig::knife_data_tap_distance;
-				data.tap_range = MenuConfig::knife_data_tap_range;
-				data.attack_distance = MenuConfig::knife_data_attack_distance;
-				data.attack_range = MenuConfig::knife_data_attack_range;
-				data.attack_speed = MenuConfig::knife_data_attack_speed;
-				data.secondary_distance = MenuConfig::knife_data_secondary_distance;
-				data.secondary_range = MenuConfig::knife_data_secondary_range;
-				data.movement_speed = MenuConfig::knife_data_movement_speed;
+				data.marks = MenuConfig.knife_data_marks;
+				data.tap_distance = MenuConfig.knife_data_tap_distance;
+				data.tap_range = MenuConfig.knife_data_tap_range;
+				data.attack_distance = MenuConfig.knife_data_attack_distance;
+				data.attack_range = MenuConfig.knife_data_attack_range;
+				data.attack_speed = MenuConfig.knife_data_attack_speed;
+				data.secondary_distance = MenuConfig.knife_data_secondary_distance;
+				data.secondary_range = MenuConfig.knife_data_secondary_range;
+				data.movement_speed = MenuConfig.knife_data_movement_speed;
 				game_.setKnifeData(data);
 			}
 		}
 #endif
 
 		ImGui::Separator();
-		Gui.MyCheckBox(xorstr_("TeamCheck"), &MenuConfig::TeamCheck);
+		Gui.MyCheckBox(xorstr_("TeamCheck"), &MenuConfig.TeamCheck);
 
 		ImGui::Text(xorstr_("[HOME] HideMenu"));
 
 		if (ImGui::Button(xorstr_("save config")))
-			MenuConfig::save();
+			MenuConfig.save();
 	}
 	ImGui::End();
 }
@@ -638,12 +626,7 @@ void Render::DrawMenu()
 Render::Render(Game& game)
 	:game_(game), aimbot_(game)
 {
-	// 192.168.2.188
-	// 33792
-	// 8628E04E
-	strcpy(MenuConfig::kmbox_ip, "192.168.2.188");
-	strcpy(MenuConfig::kmbox_port, "33792");
-	strcpy(MenuConfig::kmbox_uuid, "8628E04E");
+
 }
 
 void Render::run()
@@ -652,10 +635,10 @@ void Render::run()
 	ULONGLONG currentTick = GetTickCount64();
 	if ((GetAsyncKeyState(VK_HOME) & 0x8000) && currentTick - lastTick >= 150) {
 		// Check key state per 150ms once to avoid loop
-		MenuConfig::ShowMenu = !MenuConfig::ShowMenu;
+		MenuConfig.ShowMenu = !MenuConfig.ShowMenu;
 		lastTick = currentTick;
 	}
-	if (MenuConfig::ShowMenu)
+	if (MenuConfig.ShowMenu)
 		DrawMenu();
 
 	PlayerESP();

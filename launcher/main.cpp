@@ -101,14 +101,14 @@ static bool decryption_filedata(std::vector<uint8_t>& data)
 {
   rc4_state rc4{};
   rc4_setup(&rc4, rc4_key, sizeof(rc4_key));
-  rc4_crypt(&rc4, data.data(), data.size());
+  rc4_crypt(&rc4, data.data(), (int)data.size());
   return true;
 }
 static bool encryption_filedata(std::vector<uint8_t>& data)
 {
   rc4_state rc4{};
   rc4_setup(&rc4, rc4_key, sizeof(rc4_key));
-  rc4_crypt(&rc4, data.data(), data.size());
+  rc4_crypt(&rc4, data.data(), (int)data.size());
   return true;
 }
 

@@ -1,8 +1,7 @@
 #pragma once
-#include "FrameConetxt.h"
 #include "Game.h"
-#include "menu_config.hpp"
-#include "KmBox.h"
+#include "FrameConetxt.h"
+#include "menu_config.h"
 #include "PIDController.h"
 
 class AimBot
@@ -14,22 +13,20 @@ public:
   void setSmooth(float smooth);
   void setHotKey(int vkey);
   void setBoneIndex(int boneIndex);
-  void setType(MenuConfig::AimBotType t);
-  void setPolicy(MenuConfig::AimBotPolicy policy);
+  void setType(MenuConfig_::AimBotType t);
+  void setPolicy(MenuConfig_::AimBotPolicy policy);
   void aimbot(const FrameContext& frame_ctx);
 
   void setPID_p(float p);
   void setPID_i(float i);
   void setPID_d(float d);
 
-  bool connectKmBox(const char* ip, const char* port, const char* uuid);
 private:
   PIDController pidctrlX_;
   PIDController pidctrlY_;
   Game& game_;
-  KmBox kb_;
-  MenuConfig::AimBotType type_;
-  MenuConfig::AimBotPolicy policy_;
+  MenuConfig_::AimBotType type_;
+  MenuConfig_::AimBotPolicy policy_;
   int boneIndex_;
   int vkey_;
   float smooth_;

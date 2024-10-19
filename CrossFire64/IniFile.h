@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
 #include <string_view>
-#include <Windows.h>
-#include "OS-ImGui/OS-ImGui.h"
+
 
 class IniFile
 {

@@ -1,4 +1,5 @@
 #include "IniFile.h"
+#include <Windows.h>
 
 IniFile::IniFile(const std::string& path)
 :path_(path)

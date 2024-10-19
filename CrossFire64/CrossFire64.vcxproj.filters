@@ -16,14 +16,20 @@
     <Filter Include="Core">
       <UniqueIdentifier>{f8e0857b-ba3e-4b08-894c-80e1a03cb68f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Base">
-      <UniqueIdentifier>{6ea715a6-2f0c-49d8-a1d8-a481160dd2d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Render">
       <UniqueIdentifier>{52eafd32-0f39-4421-945d-95352349fe16}</UniqueIdentifier>
     </Filter>
     <Filter Include="Config">
       <UniqueIdentifier>{875cf077-1031-453c-8d3b-6b0a6dbf0c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{966a1c85-c364-4968-bbeb-a08b388bef01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{32c9e88a-e37f-44d7-814a-379e4909dfbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Aimbot">
+      <UniqueIdentifier>{fe25752a-9887-4901-9838-a4f74217f488}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,14 +48,8 @@
     <ClCompile Include="Render.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Memory.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="offset.h">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NativeHandle.cpp">
-      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
       <Filter>Core\Render</Filter>
@@ -57,29 +57,26 @@
     <ClCompile Include="Radar.cpp">
       <Filter>Core\Render</Filter>
     </ClCompile>
-    <ClCompile Include="AimBot.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="menu_config.cpp">
       <Filter>Config</Filter>
     </ClCompile>
-    <ClCompile Include="menu_config.hpp">
+    <ClCompile Include="menu_config.h">
       <Filter>Config</Filter>
     </ClCompile>
     <ClCompile Include="IniFile.cpp">
       <Filter>Config</Filter>
     </ClCompile>
-    <ClCompile Include="KmBox.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="NativeHandle.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="KmBox\kmboxNet.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Memory</Filter>
     </ClCompile>
-    <ClCompile Include="KmBox\my_enc.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="AimBot.cpp">
+      <Filter>Core\Aimbot</Filter>
     </ClCompile>
     <ClCompile Include="PIDController.cpp">
-      <Filter>Core</Filter>
+      <Filter>Core\Aimbot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,12 +92,6 @@
     <ClInclude Include="Render.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Memory.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NativeHandle.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="HealthBar.h">
       <Filter>Core\Render</Filter>
     </ClInclude>
@@ -110,29 +101,23 @@
     <ClInclude Include="xorstr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AimBot.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="FrameConetxt.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="IniFile.h">
       <Filter>Config</Filter>
     </ClInclude>
-    <ClInclude Include="KmBox.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="NativeHandle.h">
+      <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="KmBox\HidTable.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="Memory.hpp">
+      <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="KmBox\kmboxNet.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="KmBox\my_enc.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="AimBot.h">
+      <Filter>Core\Aimbot</Filter>
     </ClInclude>
     <ClInclude Include="PIDController.h">
-      <Filter>Core</Filter>
+      <Filter>Core\Aimbot</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

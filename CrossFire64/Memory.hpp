@@ -1,6 +1,6 @@
 #pragma once
 #include <cstddef>
-#include <Windows.h>
+#include "../access/access.h"
 
 class Memory
 {
@@ -10,19 +10,18 @@ public:
 
 	bool init();
 	void destory();
-	inline bool isInited() const 
-	{ return true;} 
 
 	bool attach(int pid);
 	void detach();
-	inline bool isAttach(){ return targetProcess_;};
+	inline bool isAttach(){ return targetProcess_ != NULL;};
 	
 	template<typename RET>
 	inline RET read(std::ptrdiff_t address)
 	{
 		SIZE_T size = 0;
 		RET ret;
-		if (!ReadProcessMemory(targetProcess_, (PVOID)address, &ret, sizeof(ret), &size))
+		
+		if (!kernel_mm_read(targetProcess_, address, &ret, sizeof(ret), &size))
 			return {};
 
 		return ret;
@@ -31,38 +30,29 @@ public:
 	template<typename T>
 	inline bool write(std::ptrdiff_t address, const T* value)
 	{
-		return WriteProcessMemory(targetProcess_, (PVOID)address, value, sizeof(T), NULL) == TRUE;
+		return kernel_mm_write(targetProcess_, address, value, sizeof(T), NULL) == TRUE;
 	}
 
 	inline void read(std::ptrdiff_t address, void* buffer, size_t size)
 	{
-		ReadProcessMemory(targetProcess_, (PVOID)address, buffer, size, NULL);
+		kernel_mm_read(targetProcess_, address, buffer, size, NULL);
 	}
 
 	inline void write(std::ptrdiff_t address, void* buffer, size_t size)
 	{
-		WriteProcessMemory(targetProcess_, (PVOID)address, buffer, size, NULL);
+		kernel_mm_write(targetProcess_, address, buffer, size, NULL);
 	}
 
 	template<typename T>
 	inline bool forc_write(std::ptrdiff_t address, const T* value)
 	{
-		bool ret = false;
-		DWORD oldProetct = 0;
-		VirtualProtectEx(targetProcess_, (LPVOID)address, sizeof(T), PAGE_EXECUTE_READWRITE, &oldProetct);
-		ret = WriteProcessMemory(targetProcess_, (PVOID)address, value, sizeof(T), NULL) == TRUE;
-		VirtualProtectEx(targetProcess_, (LPVOID)address, sizeof(T), oldProetct, &oldProetct);
-		return ret;
+		return kernel_mm_write_forc(targetProcess_,  address, value, sizeof(T), NULL);
 	}
 
 	inline bool forc_write(std::ptrdiff_t address, const void* value, size_t size)
 	{
-		bool ret = false;
-		DWORD oldProetct = 0;
-		VirtualProtectEx(targetProcess_, (LPVOID)address, size, PAGE_EXECUTE_READWRITE, &oldProetct);
-		ret = WriteProcessMemory(targetProcess_, (PVOID)address, value, size, NULL) == TRUE;
-		VirtualProtectEx(targetProcess_, (LPVOID)address, size, oldProetct, &oldProetct);
-		return ret;
+
+		return kernel_mm_write_forc(targetProcess_, address, value, size, NULL);
 	}
 
 private:
